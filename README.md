@@ -1,4 +1,4 @@
-# DEV_WEB
+# Lập trình ứng dụng Web - NT208.P24
 
 ## Mục lục 
 1. [Giới thiệu repo](#giới-thiệu-repo)
