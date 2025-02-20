@@ -32,7 +32,12 @@ Lưu ý: phải có dấu "" và phần nội dung nằm trong "". Yêu cầu c�
 - *[lần cập nhật] là lần cập nhật khi mục đích đẩy thuộc loại cập nhật nếu không phải cập nhật thì không cần dòng này.  
 Ví dụ: `git commit -m "tạo file test.html 20/2/2025"` hoặc `git commit -m "cập nhật file test.html 20/2/2025 lần 1"`  
 Bước 3: Dùng lệnh `git push origin [tên nhánh]`  
-Lưu ý: chỉ được đẩy nhánh thay đổi và nhánh làm việc của mình. Lập trình viên không tự ý đẩy lên nhánh main  
+Lưu ý: chỉ được đẩy nhánh thay đổi và nhánh làm việc của mình. Lập trình viên không tự ý đẩy lên nhánh main
+4) Hướng dẫn việc pull về máy  
+Sử dụng lệnh `git pull` dể pull repo trên github về repo máy mình.  
+Lưu ý: Ở repo nào thì pull repo ấy. Không được xài lệnh `git pull origin` khi chưa biết cách sử dụng. Ví dụ nếu đang ở main mà dùng `git pull origin dev` nó sẽ tự động pull và merge dev vào nhánh main rất nguy hiểm  
+
+
 ## Gitflow
 ## Nội dung đồ án
 ## Tổng kết
