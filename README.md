@@ -15,7 +15,7 @@ Khi clone dự án về máy lập trình viên cần copy link sau.
 Sau khi copy chúng ta cần sử dụng lệnh sau để clone và sau khi clone thành công sẽ hiển thị như hình ảnh sau  
 ![Anh2](img/img_readme/anh2.png)  
 2) Hướng dẫn về branch trong git  
-Để kiểm tra nhánh hiện tại dùng lệnh sau  `git branch`
+Để kiểm tra nhánh hiện tại dùng lệnh sau  `git branch`  
 Dấu * chỉ nhánh đang ở hiện tại  
 Để tạo nhánh dùng lệnh `git branch [Tên nhánh muốn tạo]`  
 Để chuyển nhánh dùng lệnh `git checkout [Tên nhánh muốn nhảy đến]`  
