@@ -9,6 +9,10 @@
 
 ## Giới thiệu repo
 ## Hướng dẫn sử dụng git và github
+1) Hướng dẫn clone dự án về máy
+Khi clone dự án về máy lập trình viên cần copy link sau.  
+[!anh1](img/img_readme/anh1.png)
+
 ## Gitflow
 ## Nội dung đồ án
 ## Tổng kết
