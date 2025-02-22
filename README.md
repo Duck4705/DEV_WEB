@@ -42,5 +42,19 @@ Lưu ý: Ở repo nào thì pull repo ấy. Không được xài lệnh `git pul
 
 ## Gitflow
 ![Anh3](img/img_readme/anh3.png)
+Các bạn lập trình viên lưu ý hình ảnh trên là ví dụ gitflow chúng ta phải tuân thủ và làm việc trên nhanh của mình  
+Ví dụ: Thành viên 1 phát triển tính năng 1 sẽ làm việc trên nhánh dev1 khi nào hoàn thành chức năng thì có thể merge vào nhánh develop. Và thành viên 1 này chỉ được phép làm việc trên nhánh dev1 không tự tiện sang nhánh dev2 làm việc  
+  
+Sau đâu là chi tiết mục đích của các nhánh:  
+- Nhánh `main`: Là nhánh phiên bản web chính thức đang được phát hành và sẽ merge nhánh `develop` khi các chức năng đã được phát triển xong
+- Nhánh `develop`: Là nhánh phát triển tính năng của web, sau khi phát triển hoàn tất sẽ tiến hành kiểm thử các chức năng xem có lỗi hay không rồi mới được phép merge vào nhánh `main`
+- Nhánh `dev_`: Là nhánh con của nhánh `develop`, ở nhánh này sẽ phát triển từng chức năng riêng lẻ của web và sẽ được quản lý bởi từng cá nhân lập trình viên, sau khi kiểm thử các tính năng nhánh sẽ được merge vào `develop`:
+  - Nhánh `dev_` sẽ được chia thành bốn nhánh và được quản lý bởi các thành viên sau:
+    - `dev1` sẽ được quản lý bởi `Mai Nguyễn Phúc Minh`
+    - `dev2` sẽ được quản lý bởi `Tào Minh Đức`
+    - `dev3` sẽ được quản lý bởi `Lê Đình Hiếu`
+    - `dev4` sẽ được quản lý bởi `Phạm Huy Hoàng`
+- Nhánh `hotfix`: Là nhánh khắc phục lỗi nhanh khi bản phát hành chính thức đang bị lỗi, sau khi khắc phục lỗi thì sẽ được merge lại vào nhánh `main`
+    
 ## Nội dung đồ án
 ## Tổng kết
