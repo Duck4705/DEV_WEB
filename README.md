@@ -41,5 +41,6 @@ Lưu ý: Ở repo nào thì pull repo ấy. Không được xài lệnh `git pul
 
 
 ## Gitflow
+![Anh3](img/img_readme/anh3.png)
 ## Nội dung đồ án
 ## Tổng kết
