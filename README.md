@@ -51,9 +51,9 @@ Sau đâu là chi tiết mục đích của các nhánh:
 - Nhánh `dev_`: Là nhánh con của nhánh `develop`, ở nhánh này sẽ phát triển từng chức năng riêng lẻ của web và sẽ được quản lý bởi từng cá nhân lập trình viên, sau khi kiểm thử các tính năng nhánh sẽ được merge vào `develop`:
   - Nhánh `dev_` sẽ được chia thành bốn nhánh và được quản lý bởi các thành viên sau:
     - `dev1` sẽ được quản lý bởi `Mai Nguyễn Phúc Minh`
-    - `dev2` sẽ được quản lý bởi `Tào Minh Đức`
+    - `dev2` sẽ được quản lý bởi `Phạm Huy Hoàng`
     - `dev3` sẽ được quản lý bởi `Lê Đình Hiếu`
-    - `dev4` sẽ được quản lý bởi `Phạm Huy Hoàng`
+    - `dev4` sẽ được quản lý bởi `Tào Minh Đức`
 - Nhánh `hotfix`: Là nhánh khắc phục lỗi nhanh khi bản phát hành chính thức đang bị lỗi, sau khi khắc phục lỗi thì sẽ được merge lại vào nhánh `main`
     
 ## Nội dung đồ án
