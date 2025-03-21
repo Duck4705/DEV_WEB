@@ -5,8 +5,12 @@
     font-weight: 400;
     box-sizing: border-box;
     font-family: "Montserrat", sans-serif;
-    cursor: url(assets/img/cat.png), auto;
+    cursor: url(../img/img_access/cat.png), auto;
     text-decoration: none;
+}
+a
+{
+    cursor: url(../img/img_access/catlink.png), auto;
 }
 *::-webkit-scrollbar
 {

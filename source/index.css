@@ -42,14 +42,23 @@
     margin-top: 30px;
     border-radius: 5px;
 }
-.selectbook
+.selectbook select
 {
+    appearance: none;
     font-size: 20px;
     font-weight: bold;
     padding: 10px 30px;
     border: 1px rgba(140, 140, 140, 0.5) solid;
     margin: 0px 10px;
-    padding-right: 60px;
+    border-radius: 10px;
+    background-color: white;
+    padding-right: 50px;
+}
+.selectbook option
+{
+    font-size: 20px;
+    font-weight: bold;
+    border: 1px rgba(140, 140, 140, 0.5) solid;
     border-radius: 10px;
     background-color: white;
 }
@@ -67,16 +76,15 @@
 {
     width: 280px;
     height: 480px;
-    margin: 0px 13px;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
+    margin: 30px 13px;
 }
 .align_movie
 {
     display: flex;
     flex-wrap: wrap;
-    margin-top: 30px;
 }
 .moredot
 {
@@ -85,6 +93,5 @@
     margin: 5px;
     background-color: white;
     border-radius: 50%;
-    
 }
 
