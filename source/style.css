@@ -51,6 +51,7 @@ body
     justify-self: center;
     align-items: center;
     background-color: #0f172a;
+    width: 100%;
 }
 input
 {
