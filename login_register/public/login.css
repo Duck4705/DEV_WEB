@@ -1,0 +1,109 @@
+.top_bar
+{
+    position: fixed;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
+    background-color: #0f172a;
+    height: 80px;
+    width: 1200px;
+    align-self: center;
+}
+.booking
+{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    padding: 10px 20px;
+    color: black;
+    background-color: white;
+    margin: 5px;
+    border-radius: 10px;
+    font-size: 15px;
+    width: fit-content;
+}
+.signin
+{
+    background-color: #f8fafc;
+    padding: 40px;
+    width: 30%;
+    display: flex;
+    flex-direction: column;
+    justify-items: center;
+}
+.register
+{
+    background-color: #f8fafc;
+    padding: 40px;
+    width: 30%;
+    display: flex;
+    flex-direction: column;
+    justify-items: center;
+}
+label
+{
+    font-size: 15px;
+    font-weight: 500;
+}
+input
+{
+    width: 100%;
+    border: 1px rgba(140, 140, 140, 0.5) solid;
+    border-radius: 2px;
+    font-size: 15px;
+    padding: 15px;
+    margin: 10px 0px;
+    font-weight: 500;
+}
+.submit
+{
+    background-color: #663399;
+    font-size: 20px;
+    font-family: "Anton", sans-serif;
+    padding: 10px;
+    margin: 20px 0px;
+}
+.userbox
+{
+    margin-top: 100px;
+    width: 30%;
+    display: flex;
+    flex-direction: row;
+    justify-items: center;
+    align-items: center;
+}
+.btSign
+{
+    width: 50%;
+    border: none;
+    font-size: 25px;
+    background-color: #f8fafc;
+    font-family: "Anton", sans-serif;   
+    padding: 20px;
+    padding-bottom: 10px;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    text-align: center;
+}
+.btReg
+{
+    width: 50%;
+    border: none;
+    font-size: 25px;
+    background-color: #0f172a;
+    font-family: "Anton", sans-serif;   
+    padding: 20px;
+    padding-bottom: 10px;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    color: #f8fafc;
+    text-align: center;
+}
+.forgot_pass
+{
+    width: fit-content;
+    align-self: flex-end;
+    margin: 10px 0px;
+}
