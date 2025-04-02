@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sign in</title>
+    <title>Register</title>
     <link rel="stylesheet" href="../source/style.css">
     <link rel="stylesheet" href="../source/login.css">
     <script src="https://unpkg.com/phosphor-icons"></script>
@@ -40,17 +40,27 @@
         </div>
     </div>
     <div class="userbox">
-        <button class="btSign">Đăng nhập</button>
-        <button class="btReg">Đăng kí</button>
+        <button class="btSign"  style="background-color: #0f172a; color: #f8fafc;">Đăng nhập</button>
+        <button class="btReg" style="background-color: #f8fafc; color: #0f172a;">Đăng kí</button>
     </div>
-    <div style="width: 100%;" class="align_row" >
-        <form action="" class="signin" id="signin">
-            <label for="username">Tài khoản, Email hoặc số điện thoại</label>
-            <input type="text" id="username">
+    <div style="width: 100%;" class="align_row">
+        <form action="" class="register" id="register">
+            <label for="name">Họ và tên</label>
+            <input placeholder="Họ và tên" type="text" id="name">
+            <label for="dateborn">Ngày sinh</label>
+            <input type="date" id="dateborn">
+            <label for="phonenumber">Số điện thoại</label>
+            <input placeholder="Số điện thoại" type="text" id="phonenumber">
+            <label for="Email">Email</label>
+            <input placeholder="Email" type="password" id="Email">
+            <label for="username">Tên đăng nhập</label>
+            <input placeholder="Tên đăng nhập" type="text" id="username">
             <label for="password">Mật khẩu</label>
-            <input type="password" id="password">
-            <a href="" style="font-size: 15px; font-weight: 500; color: #0f172a; border-bottom: 1px solid #0f172a; width: fit-content; align-self: flex-end;">Quên mật khẩu ?</a>
-            <input style="margin-bottom: 0px;" type="submit" value="Đăng nhập" class="submit">
+            <input placeholder="Mật khẩu" type="password" id="password">
+            <label for="password2">Xác thực mật khẩu</label>
+            <input placeholder="Xác thực mật khẩu" type="password" id="password2">
+            <input type="submit" value="Đăng nhập" class="submit">
+            <p style="font-size: 15px; margin: 10px 0px; align-self: flex-end; margin-bottom: 0px;">Bạn đã có tài khoản? <a href="" style="font-size: 15px; font-weight: 500; color: #0f172a; border-bottom: 1px solid #0f172a; width: fit-content;">Đăng nhập</a></p>
         </form>
     </div>
 </body>
