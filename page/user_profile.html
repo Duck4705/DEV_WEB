@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User_profile</title>
+    <link rel="stylesheet" href="../source/style.css">
+    <link rel="stylesheet" href="../source/profile.css">
+    <script src="https://unpkg.com/phosphor-icons"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Anton&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="top_bar" style="border-bottom: 1px rgba(140, 140, 140, 0.5) solid;">
+        <div class="align_row" style="color: white;">
+            <i style="font-size: 40px;" class="ph ph-video-camera"></i>
+            <h1 style="font-size: 20px; margin: 0px 20px; font-weight: 600;">UIT THEATER</h1>
+        </div>
+        <div class="align_row">
+            <a href="" class="booking">
+                <i style="margin-right: 10px; font-size: 25px;" class="ph ph-ticket"></i>
+                <span style="font-family: 'Anton', sans-serif;">ĐẶT VÉ NGAY</span>
+            </a>
+            <a href="" class="booking">
+                <i style="margin-right: 10px; font-size: 25px;" class="ph ph-popcorn"></i>
+                <span style="font-family: 'Anton', sans-serif;">ĐẶT BẮP NƯỚC</span>
+            </a>
+        </div>
+        <div class="align_row" style="color: white;">
+            <div class="align_row"> 
+                <input type="text" placeholder="Tìm phim" style="padding: 10px 20px; border-radius: 50px; font-size: 15px;">
+                <i style="margin-left: -25px; color: black; font-size: 15px;" class="ph ph-magnifying-glass"></i>
+            </div>
+        </div>
+        <div class="user-menu" class="align_row">
+            <div class="dropdown" class="align_row">
+                <img src="/img/img_access/cat_avatar.jpg" class="img-user" alt="">
+                <div class="dropdown-menu">
+                    <a href="/profile"><i style="margin: 0px 8px 0px 0px;" class="ph ph-user"></i>Trang cá nhân</a>
+                    <a href="/login"><i style="margin: 0px 8px 0px 0px;" class="ph ph-sign-out"></i>Đăng xuất</a>
+                </div>
+            </div>
+            <button class="dropdown-toggle">Huy Hoang</button>
+        </div>
+    </div>
+    <div class="align_row" style="width: 1200px; margin-top: 100px; align-items: flex-start;">
+        <div class="user_left">
+            <div class="user_img">
+                <img src="/img/img_access/cat_avatar.jpg" style="border-radius: 50%;" alt="" width="50px" height="50px">
+                <div style="margin-left: 10px;">
+                    <p style="font-size: 20px; margin-bottom: 5px;">Phạm Huy Hoàng</p>
+                    <p style="font-size: 15px; border-bottom: #f8fafc 1px solid; width: fit-content;">Thay đổi ảnh đại diện</p>
+                </div>
+            </div>
+            <div class="user_role">
+                <p style="font-family: 'Anton', sans-serif; font-size: 15px;">KHÁCH HÀNG</p>
+            </div>
+            <div class="user_point">
+                <p>Tích điểm</p>
+                <div class="progress_bar"></div>
+                <p>0/10K</p>
+            </div>
+            <div class="user_menu">
+                <div class="align_row" style="align-self: flex-start; padding: 10px; border-left: #f3ea28 2px solid;">
+                    <a style="color: #f3ea28;" href="user_profile.html"><i style="margin-right: 8px;" class="ph ph-user"></i></a>
+                    <a style="color: #f3ea28;" href="user_profile.html">Trang cá nhân</a>
+                </div>
+                <div class="align_row" style="align-self: flex-start; padding: 10px;">
+                    <a style="color: #f8fafc;" href="user_profile.html"><i style="margin-right: 8px;" class="ph ph-clock-counter-clockwise"></i></a>
+                    <a style="color: #f8fafc;" href="user_profile.html">Lịch sử giao dịch</a>
+                </div>
+            </div>
+            <div class="align_row" style="align-self: flex-start;">
+                <a style="color: rgba(200, 200, 200, 0.5);" href="user_profile.html"><i style="margin-right: 8px;" class="ph ph-sign-out"></i></a>
+                <a style="color: rgba(200, 200, 200, 0.5);" href="user_profile.html">Đăng xuất</a>
+            </div>
+        </div>
+        <div class="user_right">
+            <h1 style="font-size: 40px; font-family: 'Anton', sans-serif; margin: 20px 0px; margin-top: 30px;">THÔNG TIN KHÁCH HÀNG</h1>
+            <div class="align_column" style="color: #0f172a; background-color: #f8fafc; align-items: flex-start; width: 100%; padding: 10px;">
+                <h4 style="margin: 10px; font-size: 20px; font-family: 'Anton', sans-serif;">Thông tin cá nhân</h4>
+                <div class="align_row_between" style="width: 100%;">
+                    <div class="input_info">
+                        <label for="name">Họ và tên</label>
+                        <input value="Phạm Huy Hoàng" type="text" id="name">
+                    </div>
+                    <div class="input_info">
+                        <label for="dateborn">Ngày sinh</label>
+                        <input value="10/16/2005" type="date" id="dateborn">
+                    </div>
+                </div>
+                <div class="align_row_between" style="width: 100%;">
+                    <div class="input_info">
+                        <label for="phonenumber">Số điện thoại</label>
+                        <input value="0999999999" type="text" id="phonenumber">
+                    </div>
+                    <div class="input_info">
+                        <label for="Email">Email</label>
+                        <input value="test@gm.uit.edu.vn" type="text" id="Email">
+                    </div>
+                </div>
+                <button style="background-color: rgba(140, 140, 140, 0.5); border: none; margin: 10px; padding: 10px; font-size: 15px; font-family: 'Anton', sans-serif;">LƯU THÔNG TIN</button>
+            </div>
+        </div>
+
+    </div>
+    <div class="bottom_bar" style="margin-top: 255px;">
+        <div class="align_row_between" style="width: 1200px; margin: 30px 0px; ">
+            <p>© 2023 Uitheater. All rights reserved.</p>
+            <div class="align_row">
+                <a style="color: #f8fafc; padding: 0px 10px;" href="">Trang chủ</a>
+                <a style="color: #f8fafc; padding: 0px 10px;" href="">Xem phim</a>
+                <a style="color: #f8fafc; padding: 0px 10px;" href="">Đăng nhập</a>
+            </div>
+        </div>
+        <div class="align_row">
+            <i style="font-size: 50px;" class="ph ph-video-camera"></i>
+            <h1 style="font-size: 30px; margin-left: 20px; margin-top: 8px; font-weight: bold;">UIT THEATER</h1>
+        </div>
+        <div class="align_row">
+            <h4 style="font-size: 25px; margin: 10px 0px;">[NT208.P24] - Nhóm 3</h4>
+        </div>
+    </div>
+</body>
+</html>

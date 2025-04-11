@@ -4,7 +4,7 @@
     padding: 0;
     font-weight: 400;
     box-sizing: border-box;
-    font-family: "Montserrat", sans-serif;
+    font-family: "Josefin Sans", sans-serif;
     cursor: url(../img/img_access/cat.png), auto;
     text-decoration: none;
 }
@@ -57,4 +57,99 @@ input
 {
     border: none;
     outline: none;
+}
+
+.top_bar
+{
+    position: fixed;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
+    background-color: #0f172a;
+    height: 80px;
+    width: 1200px;
+    align-self: center;
+}
+.booking
+{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    padding: 10px 20px;
+    color: black;
+    background-color: white;
+    margin: 5px;
+    border-radius: 10px;
+    font-size: 15px;
+    width: fit-content;
+}
+
+.user-menu {
+    display: flex; /* Căn chỉnh các phần tử theo chiều ngang */
+    align-items: center; /* Căn giữa các phần tử theo chiều dọc */
+    gap: 0px; /* Khoảng cách giữa hình ảnh và tên tài khoản */
+}
+
+.img-user {
+    background-color: white;
+    width: 30px; /* Đặt kích thước hình ảnh */
+    height: 30px;
+    border-radius: 50%; /* Làm tròn hình ảnh */
+    object-fit: cover; /* Đảm bảo hình ảnh không bị méo */
+}
+
+.dropdown {
+    position: relative;
+}
+
+.dropdown-toggle {
+    background-color: #0f172a;
+    color: #f8fafc;
+    border: none;
+    padding: 10px 20px;
+    font-size: 20px;
+}
+
+.dropdown-menu {
+    display: none;
+    position: absolute;
+    background-color: #0f172a;
+    min-width: 180px;
+    box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
+    border-radius: 5px;
+    overflow: hidden;
+    text-align: left;
+    border: rgba(140, 140, 140, 0.5) 1px solid;
+}
+
+.dropdown-menu a {
+    color: #f8fafc;
+    padding: 10px 15px;
+    font-size: 16px;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+}
+
+.dropdown-menu a:hover {
+    color: #f3ea28;
+
+}
+
+.user-menu:hover .dropdown-menu {
+    display: block;
+}
+.bottom_bar {
+    color: #f8fafc;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-color: #4950b6;
+    width: 100%;
+    align-self: center;
+    padding-bottom: 20px;
+    align-self: flex-end;
 }

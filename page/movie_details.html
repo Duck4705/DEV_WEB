@@ -1,0 +1,493 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Movie_details</title>
+    <link rel="stylesheet" href="../source/style.css">
+    <link rel="stylesheet" href="../source/movie_details.css">
+    <script src="https://unpkg.com/phosphor-icons"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Josefin+Sans:ital,wght@0,100..700;1,100..700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Anton&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="top_bar" style="border-bottom: 1px rgba(140, 140, 140, 0.5) solid;">
+        <div class="align_row" style="color: white;">
+            <i style="font-size: 40px;" class="ph ph-video-camera"></i>
+            <h1 style="font-size: 20px; margin: 0px 20px; font-weight: 600;">UIT THEATER</h1>
+        </div>
+        <div class="align_row">
+            <a href="" class="booking">
+                <i style="margin-right: 10px; font-size: 25px;" class="ph ph-ticket"></i>
+                <span style="font-family: 'Anton', sans-serif;">ĐẶT VÉ NGAY</span>
+            </a>
+            <a href="" class="booking">
+                <i style="margin-right: 10px; font-size: 25px;" class="ph ph-popcorn"></i>
+                <span style="font-family: 'Anton', sans-serif;">ĐẶT BẮP NƯỚC</span>
+            </a>
+        </div>
+        <div class="align_row" style="color: white;">
+            <div class="align_row"> 
+                <input type="text" placeholder="Tìm phim" style="padding: 10px 20px; border-radius: 50px; font-size: 15px;">
+                <i style="margin-left: -25px; color: black; font-size: 15px;" class="ph ph-magnifying-glass"></i>
+            </div>
+        </div>
+        <div class="user-menu" class="align_row">
+            <div class="dropdown" class="align_row">
+                <img src="/img/img_access/cat_avatar.jpg" class="img-user" alt="">
+                <div class="dropdown-menu">
+                    <a href="/profile"><i style="margin: 0px 8px 0px 0px;" class="ph ph-user"></i>Trang cá nhân</a>
+                    <a href="/login"><i style="margin: 0px 8px 0px 0px;" class="ph ph-sign-out"></i>Đăng xuất</a>
+                </div>
+            </div>
+            <button class="dropdown-toggle">Huy Hoang</button>
+        </div>
+    </div>
+    <div class="movie_details" class="align_row" style="margin-top: 100px; height: fit-content;">
+        <div class="movie_img">
+            <img src="/img/img_access/lac-troi.webp" alt="" width="100%">
+        </div>
+        <div class="movie_text">
+            <h1 style="font-size: 40px; font-family: 'Anton', sans-serif;">LẠC TRÔI - FLOW</h1>
+            <div class="align_row">
+                <h4>Hoạt hình</h4>
+            </div>
+            <div class="align_row">
+                <h4>90'</h4>
+            </div>
+            <div class="align_row">
+                <h4>Khác</h4>
+            </div>
+            <div class="align_row">
+                <h4>Việt Nam</h4>
+            </div>
+            <div class="align_row">
+                <h4>T10: Phim dành cho khán giả từ đủ 10 tuổi trở lên (10+)</h4>
+            </div>
+            <h1 style="font-size: 40px; font-family: 'Anton', sans-serif;">MÔ TẢ</h1>
+            <div>
+                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+            </div>
+            <h1 style="font-size: 40px; font-family: 'Anton', sans-serif;">NỘI DUNG PHIM</h1>
+            <div>
+                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+            </div>
+            <div class="align_row">
+                <div class="align_row" style="padding: 3px; border: 1px white solid; border-radius: 50%; margin: 5px;">
+                    <i style="color: black; font-size: 20px; background-color: white; padding: 3px; border-radius: 50%;"class="ph ph-monitor-play"></i>
+                </div>
+                <a style="color: white; font-size: 20px; margin-left: 10px;" href="">Xem Trailer</a>
+            </div>
+        </div>
+    </div>
+    <div class="movie_timeline">
+        <h1 style="font-size: 40px; font-family: 'Anton', sans-serif; margin: 40px;">LỊCH CHIẾU</h1>
+        <div class="align_row">
+            <div class="day_box">
+                <p style="font-family: 'Anton', sans-serif; font-size: 20px;">09/04</p>
+                <p style="font-size: 15px;">Thứ Tư</p>
+            </div>
+            <div class="day_box">
+                <p style="font-family: 'Anton', sans-serif; font-size: 20px;">10/04</p>
+                <p style="font-size: 15px;">Thứ Năm</p>
+            </div>
+            <div class="day_box">
+                <p style="font-family: 'Anton', sans-serif; font-size: 20px;">11/04</p>
+                <p style="font-size: 15px;">Thứ Sáu</p>
+            </div>
+            <div class="day_box">
+                <p style="font-family: 'Anton', sans-serif; font-size: 20px;">12/04</p>
+                <p style="font-size: 15px;">Thứ Bảy</p>
+            </div>
+        </div>
+    </div>
+    <div class="movie_position">
+        <h1 style="font-size: 40px; font-family: 'Anton', sans-serif; margin: 40px;">DANH SÁCH RẠP</h1>
+        <div class="align_column" style="width: 100%;">
+            <div class="position_box">
+                <h4 style="font-weight: bold; font-size: 30px;">UITHEATER TP. Hồ Chí Minh</h4> 
+                <p style="font-size: 15px; color: #f8fafc; margin: 20px 0px;">999 Võ Văn Kiệt, Phường 1, Quận 1, Hồ Chí Minh</p>
+                <ul class="position_time">
+                    <li class="time_box">08:00</li>
+                    <li class="time_box">09:00</li>
+                    <li class="time_box">10:00</li>
+                    <li class="time_box">11:00</li>
+                    <li class="time_box">12:00</li>
+                    <li class="time_box">13:00</li>
+                    <li class="time_box">14:00</li>
+                    <li class="time_box">15:00</li>
+                    <li class="time_box">12:00</li>
+                    <li class="time_box">13:00</li>
+                    <li class="time_box">14:00</li>
+                    <li class="time_box">15:00</li>
+                    <li class="time_box">16:00</li>
+                    <li class="time_box">17:00</li>
+                    <li class="time_box">18:00</li>
+                    <li class="time_box">19:00</li>
+                </ul>
+            </div>
+            <div class="position_box">
+                <h4 style="font-weight: bold; font-size: 30px;">UITHEATER Bình Dương</h4> 
+                <p style="font-size: 15px; color: #f8fafc; margin: 20px 0px;">999 Võ Văn Kiệt, Phường 1, Quận 1, Hồ Chí Minh</p>
+                <ul class="position_time">
+                    <li class="time_box">08:00</li>
+                    <li class="time_box">09:00</li>
+                    <li class="time_box">10:00</li>
+                    <li class="time_box">11:00</li>
+                    <li class="time_box">12:00</li>
+                    <li class="time_box">13:00</li>
+                    <li class="time_box">14:00</li>
+                    <li class="time_box">15:00</li>
+                    <li class="time_box">12:00</li>
+                    <li class="time_box">13:00</li>
+                    <li class="time_box">14:00</li>
+                    <li class="time_box">15:00</li>
+                    <li class="time_box">16:00</li>
+                    <li class="time_box">17:00</li>
+                    <li class="time_box">18:00</li>
+                    <li class="time_box">19:00</li>
+                </ul>
+            </div>
+            <div class="position_box">
+                <h4 style="font-weight: bold; font-size: 30px;">UITHEATER Hà Nội</h4> 
+                <p style="font-size: 15px; color: #f8fafc; margin: 20px 0px;">999 Võ Văn Kiệt, Phường 1, Quận 1, Hồ Chí Minh</p>
+                <ul class="position_time">
+                    <li class="time_box">08:00</li>
+                    <li class="time_box">09:00</li>
+                    <li class="time_box">10:00</li>
+                    <li class="time_box">11:00</li>
+                    <li class="time_box">12:00</li>
+                    <li class="time_box">13:00</li>
+                    <li class="time_box">14:00</li>
+                    <li class="time_box">15:00</li>
+                    <li class="time_box">12:00</li>
+                    <li class="time_box">13:00</li>
+                    <li class="time_box">14:00</li>
+                    <li class="time_box">15:00</li>
+                    <li class="time_box">16:00</li>
+                    <li class="time_box">17:00</li>
+                    <li class="time_box">18:00</li>
+                    <li class="time_box">19:00</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="movie_tickets">
+        <h1 style="font-size: 40px; font-family: 'Anton', sans-serif; margin: 40px;">CHỌN LOẠI VÉ</h1>
+        <div class="align_row" style="width: 100%;">
+            <div class="ticket_box">
+                <p style="font-size: 20px; font-weight: bold; color: #f3ea28;">TRẺ EM</p>
+                <p style="font-size: 20px; margin: 20px 0px;">45,000 VNĐ</p>
+                <div class="ticket_number">
+                    <i style="margin: 5px; font-size: 15px;" class="ph ph-minus"></i>
+                    <p style="margin: 10px; font-size: 20px; margin-top: 13px;">0</p>
+                    <i style="margin: 5px; font-size: 15px" class="ph ph-plus"></i>
+                </div>
+            </div>
+            <div class="ticket_box">
+                <p style="font-size: 20px; font-weight: bold; color: #f3ea28;">NGƯỜI LỚN</p>
+                <p style="font-size: 20px; margin: 20px 0px;">60,000 VNĐ</p>
+                <div class="ticket_number">
+                    <i style="margin: 5px; font-size: 15px;" class="ph ph-minus"></i>
+                    <p style="margin: 10px; font-size: 20px; margin-top: 13px;">0</p>
+                    <i style="margin: 5px; font-size: 15px" class="ph ph-plus"></i>
+                </div>
+            </div>
+            <div class="ticket_box">
+                <p style="font-size: 20px; font-weight: bold; color: #f3ea28;">HỌC SINH - SINH VIÊN</p>
+                <p style="font-size: 20px; margin: 20px 0px;">45,000 VNĐ</p>
+                <div class="ticket_number">
+                    <i style="margin: 5px; font-size: 15px;" class="ph ph-minus"></i>
+                    <p style="margin: 10px; font-size: 20px; margin-top: 13px;">0</p>
+                    <i style="margin: 5px; font-size: 15px" class="ph ph-plus"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="seat">
+        <h1 style="font-size: 40px; font-family: 'Anton', sans-serif; margin: 40px;">CHỌN GHẾ</h1>
+        <img src="/img/img_access/screen.png" alt="" width="100%">
+        <div class="align_column" style="width: 100%; margin-top: 30px;">
+            <div class="align_row_between" style="width: 100%;">
+                <span class="seat_box" style="background-color: #0f172a; color: #f8fafc;">A</span>
+                <span class="seat_box">A01</span>
+                <span class="seat_box">A02</span>
+                <span class="seat_box">A03</span>
+                <span class="seat_box">A04</span>
+                <span class="seat_box">A05</span>
+                <span class="seat_box">A06</span>
+                <span class="seat_box">A07</span>
+                <span class="seat_box">A08</span>
+                <span class="seat_box">A09</span>
+                <span class="seat_box">A10</span>
+                <span class="seat_box">A11</span>
+                <span class="seat_box">A12</span>
+                <span class="seat_box">A13</span>
+                <span class="seat_box">A14</span>
+                <span class="seat_box">A15</span>
+                <span class="seat_box">A16</span>
+                <span class="seat_box">A17</span>
+            </div>
+            <div class="align_row_between" style="width: 100%;">
+                <span class="seat_box" style="background-color: #0f172a; color: #f8fafc;">B</span>
+                <span class="seat_box">B01</span>
+                <span class="seat_box">B02</span>
+                <span class="seat_box">B03</span>
+                <span class="seat_box">B04</span>
+                <span class="seat_box">B05</span>
+                <span class="seat_box">B06</span>
+                <span class="seat_box">B07</span>
+                <span class="seat_box">B08</span>
+                <span class="seat_box">B09</span>
+                <span class="seat_box">B10</span>
+                <span class="seat_box">B11</span>
+                <span class="seat_box">B12</span>
+                <span class="seat_box">B13</span>
+                <span class="seat_box">B14</span>
+                <span class="seat_box">B15</span>
+                <span class="seat_box">B16</span>
+                <span class="seat_box">B17</span>
+            </div>
+            <div class="align_row_between" style="width: 100%;">
+                <span class="seat_box" style="background-color: #0f172a; color: #f8fafc;">C</span>
+                <span class="seat_box">C01</span>
+                <span class="seat_box">C02</span>
+                <span class="seat_box">C03</span>
+                <span class="seat_box">C04</span>
+                <span class="seat_box">C05</span>
+                <span class="seat_box">C06</span>
+                <span class="seat_box">C07</span>
+                <span class="seat_box">C08</span>
+                <span class="seat_box">C09</span>
+                <span class="seat_box">C10</span>
+                <span class="seat_box">C11</span>
+                <span class="seat_box">C12</span>
+                <span class="seat_box">C13</span>
+                <span class="seat_box">C14</span>
+                <span class="seat_box">C15</span>
+                <span class="seat_box">C16</span>
+                <span class="seat_box">C17</span>
+            </div>
+            <div class="align_row_between" style="width: 100%;">
+                <span class="seat_box" style="background-color: #0f172a; color: #f8fafc;">D</span>
+                <span class="seat_box">D01</span>
+                <span class="seat_box">D02</span>
+                <span class="seat_box">D03</span>
+                <span class="seat_box">D04</span>
+                <span class="seat_box">D05</span>
+                <span class="seat_box">D06</span>
+                <span class="seat_box">D07</span>
+                <span class="seat_box">D08</span>
+                <span class="seat_box">D09</span>
+                <span class="seat_box">D10</span>
+                <span class="seat_box">D11</span>
+                <span class="seat_box">D12</span>
+                <span class="seat_box">D13</span>
+                <span class="seat_box">D14</span>
+                <span class="seat_box">D15</span>
+                <span class="seat_box">D16</span>
+                <span class="seat_box">D17</span>
+            </div>
+            <div class="align_row_between" style="width: 100%;">
+                <span class="seat_box" style="background-color: #0f172a; color: #f8fafc;">E</span>
+                <span class="seat_box">E01</span>
+                <span class="seat_box">E02</span>
+                <span class="seat_box">E03</span>
+                <span class="seat_box">E04</span>
+                <span class="seat_box">E05</span>
+                <span class="seat_box">E06</span>
+                <span class="seat_box">E07</span>
+                <span class="seat_box">E08</span>
+                <span class="seat_box">E09</span>
+                <span class="seat_box">E10</span>
+                <span class="seat_box">E11</span>
+                <span class="seat_box">E12</span>
+                <span class="seat_box">E13</span>
+                <span class="seat_box">E14</span>
+                <span class="seat_box">E15</span>
+                <span class="seat_box">E16</span>
+                <span class="seat_box">E17</span>
+            </div>
+            <div class="align_row_between" style="width: 100%;">
+                <span class="seat_box" style="background-color: #0f172a; color: #f8fafc;">F</span>
+                <span class="seat_box">F01</span>
+                <span class="seat_box">F02</span>
+                <span class="seat_box">F03</span>
+                <span class="seat_box">F04</span>
+                <span class="seat_box">F05</span>
+                <span class="seat_box">F06</span>
+                <span class="seat_box">F07</span>
+                <span class="seat_box">F08</span>
+                <span class="seat_box">F09</span>
+                <span class="seat_box">F10</span>
+                <span class="seat_box">F11</span>
+                <span class="seat_box">F12</span>
+                <span class="seat_box">F13</span>
+                <span class="seat_box">F14</span>
+                <span class="seat_box">F15</span>
+                <span class="seat_box">F16</span>
+                <span class="seat_box">F17</span>
+            </div>
+            <div class="align_row_between" style="width: 100%;">
+                <span class="seat_box" style="background-color: #0f172a; color: #f8fafc;">G</span>
+                <span class="seat_box">G01</span>
+                <span class="seat_box">G02</span>
+                <span class="seat_box">G03</span>
+                <span class="seat_box">G04</span>
+                <span class="seat_box">G05</span>
+                <span class="seat_box">G06</span>
+                <span class="seat_box">G07</span>
+                <span class="seat_box">G08</span>
+                <span class="seat_box">G09</span>
+                <span class="seat_box">G10</span>
+                <span class="seat_box">G11</span>
+                <span class="seat_box">G12</span>
+                <span class="seat_box">G13</span>
+                <span class="seat_box">G14</span>
+                <span class="seat_box">G15</span>
+                <span class="seat_box">G16</span>
+                <span class="seat_box">G17</span>
+            </div>
+            <div class="align_row_between" style="width: 100%;">
+                <span class="seat_box" style="background-color: #0f172a; color: #f8fafc;">H</span>
+                <span class="seat_box">H01</span>
+                <span class="seat_box">H02</span>
+                <span class="seat_box">H03</span>
+                <span class="seat_box">H04</span>
+                <span class="seat_box">H05</span>
+                <span class="seat_box">H06</span>
+                <span class="seat_box">H07</span>
+                <span class="seat_box">H08</span>
+                <span class="seat_box">H09</span>
+                <span class="seat_box">H10</span>
+                <span class="seat_box">H11</span>
+                <span class="seat_box">H12</span>
+                <span class="seat_box">H13</span>
+                <span class="seat_box">H14</span>
+                <span class="seat_box">H15</span>
+                <span class="seat_box">H16</span>
+                <span class="seat_box">H17</span>
+            </div>
+            <div class="align_row_between" style="width: 100%;">
+                <span class="seat_box" style="background-color: #0f172a; color: #f8fafc;">I</span>
+                <span class="seat_box">I01</span>
+                <span class="seat_box">I02</span>
+                <span class="seat_box">I03</span>
+                <span class="seat_box">I04</span>
+                <span class="seat_box">I05</span>
+                <span class="seat_box">I06</span>
+                <span class="seat_box">I07</span>
+                <span class="seat_box">I08</span>
+                <span class="seat_box">I09</span>
+                <span class="seat_box">I10</span>
+                <span class="seat_box">I11</span>
+                <span class="seat_box">I12</span>
+                <span class="seat_box">I13</span>
+                <span class="seat_box">I14</span>
+                <span class="seat_box">I15</span>
+                <span class="seat_box">I16</span>
+                <span class="seat_box">I17</span>
+            </div>
+            <div class="align_row_between" style="width: 100%;">
+                <span class="seat_box" style="background-color: #0f172a; color: #f8fafc;">J</span>
+                <span class="seat_box">J01</span>
+                <span class="seat_box">J02</span>
+                <span class="seat_box">J03</span>
+                <span class="seat_box">J04</span>
+                <span class="seat_box">J05</span>
+                <span class="seat_box">J06</span>
+                <span class="seat_box">J07</span>
+                <span class="seat_box">J08</span>
+                <span class="seat_box">J09</span>
+                <span class="seat_box">J10</span>
+                <span class="seat_box">J11</span>
+                <span class="seat_box">J12</span>
+                <span class="seat_box">J13</span>
+                <span class="seat_box">J14</span>
+                <span class="seat_box">J15</span>
+                <span class="seat_box">J16</span>
+                <span class="seat_box">J17</span>
+            </div>
+            <div class="align_row_between" style="width: 100%;">
+                <span class="seat_box" style="background-color: #0f172a; color: #f8fafc;">K</span>
+                <span class="seat_box">K01</span>
+                <span class="seat_box">K02</span>
+                <span class="seat_box">K03</span>
+                <span class="seat_box">K04</span>
+                <span class="seat_box">K05</span>
+                <span class="seat_box">K06</span>
+                <span class="seat_box">K07</span>
+                <span class="seat_box">K08</span>
+                <span class="seat_box">K09</span>
+                <span class="seat_box">K10</span>
+                <span class="seat_box">K11</span>
+                <span class="seat_box">K12</span>
+                <span class="seat_box">K13</span>
+                <span class="seat_box">K14</span>
+                <span class="seat_box">K15</span>
+                <span class="seat_box">K16</span>
+                <span class="seat_box">K17</span>
+            </div>
+            <div class="align_row_between" style="width: 100%;">
+                <span class="seat_box" style="background-color: #0f172a; color: #f8fafc;">L</span>
+                <span class="seat_box">L01</span>
+                <span class="seat_box">L02</span>
+                <span class="seat_box">L03</span>
+                <span class="seat_box">L04</span>
+                <span class="seat_box">L05</span>
+                <span class="seat_box">L06</span>
+                <span class="seat_box">L07</span>
+                <span class="seat_box">L08</span>
+                <span class="seat_box">L09</span>
+                <span class="seat_box">L10</span>
+                <span class="seat_box">L11</span>
+                <span class="seat_box">L12</span>
+                <span class="seat_box">L13</span>
+                <span class="seat_box">L14</span>
+                <span class="seat_box">L15</span>
+                <span class="seat_box">L16</span>
+                <span class="seat_box">L17</span>
+            </div>
+        </div>  
+    </div>
+    <div class="payment">
+        <div>
+            <h4 style="font-family: 'Anton', sans-serif; font-size: 40px;">LẠC TRÔI - FLOW</h4>
+            <p style="margin: 10px 0px;">UITHEATER TP. Hồ Chí Minh</p>
+        </div>
+        <div class="align_row">
+            <div class="count_time">
+                <p style="font-size: 15px;">Thời gian giữ vé:</p>
+                <h4 style="font-family: 'Anton', sans-serif; font-size: 25px;">05:00</h4>
+            </div>
+            <div class="count_payment">
+                <div class="align_row_between" style="width: 100%; margin: 12px 0px;">
+                    <p>Tạm tính</p>
+                    <p style="font-size: 25px; font-weight: 800;">0 VNĐ</p>
+                </div>
+                <button style="padding: 10px 20px; font-family: 'Anton', sans-serif; font-size: 15px; background-color: #f3ea28; border: none; width: 100%;  border-radius: 8px;">ĐẶT VÉ</button>
+            </div>
+        </div>
+    </div>
+    <div class="bottom_bar">
+        <div class="align_row_between" style="width: 1200px; margin: 30px 0px; ">
+            <p>© 2023 Uitheater. All rights reserved.</p>
+            <div class="align_row">
+                <a style="color: #f8fafc; padding: 0px 10px;" href="">Trang chủ</a>
+                <a style="color: #f8fafc; padding: 0px 10px;" href="">Xem phim</a>
+                <a style="color: #f8fafc; padding: 0px 10px;" href="">Đăng nhập</a>
+            </div>
+        </div>
+        <div class="align_row">
+            <i style="font-size: 50px;" class="ph ph-video-camera"></i>
+            <h1 style="font-size: 30px; margin-left: 20px; margin-top: 8px; font-weight: bold;">UIT THEATER</h1>
+        </div>
+        <div class="align_row">
+            <h4 style="font-size: 25px; margin: 10px 0px;">[NT208.P24] - Nhóm 3</h4>
+        </div>
+    </div>
+</body>
+</html>
