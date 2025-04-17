@@ -12,46 +12,6 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Anton&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
-    <style>
-        /* Top bar styling */
-        .top_bar {
-            position: fixed; /* Make the top bar fixed at the top */
-            top: 0; /* Align it to the top of the page */
-            left: 0; /* Align it to the left of the page */
-            width: 100%; /* Make it span the full width of the page */
-            background-color: #0f172a; /* Dark background color */
-            color: white; /* White text color */
-            display: flex; /* Use flexbox for alignment */
-            align-items: center; /* Vertically align items */
-            padding: 10px 20px; /* Add padding for spacing */
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); /* Add a subtle shadow */
-            z-index: 1000; /* Ensure it stays on top of other elements */
-        }
-
-        .top_bar .align_row {
-            display: flex; /* Use flexbox for alignment */
-            align-items: center; /* Vertically align items */
-            justify-content: flex-start; /* Align content to the left */
-        }
-
-        .top_bar i {
-            font-size: 40px; /* Icon size */
-            margin-right: 10px; /* Add spacing between the icon and text */
-        }
-
-        .top_bar h1 {
-            font-size: 20px; /* Font size for the title */
-            font-weight: 600; /* Bold font */
-            margin: 0; /* Remove default margin */
-        }
-
-        /* Add spacing below the top bar */
-        body {
-            margin: 0;
-            padding: 0;
-            padding-top: 90px; /* Add padding equal to the height of the top bar */
-        }
-    </style>
 </head>
 <body>
     <div class="top_bar" style="border-bottom: 1px rgba(140, 140, 140, 0.5) solid; justify-content: flex-start;">
@@ -62,26 +22,45 @@
     </div>
     <!-- Step Indicator -->
     <div class="step-indicator">
-        <span class="step active">1. THÔNG TIN KHÁCH HÀNG</span>
-        <span class="step">2. THANH TOÁN</span>
-        <span class="step">3. THÔNG TIN BẮP NƯỚC</span>
+        <span class="step">1. THÔNG TIN KHÁCH HÀNG</span>
+        <span class="step active">2. THANH TOÁN</span>
+        <span class="step">3. HOÀN TẤT</span>
     </div>
 
     <!-- Jumbotron -->
     <div class="jumbotron">
         <!-- Left Form -->
-        <div class="form-container">
-            <form>
-                <div class="form-label">
-                    <label class="form-label" for="payment1"> <span class="img"><img src="/assets/images/img-momo.png" alt=""></span><p class="text">Thanh toán qua Momo</p></label>
-                </div>
-                <button type="submit">Tiếp Tục</button>
-            </form>
+        <div class="selection-box" style="width: 572.787px;">
+            <h2>Chọn phương thức thanh toán</h2>
+            <div class="payment-options">
+                <form id="payment-form" class="form-action" action="/transaction_step3" method="POST">
+                    <div class="payment-inner">
+                        <input type="radio" id="choice1" class="payment_method" name="payment_method" value="momo">
+                        <label for="choice1" class="align_row" style="justify-self: left;">
+                            <img src="/images/img-momo.png" alt="Momo">
+                            <span class="text">Thanh toán qua Momo</span>
+                        </label>
+                        <input type="radio" id="choice2" class="payment_method" name="payment_method" value="local-card">
+                        <label for="choice2" class="align_row" style="justify-self: left;">                        
+                            <img src="/images/img-card.png" alt="Thẻ nội địa">
+                            <span class="text">Thanh toán qua Thẻ nội địa</span>
+                        </label>
+                        <input type="radio" id="choice3" class="payment_method" name="payment_method" value="international-card">
+                        <label for="choice3" class="align_row" style="justify-self: left;">
+                            <img src="/images/img-card.png" alt="Thẻ quốc tế">
+                            <span class="text">Thanh toán qua Thẻ quốc tế</span>
+                        </label>
+                    </div>
+                    <div class="btn-group" style="justify-content: flex-end;">
+                        <button type="button" id="btn-back" class="btn btn-secondary">Quay lại</button>
+                        <button type="submit" id="btn-submit" class="btn btn-primary">Thanh toán</button>
+                    </div>
+                </form>
+            </div>
         </div>
-
         <!-- Right Summary -->
-        <div class="summary-container">
-            <h2>Cinestar Hai Bà Trưng (TP.HCM)</h2>
+        <div class="summary-container" style="width: 489.113px; transform: translate(-29.6px, 0px);">
+            <h2>UIT Theater Hai Bà Trưng (TP.HCM)</h2>
             <p>135 Hai Bà Trưng, Phường Bến Nghé, Quận 1, Thành Phố Hồ Chí Minh</p>
             <hr>
             <p>Bắp nước</p>
@@ -90,5 +69,30 @@
             <div class="total">129,000 VND</div>
         </div>
     </div>
+    <div id="message-box" class="message-box hidden">
+        <div class="message-content">
+            <p>Vui lòng chọn phương thức thanh toán trước khi tiếp tục!</p>
+            <button id="close-message" class="btn btn-primary">Đóng</button>
+        </div>
+    </div>
+    <script>
+        document.getElementById('payment-form').addEventListener('submit', function (event) {
+            const selectedPaymentMethod = document.querySelector('input[name="payment_method"]:checked');
+            if (!selectedPaymentMethod) {
+                event.preventDefault(); // Prevent form submission
+                    document.getElementById('message-box').classList.remove('hidden'); // Show the message box
+            }
+        });
+
+        // Close the message box
+        document.getElementById('close-message').addEventListener('click', function () {
+            document.getElementById('message-box').classList.add('hidden'); // Hide the message box
+        });
+
+        // Handle "Quay lại" button
+        document.getElementById('btn-back').addEventListener('click', function () {
+            window.location.href = '/payment/transaction_Step1'; // Navigate back to Step 1
+        });
+    </script>
 </body>
 </html>

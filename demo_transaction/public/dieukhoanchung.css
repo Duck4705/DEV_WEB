@@ -1,0 +1,9 @@
+.content {
+    margin: 10px 10px;
+    padding: 20px;
+}
+
+.content p {
+    margin-bottom: 20px; /* Add spacing between paragraphs */
+    line-height: 1.6; /* Improve readability */
+}

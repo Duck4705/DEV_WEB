@@ -64,14 +64,14 @@
     <div class="step-indicator">
         <span class="step active">1. THÔNG TIN KHÁCH HÀNG</span>
         <span class="step">2. THANH TOÁN</span>
-        <span class="step">3. THÔNG TIN BẮP NƯỚC</span>
+        <span class="step">3. HOÀN TẤT</span>
     </div>
 
     <!-- Jumbotron -->
     <div class="jumbotron">
         <!-- Left Form -->
         <div class="form-container">
-            <form>
+            <form action="/payment/Transaction_Step2" method="POST">
                 <div>
                     <label for="name">Họ và tên <span style="color: red;">*</span></label>
                     <input type="text" id="name" placeholder="Họ và tên" required>
@@ -91,7 +91,7 @@
                 </div>
                 <div>
                     <label>
-                        <input type="checkbox" required> Đồng ý với <a href="#" style="color: yellow;">điều khoản</a> của UIT THEATER.
+                        <input type="checkbox" required> Đồng ý với <a href="/DieuKhoanChung" style="color: yellow;">điều khoản</a> của UIT THEATER.
                     </label>
                 </div>
                 <button type="submit">Tiếp Tục</button>
@@ -100,11 +100,11 @@
 
         <!-- Right Summary -->
         <div class="summary-container">
-            <h2>Cinestar Hai Bà Trưng (TP.HCM)</h2>
-            <p>135 Hai Bà Trưng, Phường Bến Nghé, Quận 1, Thành Phố Hồ Chí Minh</p>
+            <h2>UIT Theater Hai Bà Trưng (TP.HCM)</h2>
+            <p>1xx Hai Bà Trưng, Phường Bến Nghé, Quận 1, Thành Phố Hồ Chí Minh</p>
             <hr>
             <p>Bắp nước</p>
-            <p>1 Combo Có Gấu</p>
+            <p>1 Combo Có Gấu Xinh</p>
             <hr>
             <div class="total">129,000 VND</div>
         </div>
