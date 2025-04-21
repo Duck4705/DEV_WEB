@@ -1,0 +1,40 @@
+{
+  "name": "dev_web",
+  "version": "1.0.0",
+  "description": "1. [Giới thiệu repo](#giới-thiệu-repo)\r 2. [Hướng dẫn sử dụng git và github](#hướng-dẫn-sử-dụng-git-và-github)\r 3. [Gitflow](#gitflow)\r 4. [Nội dung đồ án](#nội-dung-đồ-án)\r 5. [Tổng kết](#tổng-kết)",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon app.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Duck4705/DEV_WEB.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Duck4705/DEV_WEB/issues"
+  },
+  "homepage": "https://github.com/Duck4705/DEV_WEB#readme",
+  "dependencies": {
+    "bcryptjs": "^3.0.2",
+    "cookie-parser": "^1.4.7",
+    "dotenv": "^16.5.0",
+    "express": "^5.1.0",
+    "express-session": "^1.18.1",
+    "hbs": "^4.2.0",
+    "jsonwebtoken": "^9.0.2",
+    "moment-timezone": "^0.5.48",
+    "multer": "^1.4.5-lts.2",
+    "mysql2": "^3.14.0",
+    "nodemailer": "^6.10.1",
+    "passport": "^0.7.0",
+    "passport-google-oauth20": "^2.0.0",
+    "socket.io": "^4.8.1"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.9"
+  }
+}
