@@ -1,6 +1,6 @@
 const path = require('path');
 const fs = require('fs');
-const db = require('../app'); // Import database connection
+const db = require('../db'); // Import database connection
 
 // Middleware to refresh session
 exports.refreshSession = (req, res, next) => {
