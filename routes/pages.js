@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const refreshSession = require('../controllers/profile').refreshSession;
-const db = require('../app');
+const db = require('../db');
 
 
 router.get('/', refreshSession, (req, res) => {

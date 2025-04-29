@@ -113,8 +113,8 @@ ul {
     padding: 0px 10px;
     border-radius: 5px;
 }
-.seat {
-    width: 1000px;
+.seat1 {
+    width: 1200px;
     color: #f8fafc;
     display: flex;
     flex-direction: column;

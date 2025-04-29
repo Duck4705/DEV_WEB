@@ -196,7 +196,7 @@ exports.forgot_pass = (req, res) => {
         var mailOptions = {
             from: process.env.GMAIL_USER,
             to: Email,
-            subject: 'Sending Email using Node.js',
+            subject: 'Email đặt lại mật khẩu',
             text: `Nhấn vào link sau để đặt lại mật khẩu: ${resetLink}`,
         };
         

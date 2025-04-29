@@ -63,7 +63,6 @@ input
 
 
 
-
 .user-menu {
     display: flex; /* Căn chỉnh các phần tử theo chiều ngang */
     align-items: center; /* Căn giữa các phần tử theo chiều dọc */
@@ -175,3 +174,37 @@ input
     cursor: pointer;
 }
 
+/* Ghế */
+.seat_box {
+    width: 40px;
+    height: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    cursor: pointer;
+    margin: 5px;
+}
+
+.seat_box.available {
+    background-color: green;
+    color: white;
+}
+
+.seat_box.holding {
+    background-color: orange;
+    color: white;
+    cursor: not-allowed;
+}
+
+.seat_box.reserved {
+    background-color: red;
+    color: white;
+    cursor: not-allowed;
+}
+.seat_box.selected {
+    background-color: blue;
+    color: white;
+    cursor: pointer;
+}
