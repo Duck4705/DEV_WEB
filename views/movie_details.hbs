@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{phim.TenPhim}}</title>
+    <link rel="stylesheet" href="/style.css">
+    <link rel="stylesheet" href="/login.css">
+    <link rel="stylesheet" href="/movie_details.css">
+    <script src="https://unpkg.com/phosphor-icons"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Josefin+Sans:ital,wght@0,100..700;1,100..700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Anton&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+</head>
+<body>
+    
+    <div class="top_bar" style="border-bottom: 1px rgba(140, 140, 140, 0.5) solid;">
+        <div class="align_row" style="color: white;">
+            <i style="font-size: 40px;" class="ph ph-video-camera"></i>
+            <h1 style="font-size: 20px; margin: 0px 20px; font-weight: 600;">UIT THEATER</h1>
+        </div>
+        <div class="align_row">
+            <a href="" class="booking">
+                <i style="margin-right: 10px; font-size: 25px;" class="ph ph-ticket"></i>
+                <span style="font-family: 'Anton', sans-serif;">ĐẶT VÉ NGAY</span>
+            </a>
+            <a href="" class="booking">
+                <i style="margin-right: 10px; font-size: 25px;" class="ph ph-popcorn"></i>
+                <span style="font-family: 'Anton', sans-serif;">ĐẶT BẮP NƯỚC</span>
+            </a>
+        </div>
+        
+        <div class="align_row" style="color: white;">
+            <div class="align_row"> 
+                <input type="text" placeholder="Tìm phim" style="padding: 10px 20px; border-radius: 50px; font-size: 15px;">
+                <i style="margin-left: -25px; color: black; font-size: 15px;" class="ph ph-magnifying-glass"></i>
+            </div>
+            
+            <div class="align_row" style="margin-left: 50px;">
+                {{#if user}}
+                    <div class="user-menu" class="align_row">
+                        <div class="dropdown" class="align_row">
+                            <img src="/profile/avatar/{{user.ID_U}}" class="img-user" alt="">
+                            <div class="dropdown-menu">
+                                <a href="/profile"><i style="margin: 0px 8px 0px 0px;" class="ph ph-user"></i>Trang cá nhân</a>
+                                <a href="/logout"><i style="margin: 0px 8px 0px 0px;" class="ph ph-sign-out"></i>Đăng xuất</a>
+                            </div>
+                        </div>
+                        <button class="dropdown-toggle">{{user.TongSoTien}} VNĐ</button>
+                    </div>
+                {{else}}
+                    <i style="font-size: 30px; margin: 10px;" class="ph ph-user-circle"></i>
+                    <h2 style="font-size: 20px;">
+                        <a class="btSign" style="background-color: #0f172a; color: #f8fafc;" href="/">Home</a>
+                    </h2>
+                {{/if}}
+            </div>
+        </div>
+    </div>
+
+    <div class="movie_details" class="align_row" style="margin-top: 100px; height: fit-content;">
+        <div class="movie_img">
+            <img src="/img/img_poster/{{phim.ID_P}}.webp" alt="" width="100%">
+        </div>
+        <div class="movie_text">
+            <h1 style="font-size: 40px; font-family: 'Anton', sans-serif;">{{phim.TenPhim}}</h1>
+            <div class="align_row">
+                <h4>{{phim.TheLoai}}</h4>
+            </div>
+            <div class="align_row">
+                <h4> {{phim.ThoiLuong}} phút</h4>
+            </div>
+            <div class="align_row">
+                <h4>{{phim.NgonNgu}}</h4>
+            </div>
+            <div class="align_row">
+                <h4>{{phim.QuocGia}}</h4>
+            </div>
+            <div class="align_row">
+                <h4>T{{phim.DoTuoi}}: Phim dành cho khán giả từ đủ {{phim.DoTuoi}} tuổi trở lên ({{phim.DoTuoi}}+)</h4>
+            </div>
+            <h1 style="font-size: 40px; font-family: 'Anton', sans-serif;">MÔ TẢ</h1>
+            <div id="description-container">
+                {{!-- Phần này có script xử lý ở dưới --}}
+            </div>
+            <h1 style="font-size: 40px; font-family: 'Anton', sans-serif;">NỘI DUNG PHIM</h1>
+            <div>
+                <p>{{phim.NoiDung}}</p>
+            </div>
+            <div class="align_row">
+                <div class="align_row" style="padding: 3px; border: 1px white solid; border-radius: 50%; margin: 5px;">
+                    <i style="color: black; font-size: 20px; background-color: white; padding: 3px; border-radius: 50%;"class="ph ph-monitor-play"></i>
+                </div>
+                <a style="color: white; font-size: 20px; margin-left: 10px;" href="#" class="trailer-link" data-trailer="https://www.youtube.com/embed/{{phim.LinkTrailer}}">Xem Trailer</a>
+            </div>
+        </div>
+    </div>
+    
+    <div class="movie_position">
+        <h1 style="font-size: 40px; font-family: 'Anton', sans-serif; margin: 40px;">DANH SÁCH RẠP</h1>
+        {{#each showtimes}}
+        <div class="align_column" style="width: 100%;">
+            <div class="position_box">
+                
+                <h4 style="font-weight: bold; font-size: 30px;">{{this.TenRap}}</h4> 
+                <p style="font-size: 15px; color: #f8fafc; margin: 20px 0px;">Phòng: {{this.TenPhong}}</p>
+                <ul class="position_time">
+                    {{#each this.screenings}}
+                    <li class="time_box"> <a href="/movie_details/get_seat/{{this.ID_SC}}" style="text-decoration: none; color: white;">{{this.time}}</a></li>
+                    {{/each}}
+                </ul>
+               
+            </div>
+        </div>
+        {{/each}}
+    </div>
+   
+    
+     
+    
+    <div class="bottom_bar">
+        <div class="align_row_between" style="width: 1200px; margin: 30px 0px; ">
+            <p>© 2023 Uitheater. All rights reserved.</p>
+            <div class="align_row">
+                <a style="color: #f8fafc; padding: 0px 10px;" href="">Toàn diện</a>
+                <a style="color: #f8fafc; padding: 0px 10px;" href="">Sáng tạo</a>
+                <a style="color: #f8fafc; padding: 0px 10px;" href="">Phụng sự</a>
+            </div>
+        </div>
+        <div class="align_row">
+            <i style="font-size: 50px;" class="ph ph-video-camera"></i>
+            <h1 style="font-size: 30px; margin-left: 20px; margin-top: 8px; font-weight: bold;">UIT THEATER</h1>
+        </div>
+        <div class="align_row">
+            <h4 style="font-size: 25px; margin: 10px 0px;">[NT208.P24] - Nhóm 3</h4>
+        </div>
+    </div>
+
+    {{!-- Khung chiếu phim trong nền --}}
+    <div id="trailerModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <iframe id="trailerFrame" width="560" height="315" src="" frameborder="0" allowfullscreen></iframe>
+        </div>
+    </div>
+    
+    <script>
+        //Code khung chiếu phim trong nền
+        document.addEventListener('DOMContentLoaded', () => {
+            const modal = document.getElementById('trailerModal');
+            const trailerFrame = document.getElementById('trailerFrame');
+            const closeBtn = document.querySelector('.close');
+
+            // Mở modal khi nhấn vào "Xem Trailer"
+            document.querySelectorAll('.trailer-link').forEach(link => {
+                link.addEventListener('click', (event) => {
+                    event.preventDefault();
+                    const trailerUrl = link.getAttribute('data-trailer');
+                    trailerFrame.src = trailerUrl; // Gán URL video vào iframe
+                    modal.style.display = 'block'; // Hiển thị modal
+                });
+            });
+
+            // Đóng modal khi nhấn vào nút "Đóng"
+            closeBtn.addEventListener('click', () => {
+                modal.style.display = 'none';
+                trailerFrame.src = ''; // Xóa URL video để dừng phát
+            });
+
+            // Đóng modal khi nhấn ra ngoài modal
+            window.addEventListener('click', (event) => {
+                if (event.target === modal) {
+                    modal.style.display = 'none';
+                    trailerFrame.src = ''; // Xóa URL video để dừng phát
+                }
+            });
+        });
+
+        document.addEventListener('DOMContentLoaded', () => {
+            // Lấy nội dung từ Handlebars
+            const description = "{{phim.MoTaPhim}}".replace(/&quot;/g, '"').replace(/&#39;/g, "'");
+            const container = document.getElementById('description-container');
+
+            // Kiểm tra nếu container tồn tại
+            if (!container) {
+                console.error("Container #description-container không tồn tại.");
+                return;
+            }
+
+            // Tách chuỗi thành mảng dựa trên dấu *
+            const parts = description.split('*');
+
+            // Tạo các dòng từ mảng
+            parts.forEach(part => {
+                if (part.trim()) { // Bỏ qua các phần tử rỗng
+                    const line = document.createElement('p'); // Tạo thẻ <p> cho mỗi dòng
+                    line.textContent = part.trim(); // Loại bỏ khoảng trắng thừa
+                    container.appendChild(line); // Thêm dòng vào container
+                }
+            });
+        });
+
+        
+    </script>
+</body>
+</html>
