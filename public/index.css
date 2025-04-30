@@ -1,0 +1,99 @@
+.top_bar
+{
+    position: fixed;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
+    background-color: #0f172a;
+    height: 80px;
+    width: 1200px;
+    align-self: center;
+}
+.booking
+{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    padding: 10px 20px;
+    color: black;
+    background-color: white;
+    margin: 5px;
+    border-radius: 10px;
+    font-size: 15px;
+    width: fit-content;
+}
+.img_ads
+{
+    margin-top: 100px;
+    width: 1200px;
+}
+.quickbook
+{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    width: 1200px;
+    color: #663399;
+    padding: 20px 30px;
+    background-color: #ecf2ff;
+    margin-top: 30px;
+    border-radius: 5px;
+}
+.selectbook select
+{
+    appearance: none;
+    font-size: 20px;
+    font-weight: bold;
+    padding: 10px 30px;
+    border: 1px rgba(140, 140, 140, 0.5) solid;
+    margin: 0px 10px;
+    border-radius: 10px;
+    background-color: white;
+    padding-right: 50px;
+}
+.selectbook option
+{
+    font-size: 20px;
+    font-weight: bold;
+    border: 1px rgba(140, 140, 140, 0.5) solid;
+    border-radius: 10px;
+    background-color: white;
+}
+.movie
+{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 1230px;
+    margin-top: 30px;
+    margin-bottom: 80px;
+    color: white;
+}
+.moviebox
+{
+    width: 280px;
+    height: 480px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    margin: 30px 13px;
+}
+.align_movie
+{
+    display: flex;
+    flex-wrap: wrap;
+}
+.moredot
+{
+    width: 12px;
+    height: 12px;
+    margin: 5px;
+    background-color: white;
+    border-radius: 50%;
+}
+
+
+

@@ -1,0 +1,210 @@
+*
+{
+    margin: 0;
+    padding: 0;
+    font-weight: 400;
+    box-sizing: border-box;
+    font-family: "Montserrat", sans-serif;
+    cursor: url(../img/img_access/cat.png), auto;
+    text-decoration: none;
+}
+a
+{
+    cursor: url(../img/img_access/catlink.png), auto;
+}
+*::-webkit-scrollbar
+{
+    display: none;    
+}
+.align_row
+{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+}
+.align_column
+{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+.align_row_between
+{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
+.align_column_between
+{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+}
+body
+{
+    display: flex;
+    flex-direction: column;
+    justify-self: center;
+    align-items: center;
+    background-color: #0f172a;
+    width: 100%;
+}
+input
+{
+    border: none;
+    outline: none;
+}
+
+
+
+
+
+.user-menu {
+    display: flex; /* Căn chỉnh các phần tử theo chiều ngang */
+    align-items: center; /* Căn giữa các phần tử theo chiều dọc */
+    gap: 0px; /* Khoảng cách giữa hình ảnh và tên tài khoản */
+}
+
+.img-user {
+    background-color: white;
+    width: 30px; /* Đặt kích thước hình ảnh */
+    height: 30px;
+    border-radius: 50%; /* Làm tròn hình ảnh */
+    object-fit: cover; /* Đảm bảo hình ảnh không bị méo */
+}
+
+.dropdown {
+    position: relative;
+}
+
+.dropdown-toggle {
+    background-color: #0f172a;
+    color: #f8fafc;
+    border: none;
+    padding: 10px 20px;
+    font-size: 20px;
+}
+
+.dropdown-menu {
+    display: none;
+    position: absolute;
+    background-color: #0f172a;
+    min-width: 180px;
+    box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
+    border-radius: 5px;
+    overflow: hidden;
+    text-align: left;
+    border: rgba(140, 140, 140, 0.5) 1px solid;
+}
+
+.dropdown-menu a {
+    color: #f8fafc;
+    padding: 10px 15px;
+    font-size: 16px;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+}
+
+.dropdown-menu a:hover {
+    color: #f3ea28;
+
+}
+
+.user-menu:hover .dropdown-menu {
+    display: block;
+}
+
+.bottom_bar {
+    color: #f8fafc;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-color: #4950b6;
+    width: 100%;
+    align-self: center;
+    padding-bottom: 20px;
+    align-self: flex-end;
+}
+
+
+
+
+
+/* Modal và lightbox ví dụ */
+
+/* Modal container */
+.modal {
+    display: none; /* Ẩn modal mặc định */
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.8); /* Làm mờ nền */
+}
+
+/* Modal content */
+.modal-content {
+    position: relative;
+    margin: 10% auto;
+    padding: 5px;
+    width: 50%; 
+    max-width: 650px; /* Giới hạn chiều rộng tối đa */
+    background-color: rgba(255, 255, 255, 0.3);
+    border-radius: 10px;
+    text-align: center;
+}
+
+/* Close button */
+.close {
+    position: absolute;
+    top: 10px;
+    right: 20px;
+    font-size: 30px;
+    font-weight: bold;
+    color: black;
+    cursor: pointer;
+}
+
+/* Ghế */
+.seat_box {
+    width: 40px;
+    height: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    cursor: pointer;
+    margin: 5px;
+}
+
+.seat_box.available {
+    background-color: green;
+    color: white;
+}
+
+.seat_box.holding {
+    background-color: orange;
+    color: white;
+    cursor: not-allowed;
+}
+
+.seat_box.reserved {
+    background-color: red;
+    color: white;
+    cursor: not-allowed;
+}
+.seat_box.selected {
+    background-color: blue;
+    color: white;
+    cursor: pointer;
+}
