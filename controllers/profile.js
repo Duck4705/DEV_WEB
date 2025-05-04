@@ -1,6 +1,6 @@
 const path = require('path');
 const fs = require('fs');
-const db = require('../app');
+const db = require('../db');
 
 // Middleware to refresh session
 exports.refreshSession = (req, res, next) => {
