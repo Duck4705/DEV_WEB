@@ -1,7 +1,11 @@
 const express = require('express');
 const router = express.Router();
 const refreshSession = require('../controllers/profile').refreshSession;
+<<<<<<< HEAD
 const db = require('../db');
+=======
+const db = require('../app');
+>>>>>>> feature/adminrole1
 
 
 router.get('/', refreshSession, (req, res) => {

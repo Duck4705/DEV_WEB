@@ -11,9 +11,15 @@
 ## Hướng dẫn sử dụng git và github
 1) Hướng dẫn clone dự án về máy  
 Khi clone dự án về máy lập trình viên cần copy link sau.  
+<<<<<<< HEAD
 ![Anh1](public/img/img_readme/anh1.png)  
 Sau khi copy chúng ta cần sử dụng lệnh sau để clone và sau khi clone thành công sẽ hiển thị như hình ảnh sau  
 ![Anh2](public/img/img_readme/anh2.png)  
+=======
+![Anh1](img/img_readme/anh1.png)  
+Sau khi copy chúng ta cần sử dụng lệnh sau để clone và sau khi clone thành công sẽ hiển thị như hình ảnh sau  
+![Anh2](img/img_readme/anh2.png)  
+>>>>>>> feature/adminrole1
 2) Hướng dẫn về branch trong git  
 Để kiểm tra nhánh hiện tại dùng lệnh sau  `git branch`  
 Dấu * chỉ nhánh đang ở hiện tại  
@@ -41,7 +47,11 @@ Lưu ý: Ở repo nào thì pull repo ấy. Không được xài lệnh `git pul
 
 
 ## Gitflow
+<<<<<<< HEAD
 ![Anh3](public/img/img_readme/anh3.png)
+=======
+![Anh3](img/img_readme/anh3.png)
+>>>>>>> feature/adminrole1
 Các bạn lập trình viên lưu ý hình ảnh trên là ví dụ gitflow chúng ta phải tuân thủ và làm việc trên nhanh của mình  
 Ví dụ: Thành viên 1 phát triển tính năng 1 sẽ làm việc trên nhánh dev1 khi nào hoàn thành chức năng thì có thể merge vào nhánh develop. Và thành viên 1 này chỉ được phép làm việc trên nhánh dev1 không tự tiện sang nhánh dev2 làm việc  
   
@@ -57,4 +67,8 @@ Sau đâu là chi tiết mục đích của các nhánh:
 - Nhánh `hotfix`: Là nhánh khắc phục lỗi nhanh khi bản phát hành chính thức đang bị lỗi, sau khi khắc phục lỗi thì sẽ được merge lại vào nhánh `main`
     
 ## Nội dung đồ án
+<<<<<<< HEAD
 ## Tổng kết
+=======
+## Tổng kết
+>>>>>>> feature/adminrole1

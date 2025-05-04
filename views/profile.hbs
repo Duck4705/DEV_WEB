@@ -5,10 +5,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <link rel="stylesheet" href="/style.css">
+<<<<<<< HEAD
     {{!-- <link rel="stylesheet" href="/index.css"> --}}
     <link rel="stylesheet" href="/login.css">
     <link rel="stylesheet" href="/profile.css">
     {{!-- <link rel="stylesheet" href="/movie_details.css"> --}}
+=======
+    <link rel="stylesheet" href="/login.css">
+    <link rel="stylesheet" href="/profile.css">
+>>>>>>> feature/adminrole1
     <script src="https://unpkg.com/phosphor-icons"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -23,7 +28,10 @@
         </div>
         
         <div class="align_row" style="color: white;">
+<<<<<<< HEAD
         
+=======
+>>>>>>> feature/adminrole1
             <div class="align_row" style="margin-left: 50px;">
                 {{#if user}}
                     <div class="user-menu" class="align_row">
@@ -40,10 +48,15 @@
             </div>
         </div>
     </div>
+<<<<<<< HEAD
     
 
 
      <div class="align_row" style="width: 1200px; margin-top: 100px; align-items: flex-start;">
+=======
+
+    <div class="align_row" style="width: 1200px; margin-top: 100px; align-items: flex-start;">
+>>>>>>> feature/adminrole1
         <div class="user_left">
             <div class="user_img">
                 <img src="/profile/avatar/{{user.ID_U}}" style="border-radius: 50%;" alt="" width="50px" height="50px" id="userAvatar">
@@ -55,7 +68,11 @@
             </div>
 
             <div class="user_role">
+<<<<<<< HEAD
                 <p style="font-family: 'Anton', sans-serif; font-size: 15px;">KHÁCH HÀNG</p>
+=======
+                <p style="font-family: 'Anton', sans-serif; font-size: 15px;">{{#if (eq user.VaiTro 'admin_role_1')}}QUẢN TRỊ VIÊN{{else}}KHÁCH HÀNG{{/if}}</p>
+>>>>>>> feature/adminrole1
             </div>
 
             <div class="user_point">
@@ -73,6 +90,31 @@
                     <a style="color: #f8fafc;" href=""><i style="margin-right: 8px;" class="ph ph-clock-counter-clockwise"></i></a>
                     <a style="color: #f8fafc;" href="/profile/history">Lịch sử giao dịch</a>
                 </div>
+<<<<<<< HEAD
+=======
+                {{#if (eq user.VaiTro 'admin_role_1')}}
+                <div class="align_row" style="align-self: flex-start; padding: 10px;">
+                    <a style="color: #f8fafc;" href="/profile/admin/theaters"><i style="margin-right: 8px;" class="ph ph-storefront"></i></a>
+                    <a style="color: #f8fafc;" href="/profile/admin/theaters">Quản lý rạp chiếu</a>
+                </div>
+                <div class="align_row" style="align-self: flex-start; padding: 10px;">
+                    <a style="color: #f8fafc;" href="/profile/admin/movies"><i style="margin-right: 8px;" class="ph ph-film-strip"></i></a>
+                    <a style="color: #f8fafc;" href="/profile/admin/movies">Quản lý phim</a>
+                </div>
+                <div class="align_row" style="align-self: flex-start; padding: 10px;">
+                    <a style="color: #f8fafc;" href="/profile/admin/showtimes"><i style="margin-right: 8px;" class="ph ph-calendar"></i></a>
+                    <a style="color: #f8fafc;" href="/profile/admin/showtimes">Quản lý suất chiếu</a>
+                </div>
+                <div class="align_row" style="align-self: flex-start; padding: 10px;">
+                    <a style="color: #f8fafc;" href="/profile/admin/rooms"><i style="margin-right: 8px;" class="ph ph-door"></i></a>
+                    <a style="color: #f8fafc;" href="/profile/admin/rooms">Quản lý phòng chiếu</a>
+                </div>
+                <div class="align_row" style="align-self: flex-start; padding: 10px;">
+                    <a style="color: #f8fafc;" href="/profile/admin/seats"><i style="margin-right: 8px;" class="ph ph-armchair"></i></a>
+                    <a style="color: #f8fafc;" href="/profile/admin/seats">Quản lý ghế</a>
+                </div>
+                {{/if}}
+>>>>>>> feature/adminrole1
             </div>
             <div class="align_row" style="align-self: flex-start;">
                 <a style="color: rgba(200, 200, 200, 0.5);" href=""><i style="margin-right: 8px;" class="ph ph-sign-out"></i></a>
@@ -110,7 +152,10 @@
                 </form>
             </div>
         </div>
+<<<<<<< HEAD
 
+=======
+>>>>>>> feature/adminrole1
     </div>
     <div class="bottom_bar" style="margin-top: 255px;">
         <div class="align_row_between" style="width: 1200px; margin: 30px 0px; ">
@@ -130,9 +175,13 @@
         </div>
     </div>
 
+<<<<<<< HEAD
 
     <script>
 
+=======
+    <script>
+>>>>>>> feature/adminrole1
     // Bật chế độ chỉnh sửa cho các trường thông tin cá nhân    
     document.addEventListener('DOMContentLoaded', () => {
         const editButton = document.getElementById('editButton');
@@ -140,15 +189,21 @@
         const editableInputs = ['HoTen', 'NgaySinh', 'SDT']; // Chỉ các trường này được chỉnh sửa
 
         editButton.addEventListener('click', () => {
+<<<<<<< HEAD
             // Bật chế độ chỉnh sửa cho các trường được phép
+=======
+>>>>>>> feature/adminrole1
             editableInputs.forEach(id => {
                 const input = document.getElementById(id);
                 if (input) {
                     input.removeAttribute('readonly');
                 }
             });
+<<<<<<< HEAD
 
             // Hiển thị nút "Lưu thông tin" và ẩn nút "Chỉnh sửa thông tin"
+=======
+>>>>>>> feature/adminrole1
             editButton.style.display = 'none';
             saveButton.style.display = 'inline-block';
         });
@@ -163,8 +218,11 @@
             if (file) {
                 const formData = new FormData();
                 formData.append('avatar', file);
+<<<<<<< HEAD
 
                 // Gửi ảnh lên server
+=======
+>>>>>>> feature/adminrole1
                 fetch('/profile/upload-avatar', {
                     method: 'POST',
                     body: formData
@@ -172,19 +230,36 @@
                 .then(response => response.json())
                 .then(data => {
                     if (data.success) {
+<<<<<<< HEAD
                         // Tải lại trang sau khi ảnh được tải lên thành công
+=======
+>>>>>>> feature/adminrole1
                         location.reload();
                     }
                 })
                 .catch(err => {
                     console.error('Error uploading avatar:', err);
+<<<<<<< HEAD
                     // Tải lại trang ngay cả khi có lỗi
+=======
+>>>>>>> feature/adminrole1
                     location.reload();
                 });
             }
         });
     });
+<<<<<<< HEAD
 </script>
 </body>
 
 </html>
+=======
+    </script>
+</body>
+</html>
+
+{{!-- CHANGES FOR ADMIN ROLE 1 --}}
+{{!-- Added Handlebars helper 'eq' for role comparison --}}
+{{!-- Added admin menu items under user_menu, visible only if user.VaiTro === 'admin_role_1' --}}
+{{!-- Updated user_role display to show 'QUẢN TRỊ VIÊN' for admin_role_1 --}}
+>>>>>>> feature/adminrole1
