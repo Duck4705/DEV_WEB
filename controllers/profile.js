@@ -1,15 +1,13 @@
 const path = require('path');
 const fs = require('fs');
-const db = require('../db'); // Import database connection
+const db = require('../app');
 
 // Middleware to refresh session
 exports.refreshSession = (req, res, next) => {
     const user = req.session.user;
-
     if (!user) {
-        return next(); // Nếu không có session, bỏ qua middleware
+        return next();
     }
-
     db.query('SELECT * FROM users WHERE TenTaiKhoan = ?', [user.TenTaiKhoan], (err, results) => {
         if (err) {
             console.error('Database error:', err);

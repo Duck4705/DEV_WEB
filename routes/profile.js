@@ -18,8 +18,6 @@ const storage = multer.diskStorage({
 
 const upload = multer({ storage });
 
-<<<<<<< HEAD
-=======
 // Middleware to restrict access to admin_role_1
 const restrictToAdminRole1 = (req, res, next) => {
     if (!req.session.user || req.session.user.VaiTro !== 'admin_role_1') {
@@ -28,15 +26,11 @@ const restrictToAdminRole1 = (req, res, next) => {
     next();
 };
 
->>>>>>> feature/adminrole1
 router.get('/', profileController.refreshSession, profileController.getProfile);
 router.post('/edit', profileController.editProfile);
 router.post('/upload-avatar', upload.single('avatar'), profileController.uploadAvatar);
 router.get('/avatar/:id', profileController.getAvatar);
 router.get('/history', profileController.getHistory);
-<<<<<<< HEAD
-module.exports = router;
-=======
 
 // Admin routes
 router.get('/admin/theaters', restrictToAdminRole1, profileController.getTheaters);
@@ -57,4 +51,3 @@ module.exports = router;
 // CHANGES FOR ADMIN ROLE 1
 // Added restrictToAdminRole1 middleware to restrict routes to admin_role_1 users
 // Added routes for managing theaters, movies, showtimes, rooms, and seats
->>>>>>> feature/adminrole1
