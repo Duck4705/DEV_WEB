@@ -63,10 +63,6 @@ input
 
 
 
-<<<<<<< HEAD
-=======
-
->>>>>>> feature/adminrole1
 .user-menu {
     display: flex; /* Căn chỉnh các phần tử theo chiều ngang */
     align-items: center; /* Căn giữa các phần tử theo chiều dọc */
@@ -89,7 +85,7 @@ input
     background-color: #0f172a;
     color: #f8fafc;
     border: none;
-    padding: 10px 20px;
+    padding: 10px 10px;
     font-size: 20px;
 }
 
@@ -178,7 +174,6 @@ input
     cursor: pointer;
 }
 
-<<<<<<< HEAD
 /* Ghế */
 .seat_box {
     width: 40px;
@@ -213,5 +208,3 @@ input
     color: white;
     cursor: pointer;
 }
-=======
->>>>>>> feature/adminrole1
