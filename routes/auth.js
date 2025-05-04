@@ -1,15 +1,9 @@
 const express = require('express');
 const authController = require('../controllers/auth');
-<<<<<<< HEAD
-const router = express.Router();
-
-router.post('/register',authController.register); 
-=======
 const passport = require('passport');
 const router = express.Router();
 
 router.post('/register', authController.register); 
->>>>>>> feature/adminrole1
 router.post('/login', authController.login);
 router.post('/', authController.login);
 router.post('/forgot_pass', authController.forgot_pass);
@@ -17,8 +11,6 @@ router.get('/verify_code', authController.verify_code);
 router.post('/reset_pass', authController.reset_pass);
 router.post('/login_with_otp', authController.loginWithOtp);
 router.post('/verify_otp', authController.verifyOtp);
-<<<<<<< HEAD
-=======
 
 // Google OAuth login route
 router.get('/google', (req, res, next) => {
@@ -55,5 +47,4 @@ router.get('/logout-google', (req, res) => {
     });
 });
 
->>>>>>> feature/adminrole1
 module.exports = router;
