@@ -1,5 +1,6 @@
 const express = require('express');
 const authController = require('../controllers/auth');
+const googleController = require('../controllers/googleAuthController'); // Thêm dòng này
 const passport = require('passport');
 const router = express.Router();
 
@@ -13,38 +14,12 @@ router.post('/login_with_otp', authController.loginWithOtp);
 router.post('/verify_otp', authController.verifyOtp);
 
 // Google OAuth login route
-router.get('/google', (req, res, next) => {
-    // Nếu đã đăng nhập, chuyển hướng về trang chủ
-    if (req.session.user) {
-        return res.redirect('/');
-    }
-    // Gọi Google OAuth với prompt=select_account
-    passport.authenticate('google', {
-        scope: ['profile', 'email'],
-        prompt: 'select_account' // Buộc hiển thị giao diện chọn tài khoản
-    })(req, res, next);
-});
+router.get('/google', googleController.googleLogin);
 
 // Google OAuth callback route
-router.get('/google/callback', passport.authenticate('google', {
-    failureRedirect: '/login'
-}), (req, res) => {
-    // Lưu thông tin user vào session
-    req.session.user = req.user;
-    // Redirect to the home page
-    res.redirect('/');
-});
+router.get('/google/callback', googleController.googleCallback);
 
 // Route đăng xuất Google
-router.get('/logout-google', (req, res) => {
-    // Xóa session ứng dụng
-    req.session.destroy((err) => {
-        if (err) {
-            console.error('Lỗi khi xóa session:', err);
-        }
-        // Chuyển hướng đến URL đăng xuất Google
-        res.redirect('https://accounts.google.com/Logout');
-    });
-});
+router.get('/logout-google', googleController.googleLogout);
 
 module.exports = router;
