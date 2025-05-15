@@ -117,7 +117,6 @@ exports.getTheaters = (req, res) => {
 
 exports.addTheater = (req, res) => {
     const { TenRap, DiaDiem } = req.body;
-    const ID_R = `R${Date.now()}`;
     db.query('SELECT * FROM RapPhim WHERE TenRap = ? AND DiaDiem = ?', [TenRap, DiaDiem], (err, results) => {
         if (err) {
             console.error('Database error:', err);
@@ -126,12 +125,19 @@ exports.addTheater = (req, res) => {
         if (results.length > 0) {
             return res.render('admin_theaters', { user: req.session.user, theaters: results, error: 'Rạp đã tồn tại.' });
         }
-        db.query('INSERT INTO RapPhim (ID_R, TenRap, DiaDiem) VALUES (?, ?, ?)', [ID_R, TenRap, DiaDiem], (err) => {
+        db.query('SELECT COUNT(*) AS count FROM RapPhim', (err, countResult) => {
             if (err) {
                 console.error('Database error:', err);
                 return res.status(500).send('Internal Server Error');
             }
-            res.redirect('/profile/admin/theaters');
+            const ID_R = `R${countResult[0].count + 1}`;
+            db.query('INSERT INTO RapPhim (ID_R, TenRap, DiaDiem) VALUES (?, ?, ?)', [ID_R, TenRap, DiaDiem], (err) => {
+                if (err) {
+                    console.error('Database error:', err);
+                    return res.status(500).send('Internal Server Error');
+                }
+                res.redirect('/profile/admin/theaters');
+            });
         });
     });
 };
@@ -149,7 +155,6 @@ exports.getMovies = (req, res) => {
 
 exports.addMovie = (req, res) => {
     const { TenPhim, TheLoai, LinkTrailer, LinkPoster, MoTaPhim, QuocGia, ThoiLuong, NgonNgu, NoiDung, DoTuoi } = req.body;
-    const ID_P = `P${Date.now()}`;
     db.query('SELECT * FROM Phim WHERE TenPhim = ?', [TenPhim], (err, results) => {
         if (err) {
             console.error('Database error:', err);
@@ -158,17 +163,24 @@ exports.addMovie = (req, res) => {
         if (results.length > 0) {
             return res.render('admin_movies', { user: req.session.user, movies: results, error: 'Phim đã tồn tại.' });
         }
-        db.query(
-            'INSERT INTO Phim (ID_P, TenPhim, TheLoai, LinkTrailer, LinkPoster, MoTaPhim, QuocGia, ThoiLuong, NgonNgu, NoiDung, DoTuoi) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)',
-            [ID_P, TenPhim, TheLoai, LinkTrailer, LinkPoster, MoTaPhim, QuocGia, ThoiLuong, NgonNgu, NoiDung, DoTuoi],
-            (err) => {
-                if (err) {
-                    console.error('Database error:', err);
-                    return res.status(500).send('Internal Server Error');
-                }
-                res.redirect('/profile/admin/movies');
+        db.query('SELECT COUNT(*) AS count FROM Phim', (err, countResult) => {
+            if (err) {
+                console.error('Database error:', err);
+                return res.status(500).send('Internal Server Error');
             }
-        );
+            const ID_P = `P${countResult[0].count + 1}`;
+            db.query(
+                'INSERT INTO Phim (ID_P, TenPhim, TheLoai, LinkTrailer, LinkPoster, MoTaPhim, QuocGia, ThoiLuong, NgonNgu, NoiDung, DoTuoi) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)',
+                [ID_P, TenPhim, TheLoai, LinkTrailer, LinkPoster, MoTaPhim, QuocGia, ThoiLuong, NgonNgu, NoiDung, DoTuoi],
+                (err) => {
+                    if (err) {
+                        console.error('Database error:', err);
+                        return res.status(500).send('Internal Server Error');
+                    }
+                    res.redirect('/profile/admin/movies');
+                }
+            );
+        });
     });
 };
 
@@ -213,7 +225,6 @@ exports.getShowtimes = (req, res) => {
 
 exports.addShowtime = (req, res) => {
     const { ID_P, ID_PC, NgayGioChieu, GiaVe } = req.body;
-    const ID_SC = `SC${Date.now()}`;
     db.query('SELECT * FROM SuatChieu WHERE ID_PC = ? AND NgayGioChieu = ?', [ID_PC, NgayGioChieu], (err, results) => {
         if (err) {
             console.error('Database error:', err);
@@ -222,12 +233,19 @@ exports.addShowtime = (req, res) => {
         if (results.length > 0) {
             return res.render('admin_showtimes', { user: req.session.user, error: 'Suất chiếu đã tồn tại cho phòng và thời gian này.' });
         }
-        db.query('INSERT INTO SuatChieu (ID_SC, ID_P, ID_PC, NgayGioChieu, GiaVe) VALUES (?, ?, ?, ?, ?)', [ID_SC, ID_P, ID_PC, NgayGioChieu, GiaVe], (err) => {
+        db.query('SELECT COUNT(*) AS count FROM SuatChieu', (err, countResult) => {
             if (err) {
                 console.error('Database error:', err);
                 return res.status(500).send('Internal Server Error');
             }
-            res.redirect('/profile/admin/showtimes');
+            const ID_SC = `SC${countResult[0].count + 1}`;
+            db.query('INSERT INTO SuatChieu (ID_SC, ID_P, ID_PC, NgayGioChieu, GiaVe) VALUES (?, ?, ?, ?, ?)', [ID_SC, ID_P, ID_PC, NgayGioChieu, GiaVe], (err) => {
+                if (err) {
+                    console.error('Database error:', err);
+                    return res.status(500).send('Internal Server Error');
+                }
+                res.redirect('/profile/admin/showtimes');
+            });
         });
     });
 };
@@ -262,7 +280,6 @@ exports.getRooms = (req, res) => {
 
 exports.addRoom = (req, res) => {
     const { ID_R, TenPhong, LoaiPhong } = req.body;
-    const ID_PC = `PC${Date.now()}`;
     db.query('SELECT * FROM PhongChieu WHERE TenPhong = ? AND ID_R = ?', [TenPhong, ID_R], (err, results) => {
         if (err) {
             console.error('Database error:', err);
@@ -271,12 +288,19 @@ exports.addRoom = (req, res) => {
         if (results.length > 0) {
             return res.render('admin_rooms', { user: req.session.user, error: 'Phòng chiếu đã tồn tại cho rạp này.' });
         }
-        db.query('INSERT INTO PhongChieu (ID_PC, ID_R, TenPhong, LoaiPhong) VALUES (?, ?, ?, ?)', [ID_PC, ID_R, TenPhong, LoaiPhong], (err) => {
+        db.query('SELECT COUNT(*) AS count FROM PhongChieu', (err, countResult) => {
             if (err) {
                 console.error('Database error:', err);
                 return res.status(500).send('Internal Server Error');
             }
-            res.redirect('/profile/admin/rooms');
+            const ID_PC = `PC${countResult[0].count + 1}`;
+            db.query('INSERT INTO PhongChieu (ID_PC, ID_R, TenPhong, LoaiPhong) VALUES (?, ?, ?, ?)', [ID_PC, ID_R, TenPhong, LoaiPhong], (err) => {
+                if (err) {
+                    console.error('Database error:', err);
+                    return res.status(500).send('Internal Server Error');
+                }
+                res.redirect('/profile/admin/rooms');
+            });
         });
     });
 };
@@ -300,7 +324,6 @@ exports.getSeats = (req, res) => {
 
 exports.addSeat = (req, res) => {
     const { ID_PC, LoaiGhe, SoGhe } = req.body;
-    const ID_G = `G${Date.now()}`;
     db.query('SELECT * FROM Ghe WHERE SoGhe = ? AND ID_PC = ?', [SoGhe, ID_PC], (err, results) => {
         if (err) {
             console.error('Database error:', err);
@@ -309,21 +332,19 @@ exports.addSeat = (req, res) => {
         if (results.length > 0) {
             return res.render('admin_seats', { user: req.session.user, error: 'Ghế đã tồn tại trong phòng này.' });
         }
-        db.query('INSERT INTO Ghe (ID_G, ID_PC, LoaiGhe, SoGhe) VALUES (?, ?, ?, ?)', [ID_G, ID_PC, LoaiGhe, SoGhe], (err) => {
+        db.query('SELECT COUNT(*) AS count FROM Ghe', (err, countResult) => {
             if (err) {
                 console.error('Database error:', err);
                 return res.status(500).send('Internal Server Error');
             }
-            res.redirect('/profile/admin/seats');
+            const ID_G = `G${countResult[0].count + 1}`;
+            db.query('INSERT INTO Ghe (ID_G, ID_PC, LoaiGhe, SoGhe) VALUES (?, ?, ?, ?)', [ID_G, ID_PC, LoaiGhe, SoGhe], (err) => {
+                if (err) {
+                    console.error('Database error:', err);
+                    return res.status(500).send('Internal Server Error');
+                }
+                res.redirect('/profile/admin/seats');
+            });
         });
     });
 };
-
-// CHANGES FOR ADMIN ROLE 1
-// Added VaiTro to session user object in refreshSession
-// Added controllers for managing theaters (getTheaters, addTheater)
-// Added controllers for managing movies (getMovies, addMovie, editMovie)
-// Added controllers for managing showtimes (getShowtimes, addShowtime, deleteShowtime)
-// Added controllers for managing rooms (getRooms, addRoom)
-// Added controllers for managing seats (getSeats, addSeat)
-// Implemented duplicate checks for theaters, movies, showtimes, rooms, and seats
