@@ -6,72 +6,86 @@
     <title>Quản lý phim</title>
     <link rel="stylesheet" href="/style.css">
     <link rel="stylesheet" href="/profile.css">
-      <link rel="stylesheet" href="/login.css">
+    <link rel="stylesheet" href="/login.css">
     <script src="https://unpkg.com/phosphor-icons"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Anton&display=swap" rel="stylesheet">
 </head>
-<body style="background-color: #1a1a2e;">
-    <div class="top_bar" style="border-bottom: 1px rgba(140, 140, 140, 0.5) solid; display: flex; justify-content: space-between; align-items: center; padding: 10px 20px;">
+<body style="background-color: #0f172a;">
+    <div class="top_bar" style="border-bottom: 1px rgba(140, 140, 140, 0.5) solid;">
         <div class="align_row" style="color: white;">
             <i style="font-size: 40px;" class="ph ph-video-camera"></i>
-            <h1 style="font-size: 20px; margin: 0px 20px; font-weight: 600; color: white;">UIT THEATER</h1>
+            <h1 style="font-size: 20px; margin: 0px 20px; font-weight: 600;">UIT THEATER</h1>
         </div>
         <div class="align_row" style="color: white;">
-            {{#if user}}
-                <div class="user-menu" class="align_row">
-                    <div class="dropdown" class="align_row">
-                        <img src="/profile/avatar/{{user.ID_U}}" class="img-user" alt="">
-                        <div class="dropdown-menu">
-                            <a href="/"><i style="margin: 0px 8px 0px 0px;" class="ph ph-user"></i>Home</a>
-                            <a href="/logout"><i style="margin: 0px 8px 0px 0px;" class="ph ph-sign-out"></i>Đăng xuất</a>
+            <div class="align_row" style="margin-left: 50px;">
+                {{#if user}}
+                    <div class="user-menu align_row">
+                        <div class="dropdown align_row">
+                            <img src="/profile/avatar/{{user.ID_U}}" class="img-user" alt="">
+                            <div class="dropdown-menu">
+                                <a href="/profile"><i style="margin: 0px 8px 0px 0px;" class="ph ph-user"></i>Trang cá nhân</a>
+                                <a href="/logout"><i style="margin: 0px 8px 0px 0px;" class="ph ph-sign-out"></i>Đăng xuất</a>
+                            </div>
                         </div>
+                        <button class="dropdown-toggle">{{user.TongSoTien}} VNĐ</button>
                     </div>
-                    <button class="dropdown-toggle" style="color: white;">{{user.TongSoTien}} VNĐ</button>
-                </div>
-            {{/if}}
+                {{/if}}
+            </div>
         </div>
     </div>
-
     <div class="align_row" style="width: 1200px; margin-top: 100px; align-items: flex-start;">
-        <div class="user_left" style="width: 250px; background-color: #16213e; border-radius: 10px; padding: 20px;">
-            <div class="user_img" style="display: flex; align-items: center; margin-bottom: 20px;">
-                <img src="/profile/avatar/{{user.ID_U}}" style="border-radius: 50%;" alt="" width="50px" height="50px">
+        <div class="user_left">
+            <div class="user_img">
+                <img src="/profile/avatar/{{user.ID_U}}" style="border-radius: 50%;" alt="" width="50px" height="50px" id="userAvatar">
                 <div style="margin-left: 10px;">
-                    <p style="font-size: 20px; margin-bottom: 5px; color: white;">{{user.HoTen}}</p>
+                    <p style="font-size: 20px; margin-bottom: 5px;">{{user.HoTen}}</p>
+                    <label for="avatarInput" style="font-size: 15px; border-bottom: #f8fafc 1px solid; width: fit-content; cursor: pointer;">Thay đổi ảnh đại diện</label>
+                    <input type="file" id="avatarInput" style="display: none;" accept="image/*">
                 </div>
             </div>
-            <div class="user_role" style="margin-bottom: 20px;">
-                <p style="font-family: 'Anton', sans-serif; font-size: 15px; color: white;">QUẢN TRỊ VIÊN</p>
+            <div class="user_role">
+                <p style="font-family: 'Anton', sans-serif; font-size: 15px;">QUẢN TRỊ VIÊN</p>
+            </div>
+            <div class="user_point">
+                <p>Tích điểm</p>
+                <div class="progress_bar"></div>
+                <p>0/10K</p>
             </div>
             <div class="user_menu">
-                <div class="align_row" style="align-self: flex-start; padding: 10px;">
-                    <a style="color: white;" href="/profile"><i style="margin-right: 8px;" class="ph ph-user"></i>Trang cá nhân</a>
+                <div class="align_row menu-item" style="align-self: flex-start; padding: 10px;">
+                    <a style="color: #f8fafc;" href="/profile"><i style="margin-right: 8px;" class="ph ph-user"></i></a>
+                    <a style="color: #f8fafc;" href="/profile">Trang cá nhân</a>
                 </div>
-                <div class="align_row" style="align-self: flex-start; padding: 10px;">
-                    <a style="color: white;" href="/profile/admin/theaters"><i style="margin-right: 8px;" class="ph ph-storefront"></i>Quản lý rạp chiếu</a>
+                <div class="align_row menu-item" style="align-self: flex-start; padding: 10px;">
+                    <a style="color: #f8fafc;" href="/profile/admin/theaters"><i style="margin-right: 8px;" class="ph ph-storefront"></i></a>
+                    <a style="color: #f8fafc;" href="/profile/admin/theaters">Quản lý rạp chiếu</a>
                 </div>
-                <div class="align_row" style="align-self: flex-start; padding: 10px; border-left: #f3ea28 2px solid;">
-                    <a style="color: #f3ea28;" href="/profile/admin/movies"><i style="margin-right: 8px;" class="ph ph-film-strip"></i>Quản lý phim</a>
+                <div class="align_row menu-item active" style="align-self: flex-start; padding: 10px; border-left: #f3ea28 2px solid;">
+                    <a style="color: #f3ea28;" href="/profile/admin/movies"><i style="margin-right: 8px;" class="ph ph-film-strip"></i></a>
+                    <a style="color: #f3ea28;" href="/profile/admin/movies">Quản lý phim</a>
                 </div>
-                <div class="align_row" style="align-self: flex-start; padding: 10px;">
-                    <a style="color: white;" href="/profile/admin/showtimes"><i style="margin-right: 8px;" class="ph ph-calendar"></i>Quản lý suất chiếu</a>
+                <div class="align_row menu-item" style="align-self: flex-start; padding: 10px;">
+                    <a style="color: #f8fafc;" href="/profile/admin/showtimes"><i style="margin-right: 8px;" class="ph ph-calendar"></i></a>
+                    <a style="color: #f8fafc;" href="/profile/admin/showtimes">Quản lý suất chiếu</a>
                 </div>
-                <div class="align_row" style="align-self: flex-start; padding: 10px;">
-                    <a style="color: white;" href="/profile/admin/rooms"><i style="margin-right: 8px;" class="ph ph-door"></i>Quản lý phòng chiếu</a>
+                <div class="align_row menu-item" style="align-self: flex-start; padding: 10px;">
+                    <a style="color: #f8fafc;" href="/profile/admin/rooms"><i style="margin-right: 8px;" class="ph ph-door"></i></a>
+                    <a style="color: #f8fafc;" href="/profile/admin/rooms">Quản lý phòng chiếu</a>
                 </div>
-                <div class="align_row" style="align-self: flex-start; padding: 10px;">
-                    <a style="color: white;" href="/profile/admin/seats"><i style="margin-right: 8px;" class="ph ph-armchair"></i>Quản lý ghế</a>
-                </div>
-                <div class="align_row" style="align-self: flex-start; padding: 10px;">
-                    <a style="color: rgba(200, 200, 200, 0.5);" href="/logout"><i style="margin-right: 8px;" class="ph ph-sign-out"></i>Đăng xuất</a>
+                <div class="align_row menu-item" style="align-self: flex-start; padding: 10px;">
+                    <a style="color: #f8fafc;" href="/profile/admin/seats"><i style="margin-right: 8px;" class="ph ph-armchair"></i></a>
+                    <a style="color: #f8fafc;" href="/profile/admin/seats">Quản lý ghế</a>
                 </div>
             </div>
+            <div class="align_row" style="align-self: flex-start;">
+                <a style="color: rgba(200, 200, 200, 0.5);" href=""><i style="margin-right: 8px;" class="ph ph-sign-out"></i></a>
+                <a style="color: rgba(200, 200, 200, 0.5);" href="/logout">Đăng xuất</a>
+            </div>
         </div>
-
-        <div class="user_right" style="flex: 1; margin-left: 20px;">
-            <h1 style="font-size: 40px; font-family: 'Anton', sans-serif; margin: 20px 0px; color: white;">QUẢN LÝ PHIM</h1>
+        <div class="user_right">
+            <h1 style="font-size: 40px; font-family: 'Anton', sans-serif; margin: 20px 0px;">QUẢN LÝ PHIM</h1>
             {{#if error}}
                 <p style="color: red;">{{error}}</p>
             {{/if}}
@@ -130,5 +144,35 @@
             </div>
         </div>
     </div>
+    <div class="bottom_bar" style="margin-top: 255px;">
+    </div>
+    <script>
+    // Gửi ảnh đại diện lên server
+    document.addEventListener('DOMContentLoaded', () => {
+        const avatarInput = document.getElementById('avatarInput');
+        const userAvatar = document.getElementById('userAvatar');
+        avatarInput.addEventListener('change', () => {
+            const file = avatarInput.files[0];
+            if (file) {
+                const formData = new FormData();
+                formData.append('avatar', file);
+                fetch('/profile/upload-avatar', {
+                    method: 'POST',
+                    body: formData
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        location.reload();
+                    }
+                })
+                .catch(err => {
+                    console.error('Error uploading avatar:', err);
+                    location.reload();
+                });
+            }
+        });
+    });
+    </script>
 </body>
 </html>
