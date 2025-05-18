@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quản lý suất chiếu</title>
+    <link rel="stylesheet" href="/style.css">
+    <link rel="stylesheet" href="/profile.css">
+      <link rel="stylesheet" href="/login.css">
+    <script src="https://unpkg.com/phosphor-icons"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Anton&display=swap" rel="stylesheet">
+</head>
+<body style="background-color: #1a1a2e;">
+    <div class="top_bar" style="border-bottom: 1px rgba(140, 140, 140, 0.5) solid; display: flex; justify-content: space-between; align-items: center; padding: 10px 20px;">
+        <div class="align_row" style="color: white;">
+            <i style="font-size: 40px;" class="ph ph-video-camera"></i>
+            <h1 style="font-size: 20px; margin: 0px 20px; font-weight: 600; color: white;">UIT THEATER</h1>
+        </div>
+        <div class="align_row" style="color: white;">
+            {{#if user}}
+                <div class="user-menu" class="align_row">
+                    <div class="dropdown" class="align_row">
+                        <img src="/profile/avatar/{{user.ID_U}}" class="img-user" alt="">
+                        <div class="dropdown-menu">
+                            <a href="/"><i style="margin: 0px 8px 0px 0px;" class="ph ph-user"></i>Home</a>
+                            <a href="/logout"><i style="margin: 0px 8px 0px 0px;" class="ph ph-sign-out"></i>Đăng xuất</a>
+                        </div>
+                    </div>
+                    <button class="dropdown-toggle" style="color: white;">{{user.TongSoTien}} VNĐ</button>
+                </div>
+            {{/if}}
+        </div>
+    </div>
+
+    <div class="align_row" style="width: 1200px; margin-top: 100px; align-items: flex-start;">
+        <div class="user_left" style="width: 250px; background-color: #16213e; border-radius: 10px; padding: 20px;">
+            <div class="user_img" style="display: flex; align-items: center; margin-bottom: 20px;">
+                <img src="/profile/avatar/{{user.ID_U}}" style="border-radius: 50%;" alt="" width="50px" height="50px">
+                <div style="margin-left: 10px;">
+                    <p style="font-size: 20px; margin-bottom: 5px; color: white;">{{user.HoTen}}</p>
+                </div>
+            </div>
+            <div class="user_role" style="margin-bottom: 20px;">
+                <p style="font-family: 'Anton', sans-serif; font-size: 15px; color: white;">QUẢN TRỊ VIÊN</p>
+            </div>
+            <div class="user_menu">
+                <div class="align_row" style="align-self: flex-start; padding: 10px;">
+                    <a style="color: white;" href="/profile"><i style="margin-right: 8px;" class="ph ph-user"></i>Trang cá nhân</a>
+                </div>
+                <div class="align_row" style="align-self: flex-start; padding: 10px;">
+                    <a style="color: white;" href="/profile/admin/theaters"><i style="margin-right: 8px;" class="ph ph-storefront"></i>Quản lý rạp chiếu</a>
+                </div>
+                <div class="align_row" style="align-self: flex-start; padding: 10px;">
+                    <a style="color: white;" href="/profile/admin/movies"><i style="margin-right: 8px;" class="ph ph-film-strip"></i>Quản lý phim</a>
+                </div>
+                <div class="align_row" style="align-self: flex-start; padding: 10px; border-left: #f3ea28 2px solid;">
+                    <a style="color: #f3ea28;" href="/profile/admin/showtimes"><i style="margin-right: 8px;" class="ph ph-calendar"></i>Quản lý suất chiếu</a>
+                </div>
+                <div class="align_row" style="align-self: flex-start; padding: 10px;">
+                    <a style="color: white;" href="/profile/admin/rooms"><i style="margin-right: 8px;" class="ph ph-door"></i>Quản lý phòng chiếu</a>
+                </div>
+                <div class="align_row" style="align-self: flex-start; padding: 10px;">
+                    <a style="color: white;" href="/profile/admin/seats"><i style="margin-right: 8px;" class="ph ph-armchair"></i>Quản lý ghế</a>
+                </div>
+                <div class="align_row" style="align-self: flex-start; padding: 10px;">
+                    <a style="color: rgba(200, 200, 200, 0.5);" href="/logout"><i style="margin-right: 8px;" class="ph ph-sign-out"></i>Đăng xuất</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="user_right" style="flex: 1; margin-left: 20px;">
+            <h1 style="font-size: 40px; font-family: 'Anton', sans-serif; margin: 20px 0px; color: white;">QUẢN LÝ SUẤT CHIẾU</h1>
+            {{#if error}}
+                <p style="color: red;">{{error}}</p>
+            {{/if}}
+            <div style="background-color: #f8fafc; padding: 20px; border-radius: 10px;">
+                <form action="/profile/admin/showtimes/add" method="POST">
+                    <div class="align_row_between" style="width: 100%;">
+                        <div class="input_info" style="width: 48%;">
+                            <label for="ID_P" style="font-weight: bold; color: black;">Phim</label>
+                            <select id="ID_P" name="ID_P" required style="width: 100%; padding: 8px; border: 1px solid #ddd; border-radius: 5px;">
+                                {{#each movies}}
+                                    <option value="{{this.ID_P}}">{{this.TenPhim}}</option>
+                                {{/each}}
+                            </select>
+                        </div>
+                        <div class="input_info" style="width: 48%;">
+                            <label for="ID_PC" style="font-weight: bold; color: black;">Phòng chiếu</label>
+                            <select id="ID_PC" name="ID_PC" required style="width: 100%; padding: 8px; border: 1px solid #ddd; border-radius: 5px;">
+                                {{#each rooms}}
+                                    <option value="{{this.ID_PC}}">{{this.TenPhong}}</option>
+                                {{/each}}
+                            </select>
+                        </div>
+                    </div>
+                    <div class="align_row_between" style="width: 100%;">
+                        <div class="input_info" style="width: 48%;">
+                            <label for="NgayGioChieu" style="font-weight: bold; color: black;">Ngày giờ chiếu</label>
+                            <input type="datetime-local" id="NgayGioChieu" name="NgayGioChieu" required style="width: 100%; padding: 8px; border: 1px solid #ddd; border-radius: 5px;">
+                        </div>
+                        <div class="input_info" style="width: 48%;">
+                            <label for="GiaVe" style="font-weight: bold; color: black;">Giá vé</label>
+                            <input type="number" id="GiaVe" name="GiaVe" required style="width: 100%; padding: 8px; border: 1px solid #ddd; border-radius: 5px;">
+                        </div>
+                    </div>
+                    <button type="submit" style="background-color: #f3ea28; border: none; margin: 10px 0; padding: 10px 20px; font-size: 15px; font-family: 'Anton', sans-serif; color: black;">THÊM SUẤT CHIẾU</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
