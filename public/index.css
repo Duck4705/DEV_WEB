@@ -95,5 +95,461 @@
     border-radius: 50%;
 }
 
+/* Căn giữa các thành phần thông tin rạp/phòng */
+.theater-info, .theater-box {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+}
 
+/* Responsive styles */
+@media (max-width: 1200px) {
+    .top_bar, .img_ads, .quickbook, .movie, .bottom_bar {
+        width: 100% !important;
+        min-width: unset;
+        max-width: 100vw;
+    }
+    .movie {
+        width: 100% !important;
+    }
+    .moviebox {
+        width: 45%;
+        margin: 15px 2.5%;
+    }
+}
 
+@media (max-width: 900px) {
+    .top_bar, .img_ads, .quickbook, .movie, .bottom_bar {
+        width: 100% !important;
+        min-width: unset;
+        max-width: 100vw;
+    }
+    .top_bar {
+        flex-direction: column;
+        height: auto;
+        padding: 10px 0;
+    }
+    .img_ads {
+        margin-top: 90px;
+    }
+    .quickbook {
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        padding: 15px 10px;
+        width: 100% !important;
+        box-sizing: border-box;
+    }
+    .quickbook h1 {
+        font-size: 25px !important;
+        margin-left: 0 !important;
+        margin-bottom: 10px;
+        text-align: center;
+    }
+    .quickbook .align_row {
+        flex-direction: column !important;
+        align-items: center !important;
+        width: 100%;
+    }
+    .selectbook {
+        width: 95%;
+        margin-bottom: 10px;
+        display: flex;
+        justify-content: center;
+    }
+    .selectbook select {
+        width: 95%;
+        font-size: 20px;
+        padding: 10px 15px;
+        margin: 0 auto;
+        display: block;
+    }
+    .selectbook option {
+        width: 95%;
+        font-size: px;
+        padding: 10px 15px;
+        margin: 0 auto;
+        display: block;
+    }
+    .quickbook a {
+        width: 95%;
+        margin: 20px auto 0 auto;
+        display: block;
+        font-size: 18px !important;
+        text-align: center;
+    }
+    .movie {
+        width: 100% !important;
+        margin-top: 20px;
+    }
+    .moviebox {
+        width: 100%;
+        margin: 15px 5%;
+        height: auto;
+    }
+    .align_movie {
+        flex-direction: column;
+        align-items: center;
+    }
+    .bottom_bar {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        text-align: center !important;
+        margin-top: 100px !important;
+    }
+    .align_row_between {
+        flex-direction: row !important;
+        align-items: center !important;
+        justify-content: space-between !important;
+        width: 100% !important;
+        gap: 0;
+    }
+    .align_row_between .align_row {
+        flex-direction: row !important;
+        align-items: center !important;
+        gap: 8px;
+    }
+    .align_row_between .align_row {
+        border: none !important;
+        width: auto !important;
+        margin: 0 !important;
+        padding: 0 !important;
+    }
+    .align_row_between .align_row > div {
+        border: none !important;
+        margin: 0 8px 0 0 !important;
+        padding: 0 !important;
+    }
+    .align_row_between .align_row > .align_row {
+        border: 2px solid #fff;
+        border-radius: 50%;
+        padding: 3px;
+        margin: 0 8px 0 0 !important;
+        background: none;
+        width: 40px;
+        height: 40px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    .align_row_between .align_row > .align_row i {
+        color: black;
+        font-size: 24px;
+        background-color: white;
+        padding: 3px;
+        border-radius: 50%;
+    }
+    .align_row_between .trailer-link {
+        color: #fff;
+        font-size: 16px;
+        margin-left: 8px;
+        vertical-align: middle;
+    }
+    .align_row_between a[style*="background-color: #f3ea28"] {
+        margin-left: auto;
+        font-size: 18px !important;
+        padding: 10px 32px !important;
+        border-radius: 8px !important;
+        font-family: 'Anton', sans-serif;
+        color: #000 !important;
+        background: #f3ea28 !important;
+        border: none !important;
+        display: inline-block;
+        text-align: center;
+    }
+}
+
+@media (max-width: 600px) {
+    .top_bar, .img_ads, .quickbook, .movie, .bottom_bar {
+        width: 100% !important;
+        min-width: unset;
+        max-width: 100vw;
+    }
+    .top_bar h1, .bottom_bar h1, .bottom_bar h4, .movie h1 {
+        font-size: 16px !important;
+    }
+    .img_ads {
+        margin-top: 80px;
+    }
+    .quickbook {
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        padding: 10px 5px;
+        width: 100% !important;
+        box-sizing: border-box;
+    }
+    .quickbook h1 {
+        font-size: 25px !important;
+        margin-left: 0 !important;
+        margin-bottom: 10px;
+        text-align: center;
+    }
+    .quickbook .align_row {
+        flex-direction: column !important;
+        align-items: center !important;
+        width: 100%;
+    }
+    .selectbook {
+        width: 95%;
+        margin-bottom: 10px;
+        display: flex;
+        justify-content: center;
+    }
+    .selectbook select {
+        width: 95%;
+        font-size: 20px;
+        padding: 10px 10px;
+        margin: 0 auto;
+        display: block;
+    }
+    .quickbook a {
+        width: 95%;
+        margin: 20px auto 0 auto;
+        display: block;
+        font-size: 16px !important;
+        text-align: center;
+    }
+    .moviebox {
+        width: 95%;
+        margin: 20px 0;
+        height: auto;
+    }
+    .moviebox img {
+        margin: 20px 0;
+    }
+    .alignTrailer
+    {
+        flex-direction: row !important;
+        align-items: center !important;
+        width: 100%;
+    }
+    .LogoTrailer a
+    {
+        font-size: 20px !important;
+    }
+    .LogoTrailer div
+    {
+        padding: 5px !important;
+        border: 1px white solid !important;
+        padding: 7px !important;
+        border-radius: 50%;
+    }
+    .LogoTrailer i
+    {
+        border: 2.5px solid white !important; /* Viền vàng nổi bật */
+        box-shadow: 0 2px 8px rgba(0,0,0,0.10);
+        background: white;
+        color: #222;
+        border-radius: 50% !important;
+        padding: 7px !important;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: box-shadow 0.2s, border-color 0.2s;
+        font-size: 22px !important;
+        margin: 0 !important;
+    }
+    .LogoTrailer
+    {
+        
+        width: fit-content;
+        display: flex;
+        flex-direction: row !important;
+        align-items: center !important;
+        font-size: 16px !important;
+        text-align: center;
+        padding: 5px !important;
+    }
+    .BorderLogoTrailer
+    {
+        border: 2.5px solid white !important;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.10);
+        background: white;
+        color: #222;
+        border-radius: 50% !important;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: box-shadow 0.2s, border-color 0.2s;
+                padding: 7px !important;
+    }
+    .align_movie {
+        flex-direction: column;
+        align-items: center;
+    }
+    .bottom_bar {
+        width: 100% !important;
+        display: flex !important;
+        flex-direction: column !important;
+        align-items: center !important;
+        justify-content: center !important;
+        text-align: center !important;
+        margin-top: 50px !important;
+    }
+    .bottom_bar p, .bottom_bar span, .bottom_bar div {
+        width: 100% !important;
+        text-align: center !important;
+        margin-left: 0 !important;
+        margin-right: 0 !important;
+    }
+    .align_row, .align_row_between {
+        flex-direction: column !important;
+        align-items: flex-start !important;
+        width: 100% !important;
+    }
+    .movie h1 {
+        font-size: 25px !important;
+    }
+    .hide-mobile {
+        display: none !important;
+    }
+    .align_row.top_bar {
+        flex-direction: row !important;
+        justify-content: space-around !important;
+        align-items: center !important;
+        width: 100% !important;
+    }
+    .top_bar.top_bar-row {
+        display: flex;
+        flex-direction: row !important;
+        align-items: center !important;
+        justify-content: space-between !important;
+        gap: 0;
+        height: auto;
+        width: 100vw !important;
+        padding: 0 8px;
+    }
+    .top_bar.top_bar-row > .align_row {
+        flex-direction: row !important;
+        align-items: center !important;
+        margin: 0 5px !important;
+        padding: 10px 0px !important;
+        gap: 8px;
+    }
+    .top_bar.top_bar-row > .align_row.topbar-group {
+        flex: 1 1 0;
+        justify-content: center !important;
+        align-items: center !important;
+        margin: 0 2px !important;
+        gap: 0;
+    }
+    .top_bar.top_bar-row input[type="text"] {
+        min-width: 80px;
+        max-width: 100%;
+    }
+    .top_bar.top_bar-row .ph-video-camera {
+        font-size: 30px !important;
+    }
+    .top_bar.top_bar-row h1.logoFont {
+        font-size: 14px !important;
+        margin: 0 4px !important;
+    }
+    .top_bar.top_bar-row .ph-user-circle {
+        font-size: 30px !important;
+    }
+    .top_bar.top_bar-row .signIn {
+        font-size: 30px !important;
+        margin-left: 20px !important;
+        margin-top: 2px;
+    }
+    .top_bar.top_bar-row .searchBar {
+        font-size: 22px !important;
+        max-width: 40%;
+    }
+    
+    .top_bar.top_bar-row > .align_row.topbar-group:last-child {
+        max-width: 20%;
+        justify-content: center !important;
+    }
+    .align_row_between {
+        flex-direction: row !important;
+        align-items: center !important;
+        justify-content: space-between !important;
+        width: 100% !important;
+        gap: 0;
+    }
+    .align_row_between .align_row {
+        flex-direction: row !important;
+        align-items: center !important;
+        gap: 8px;
+    }
+    .align_row_between .align_row {
+        border: none !important;
+        width: auto !important;
+        margin: 0 !important;
+        padding: 0 !important;
+    }
+    .align_row_between .align_row > div {
+        border: none !important;
+        margin: 0 8px 0 0 !important;
+        padding: 0 !important;
+    }
+    .align_row_between .align_row > .align_row {
+        border: 2px solid #fff;
+        border-radius: 50%;
+        padding: 3px;
+        margin: 0 8px 0 0 !important;
+        background: none;
+        width: 40px;
+        height: 40px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    .align_row_between .align_row > .align_row i {
+        color: black;
+        font-size: 24px;
+        background-color: white;
+        padding: 3px;
+        border-radius: 50%;
+    }
+    .align_row_between .trailer-link {
+        color: #fff;
+        font-size: 16px;
+        margin-left: 8px;
+        vertical-align: middle;
+    }
+    .align_row_between a[style*="background-color: #f3ea28"] {
+        margin-left: auto;
+        font-size: 18px !important;
+        padding: 10px 32px !important;
+        border-radius: 8px !important;
+        font-family: 'Anton', sans-serif;
+        color: #000 !important;
+        background: #f3ea28 !important;
+        border: none !important;
+        display: inline-block;
+        text-align: center;
+    }
+    iframe
+    {
+        width: 400px;
+        height: 300px;
+    }
+    .bottom_bar
+    {
+        width: 100% !important;
+        font-size: 18px !important;
+        text-align: center !important;
+    }
+    .bottom_bar .align_row {
+        width: 100%;
+        justify-content: center !important;
+        align-items: center !important;
+        text-align: center !important;
+    }
+    .modal-content
+    {
+        width: fit-content;
+        height: fit-content;
+        display: flex !important;
+        justify-content: center !important;
+        align-items: center !important;
+        text-align: center !important;
+    }
+}
