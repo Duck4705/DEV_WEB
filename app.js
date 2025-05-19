@@ -3,12 +3,13 @@ const path = require('path');
 const dotenv = require('dotenv');
 const session = require('express-session');
 const passport = require('passport');
-const GoogleStrategy = require('passport-google-oauth20').Strategy;
+require('./config/passport'); // Thêm dòng này để load cấu hình passport
 const hbs = require('hbs');
 const http = require('http');
 const WebSocket = require('ws');
 const websocketController = require('./controllers/websocket');
 const db = require('./db'); // Import db từ file cấu hình
+const authRoutes = require('./routes/auth'); // Đảm bảo đã require đúng router
 
 dotenv.config({
     path: './.env'
@@ -53,65 +54,12 @@ app.use((req, res, next) => {
     next();
 });
 
-// Configure Google OAuth strategy
-passport.use(new GoogleStrategy({
-    clientID: process.env.GOOGLE_CLIENT_ID,
-    clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-    callbackURL: process.env.GOOGLE_CALLBACK_URL
-}, (accessToken, refreshToken, profile, done) => {
-    const googleId = profile.id;
-    const email = profile.emails[0].value;
-    const displayName = profile.displayName;
-    db.query(
-        'SELECT * FROM Users WHERE Email = ?',
-        [email],
-        (err, results) => {
-            if (err) {
-                console.error('Lỗi khi kiểm tra user:', err);
-                return done(err);
-            }
-            if (results.length > 0) {
-                const user = results[0];
-                return done(null, user);
-            } else {
-                const newUser = {
-                    ID_U: googleId,
-                    Email: email,
-                    HoTen: displayName,
-                    TenTaiKhoan: email.split('@')[0] + '_google',
-                    MatKhau: 'google_oauth',
-                    VaiTro: 'user'
-                };
-                db.query(
-                    'INSERT INTO Users (ID_U, Email, HoTen, TenTaiKhoan, MatKhau, VaiTro) VALUES (?, ?, ?, ?, ?, ?)',
-                    [newUser.ID_U, newUser.Email, newUser.HoTen, newUser.TenTaiKhoan, newUser.MatKhau, newUser.VaiTro],
-                    (err) => {
-                        if (err) {
-                            console.error('Lỗi khi tạo user mới:', err);
-                            return done(err);
-                        }
-                        return done(null, newUser);
-                    }
-                );
-            }
-        }
-    );
-}));
-
-passport.serializeUser((user, done) => {
-    done(null, user);
-});
-
-passport.deserializeUser((user, done) => {
-    done(null, user);
-});
-
 app.use(passport.initialize());
 app.use(passport.session());
 
 // Routes
 app.use('/', require('./routes/pages'));
-app.use('/auth', require('./routes/auth'));
+app.use('/auth', authRoutes); // Đảm bảo đã mount router này
 app.use('/profile', require('./routes/profile'));
 app.use('/movie_details', require('./routes/movie_details'));
 app.use('/api', require('./routes/websocket'));
