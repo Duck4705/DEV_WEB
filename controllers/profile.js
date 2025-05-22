@@ -77,6 +77,58 @@ exports.uploadAvatar = (req, res) => {
     res.json({ success: true, fileName: req.file.filename });
 };
 
+// Handle poster upload
+exports.uploadPoster = (req, res) => {
+    const multer = require('multer');
+    const posterDir = path.join(__dirname, '../public/img/img_poster');
+    
+    // Create directory if it doesn't exist
+    fs.mkdir(posterDir, { recursive: true }, (mkdirErr) => {
+        if (mkdirErr) {
+            console.error('Create directory error:', mkdirErr);
+            return res.status(500).json({ success: false, message: 'Error creating directory' });
+        }
+        
+        // Count existing files to generate next ID
+        fs.readdir(posterDir, (err, files) => {
+            if (err) {
+                console.error('Read directory error:', err);
+                return res.status(500).json({ success: false, message: 'Error reading directory' });
+            }
+            
+            const nextId = files.length + 1;
+            const fileName = `P${nextId}.webp`; // Use webp for posters
+            
+            // Configure storage
+            const storage = multer.diskStorage({
+                destination: (req, file, cb) => {
+                    cb(null, posterDir);
+                },
+                filename: (req, file, cb) => {
+                    cb(null, fileName);
+                }
+            });
+            
+            // Initialize upload
+            const upload = multer({ storage: storage }).single('poster');
+            
+            // Process the upload
+            upload(req, res, function(err) {
+                if (err) {
+                    console.error('Upload error:', err);
+                    return res.status(400).json({ success: false, message: 'Upload failed' });
+                }
+                
+                if (!req.file) {
+                    return res.status(400).json({ success: false, message: 'No file uploaded' });
+                }
+                
+                return res.json({ success: true, fileName: fileName });
+            });
+        });
+    });
+};
+
 // Serve user avatar
 exports.getAvatar = (req, res) => {
     const userId = req.params.id;
@@ -86,6 +138,27 @@ exports.getAvatar = (req, res) => {
             return res.sendFile(path.join(__dirname, '../public/img/img_user/cat-user.png'));
         }
         res.sendFile(filePath);
+    });
+};
+
+// Add getPoster function for WebP format
+exports.getPoster = (req, res) => {
+    const posterId = req.params.id;
+    const filePath = path.join(__dirname, '../public/img/img_poster', `${posterId}.webp`);
+    fs.access(filePath, fs.constants.F_OK, (err) => {
+        if (err) {
+            // Try to send a default poster in webp format
+            const defaultPath = path.join(__dirname, '../public/img/img_poster/default-poster.webp');
+            fs.access(defaultPath, fs.constants.F_OK, (errDefault) => {
+                if (errDefault) {
+                    // If default webp doesn't exist, try png as fallback
+                    return res.sendFile(path.join(__dirname, '../public/img/img_poster/default-poster.png'));
+                }
+                return res.sendFile(defaultPath);
+            });
+        } else {
+            res.sendFile(filePath);
+        }
     });
 };
 
@@ -170,8 +243,8 @@ exports.addMovie = (req, res) => {
             }
             const ID_P = `P${countResult[0].count + 1}`;
             db.query(
-                'INSERT INTO Phim (ID_P, TenPhim, TheLoai, LinkTrailer, LinkPoster, MoTaPhim, QuocGia, ThoiLuong, NgonNgu, NoiDung, DoTuoi) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)',
-                [ID_P, TenPhim, TheLoai, LinkTrailer, LinkPoster, MoTaPhim, QuocGia, ThoiLuong, NgonNgu, NoiDung, DoTuoi],
+                'INSERT INTO Phim (ID_P, TenPhim, TheLoai, LinkTrailer, MoTaPhim, QuocGia, ThoiLuong, NgonNgu, NoiDung, DoTuoi) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)',
+                [ID_P, TenPhim, TheLoai, LinkTrailer, MoTaPhim, QuocGia, ThoiLuong, NgonNgu, NoiDung, DoTuoi],
                 (err) => {
                     if (err) {
                         console.error('Database error:', err);

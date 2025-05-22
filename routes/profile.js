@@ -11,7 +11,7 @@ const storage = multer.diskStorage({
     },
     filename: (req, file, cb) => {
         const userId = req.session.user.ID_U;
-        cb(null, `${userId}.png`);
+        cb(null, `${userId}.webp`);
     }
 });
 const upload = multer({ storage });
@@ -29,6 +29,8 @@ router.get('/', profileController.refreshSession, profileController.getProfile);
 router.post('/edit', profileController.editProfile);
 router.post('/upload-avatar', upload.single('avatar'), profileController.uploadAvatar);
 router.get('/avatar/:id', profileController.getAvatar);
+router.get('/poster/:id', profileController.getPoster);
+router.post('/upload-poster', profileController.uploadPoster);
 router.get('/history', profileController.getHistory);
 
 // Các route dành cho người dùng truy cập vào trang profile có vai trò là admin_role_1
