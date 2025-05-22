@@ -95,7 +95,7 @@ exports.getSeatDetails = (req, res) => {
     const ID_SC = req.params.ID_SC; // Lấy ID suất chiếu từ URL
 
     const screeningQuery = `
-        SELECT sc.ID_SC, sc.NgayGioChieu, pc.TenPhong, rp.TenRap, p.TenPhim
+        SELECT sc.ID_SC, sc.NgayGioChieu, pc.TenPhong, rp.TenRap, p.TenPhim, sc.GiaVe
         FROM SuatChieu sc
         JOIN PhongChieu pc ON sc.ID_PC = pc.ID_PC
         JOIN RapPhim rp ON pc.ID_R = rp.ID_R
@@ -124,6 +124,8 @@ exports.getSeatDetails = (req, res) => {
             phim: screeningDetails.TenPhim,
             rapPhim: screeningDetails.TenRap,
             phongChieu: screeningDetails.TenPhong,
+            giaVeDon: screeningDetails.GiaVe,
+            giaVeDoi: screeningDetails.GiaVe * 2,
             ngayChieu: new Date(screeningDetails.NgayGioChieu).toLocaleString('vi-VN')
             // Removed giaVe field as it doesn't exist in the database
         });

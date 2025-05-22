@@ -1,9 +1,11 @@
+// Thêm thư viện ở dòng này
 const express = require('express');
-const authController = require('../controllers/auth');
-const googleController = require('../controllers/googleAuthController'); // Thêm dòng này
 const passport = require('passport');
+const authController = require('../controllers/auth');
+const googleController = require('../controllers/googleAuthController');
 const router = express.Router();
 
+// Các route đăng nhập, đăng ký và xác thực
 router.post('/register', authController.register); 
 router.post('/login', authController.login);
 router.post('/', authController.login);
@@ -13,13 +15,9 @@ router.post('/reset_pass', authController.reset_pass);
 router.post('/login_with_otp', authController.loginWithOtp);
 router.post('/verify_otp', authController.verifyOtp);
 
-// Google OAuth login route
+// Các route xác thực với Google, callback và đăng xuất
 router.get('/google', googleController.googleLogin);
-
-// Google OAuth callback route
 router.get('/google/callback', googleController.googleCallback);
-
-// Route đăng xuất Google
 router.get('/logout-google', googleController.googleLogout);
 
 module.exports = router;

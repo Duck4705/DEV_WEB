@@ -2,10 +2,9 @@ const express = require('express');
 const profileController = require('../controllers/profile');
 const multer = require('multer');
 const path = require('path');
-
 const router = express.Router();
 
-// Configure multer for avatar uploads
+// Cấu hình multer để lưu trữ ảnh đại diện, anh sẽ được lưu trong thư mục public/img/img_user
 const storage = multer.diskStorage({
     destination: (req, file, cb) => {
         cb(null, path.join(__dirname, '../public/img/img_user'));
@@ -15,10 +14,9 @@ const storage = multer.diskStorage({
         cb(null, `${userId}.png`);
     }
 });
-
 const upload = multer({ storage });
 
-// Middleware to restrict access to admin_role_1
+// Middleware để kiểm tra quyền truy cập cho admin_role_1, muốn chuyển sang admin_role_1 thì dưới bảng user thuộc tính vai trò sẽ là admin_role_1
 const restrictToAdminRole1 = (req, res, next) => {
     if (!req.session.user || req.session.user.VaiTro !== 'admin_role_1') {
         return res.redirect('/profile');
@@ -26,13 +24,14 @@ const restrictToAdminRole1 = (req, res, next) => {
     next();
 };
 
+// Các route dành cho người dùng truy cập vào trang profile có vai trò là KhachHang
 router.get('/', profileController.refreshSession, profileController.getProfile);
 router.post('/edit', profileController.editProfile);
 router.post('/upload-avatar', upload.single('avatar'), profileController.uploadAvatar);
 router.get('/avatar/:id', profileController.getAvatar);
 router.get('/history', profileController.getHistory);
 
-// Admin routes
+// Các route dành cho người dùng truy cập vào trang profile có vai trò là admin_role_1
 router.get('/admin/theaters', restrictToAdminRole1, profileController.getTheaters);
 router.post('/admin/theaters/add', restrictToAdminRole1, profileController.addTheater);
 router.get('/admin/movies', restrictToAdminRole1, profileController.getMovies);
@@ -47,7 +46,3 @@ router.get('/admin/seats', restrictToAdminRole1, profileController.getSeats);
 router.post('/admin/seats/add', restrictToAdminRole1, profileController.addSeat);
 
 module.exports = router;
-
-// CHANGES FOR ADMIN ROLE 1
-// Added restrictToAdminRole1 middleware to restrict routes to admin_role_1 users
-// Added routes for managing theaters, movies, showtimes, rooms, and seats

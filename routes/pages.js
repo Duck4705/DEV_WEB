@@ -3,7 +3,7 @@ const router = express.Router();
 const refreshSession = require('../controllers/profile').refreshSession;
 const db = require('../db');
 
-
+// Middleware để làm mới phiên khi có cập nhật trong cơ sở dữ liệu
 router.get('/', refreshSession, (req, res) => {
     const user = req.session.user;
 
@@ -23,6 +23,8 @@ router.get('/', refreshSession, (req, res) => {
         res.render('index', { phim }); // Không gửi thông tin người dùng nếu không có session
     });
 });
+
+// các route chuyển đến trang đăng ký, đăng nhập, quên mật khẩu, đặt lại mật khẩu
 router.get('/register', (req, res) => {
     res.render("register");
 });
@@ -38,9 +40,13 @@ router.get('/forgot_pass', (req, res) => {
 router.get('/reset_pass', (req, res) => {
     res.render("reset_pass");
 });
+
+// Route chuyển đến trang movie_details
 router.get('/movie_details', (req, res) => {
     res.render("movie_details");
 });
+
+// Route đăng xuất, xóa session
 router.get('/logout', (req, res) => {
     req.session.destroy((err) => {
         if (err) {

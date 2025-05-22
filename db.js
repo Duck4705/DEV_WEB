@@ -1,10 +1,12 @@
 const mysql = require('mysql2');
 const dotenv = require('dotenv');
 
+// Tải các biến môi trường từ file .env để truy xuất data
 dotenv.config({
     path: './.env'
 });
 
+// Cấu hình database MySQL để cho phép truy cập vào cơ sở dữ liệu
 const db = mysql.createConnection({
     host: process.env.DATABASE_HOST,
     user: process.env.DATABASE_USER,
@@ -12,6 +14,7 @@ const db = mysql.createConnection({
     database: process.env.DATABASE
 });
 
+// Kết nối đến cơ sở dữ liệu
 db.connect((err) => {
     if (err) {
         console.error('Error connecting to the database:', err);
