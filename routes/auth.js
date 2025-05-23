@@ -1,6 +1,5 @@
 // Thêm thư viện ở dòng này
 const express = require('express');
-const passport = require('passport');
 const authController = require('../controllers/auth');
 const googleController = require('../controllers/googleAuthController');
 const router = express.Router();

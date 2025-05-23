@@ -10,9 +10,9 @@ const WebSocket = require('ws');
 
 // Thêm các local modules dưới dòng này
 const websocketController = require('./controllers/websocket');
+const googleAuthController = require('./controllers/googleAuthController'); // Updated import
 const db = require('./db');
 const authRoutes = require('./routes/auth');
-require('./config/passport');
 
 // Dưới đây là file biến môi trường, tất cả các dữ liệu bi mật và nhạy cảm buộc phải lưu trong file này
 dotenv.config({
@@ -58,8 +58,9 @@ app.use((req, res, next) => {
     }
     next();
 });
-app.use(passport.initialize());
-app.use(passport.session());
+
+// Initialize passport using the function from googleAuthController
+googleAuthController.initializePassport(app);
 
 // Các route phải được thêm dưới này
 app.use('/', require('./routes/pages'));

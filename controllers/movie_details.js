@@ -131,4 +131,3 @@ exports.getSeatDetails = (req, res) => {
         });
     });
 };
-
