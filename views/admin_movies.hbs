@@ -74,10 +74,6 @@
                     <a style="color: #f8fafc;" href="/profile/admin/rooms"><i style="margin-right: 8px;" class="ph ph-door"></i></a>
                     <a style="color: #f8fafc;" href="/profile/admin/rooms">Quản lý phòng chiếu</a>
                 </div>
-                <div class="align_row menu-item" style="align-self: flex-start; padding: 10px;">
-                    <a style="color: #f8fafc;" href="/profile/admin/seats"><i style="margin-right: 8px;" class="ph ph-armchair"></i></a>
-                    <a style="color: #f8fafc;" href="/profile/admin/seats">Quản lý ghế</a>
-                </div>
             </div>
             <div class="align_row" style="align-self: flex-start;">
                 <a style="color: rgba(200, 200, 200, 0.5);" href=""><i style="margin-right: 8px;" class="ph ph-sign-out"></i></a>
@@ -143,6 +139,18 @@
                         <textarea id="NoiDung" name="NoiDung" style="width: 100%; height: 100px; padding: 8px; border: 1px solid #ddd; border-radius: 5px;"></textarea>
                     </div>
                     <button type="submit" style="background-color: #f3ea28; border: none; margin: 10px 0; padding: 10px 20px; font-size: 15px; font-family: 'Anton', sans-serif; color: black;">THÊM PHIM</button>
+                </form>
+            </div>
+
+            <!-- Add delete form -->
+            <div style="background-color: #f8fafc; padding: 20px; border-radius: 10px; margin-top: 20px;">
+                <h4 style="font-weight: bold; color: black; margin-bottom: 15px;">Xóa phim</h4>
+                <form action="/profile/admin/movies/delete" method="POST">
+                    <div class="input_info" style="width: 100%; margin-bottom: 15px;">
+                        <label for="ID_P" style="font-weight: bold; color: black;">ID phim cần xóa (vd: P1, P2)</label>
+                        <input type="text" id="ID_P" name="ID_P" required style="width: 100%; padding: 8px; border: 1px solid #ddd; border-radius: 5px;">
+                    </div>
+                    <button type="submit" style="background-color: #ff4d4d; border: none; margin: 10px 0; padding: 10px 20px; font-size: 15px; font-family: 'Anton', sans-serif; color: white;">XÓA PHIM</button>
                 </form>
             </div>
         </div>

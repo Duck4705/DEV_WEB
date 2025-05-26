@@ -215,6 +215,65 @@ exports.addTheater = (req, res) => {
     });
 };
 
+// Delete Theater
+exports.deleteTheater = (req, res) => {
+    const { ID_R } = req.body;
+    
+    // First check if there are any PhongChieu (rooms) associated with this theater
+    db.query('SELECT COUNT(*) as roomCount FROM PhongChieu WHERE ID_R = ?', [ID_R], (err, results) => {
+        if (err) {
+            console.error('Database error when checking for rooms:', err);
+            return res.render('admin_theaters', { 
+                user: req.session.user, 
+                error: 'Đã xảy ra lỗi khi kiểm tra dữ liệu phòng chiếu.'
+            });
+        }
+
+        const roomCount = results[0].roomCount;
+        
+        if (roomCount > 0) {
+            // There are rooms associated with this theater, cannot delete
+            return res.render('admin_theaters', { 
+                user: req.session.user, 
+                error: `Không thể xóa rạp ${ID_R} vì còn ${roomCount} phòng chiếu liên kết. Vui lòng xóa các phòng chiếu trước.`
+            });
+        }
+        
+        // No rooms associated, proceed with deletion
+        db.query('DELETE FROM RapPhim WHERE ID_R = ?', [ID_R], (err, result) => {
+            if (err) {
+                console.error('Database error when deleting theater:', err);
+                return res.render('admin_theaters', { 
+                    user: req.session.user, 
+                    error: 'Đã xảy ra lỗi khi xóa rạp chiếu.' 
+                });
+            }
+            
+            if (result.affectedRows === 0) {
+                // No theater was deleted, likely because ID doesn't exist
+                return res.render('admin_theaters', { 
+                    user: req.session.user, 
+                    error: `Không tìm thấy rạp với ID: ${ID_R}` 
+                });
+            }
+            
+            // Fetch updated theater list after successful deletion
+            db.query('SELECT * FROM RapPhim', (err, theaters) => {
+                if (err) {
+                    console.error('Database error when fetching theaters:', err);
+                    return res.redirect('/profile/admin/theaters');
+                }
+                
+                return res.render('admin_theaters', { 
+                    user: req.session.user, 
+                    theaters,
+                    success: `Đã xóa rạp ${ID_R} thành công.`
+                });
+            });
+        });
+    });
+};
+
 // Admin: Manage Movies
 exports.getMovies = (req, res) => {
     db.query('SELECT * FROM Phim', (err, movies) => {
@@ -273,6 +332,18 @@ exports.editMovie = (req, res) => {
     );
 };
 
+// Delete Movie
+exports.deleteMovie = (req, res) => {
+    const { ID_P } = req.body;
+    db.query('DELETE FROM Phim WHERE ID_P = ?', [ID_P], (err) => {
+        if (err) {
+            console.error('Database error:', err);
+            return res.status(500).send('Internal Server Error');
+        }
+        res.redirect('/profile/admin/movies');
+    });
+};
+
 // Admin: Manage Showtimes
 exports.getShowtimes = (req, res) => {
     db.query('SELECT sc.*, p.TenPhim, pc.TenPhong, r.TenRap FROM SuatChieu sc JOIN Phim p ON sc.ID_P = p.ID_P JOIN PhongChieu pc ON sc.ID_PC = pc.ID_PC JOIN RapPhim r ON pc.ID_R = r.ID_R', (err, showtimes) => {
@@ -324,8 +395,8 @@ exports.addShowtime = (req, res) => {
 };
 
 exports.deleteShowtime = (req, res) => {
-    const { id } = req.params;
-    db.query('DELETE FROM SuatChieu WHERE ID_SC = ?', [id], (err) => {
+    const ID_SC = req.body.ID_SC || req.params.id; // Accept ID from both form submission and URL parameter
+    db.query('DELETE FROM SuatChieu WHERE ID_SC = ?', [ID_SC], (err) => {
         if (err) {
             console.error('Database error:', err);
             return res.status(500).send('Internal Server Error');
@@ -378,46 +449,14 @@ exports.addRoom = (req, res) => {
     });
 };
 
-// Admin: Manage Seats
-exports.getSeats = (req, res) => {
-    db.query('SELECT g.*, pc.TenPhong, r.TenRap FROM Ghe g JOIN PhongChieu pc ON g.ID_PC = pc.ID_PC JOIN RapPhim r ON pc.ID_R = r.ID_R', (err, seats) => {
+// Delete Room
+exports.deleteRoom = (req, res) => {
+    const { ID_PC } = req.body;
+    db.query('DELETE FROM PhongChieu WHERE ID_PC = ?', [ID_PC], (err) => {
         if (err) {
             console.error('Database error:', err);
             return res.status(500).send('Internal Server Error');
         }
-        db.query('SELECT * FROM PhongChieu', (err, rooms) => {
-            if (err) {
-                console.error('Database error:', err);
-                return res.status(500).send('Internal Server Error');
-            }
-            res.render('admin_seats', { user: req.session.user, seats, rooms });
-        });
-    });
-};
-
-exports.addSeat = (req, res) => {
-    const { ID_PC, LoaiGhe, SoGhe } = req.body;
-    db.query('SELECT * FROM Ghe WHERE SoGhe = ? AND ID_PC = ?', [SoGhe, ID_PC], (err, results) => {
-        if (err) {
-            console.error('Database error:', err);
-            return res.status(500).send('Internal Server Error');
-        }
-        if (results.length > 0) {
-            return res.render('admin_seats', { user: req.session.user, error: 'Ghế đã tồn tại trong phòng này.' });
-        }
-        db.query('SELECT COUNT(*) AS count FROM Ghe', (err, countResult) => {
-            if (err) {
-                console.error('Database error:', err);
-                return res.status(500).send('Internal Server Error');
-            }
-            const ID_G = `G${countResult[0].count + 1}`;
-            db.query('INSERT INTO Ghe (ID_G, ID_PC, LoaiGhe, SoGhe) VALUES (?, ?, ?, ?)', [ID_G, ID_PC, LoaiGhe, SoGhe], (err) => {
-                if (err) {
-                    console.error('Database error:', err);
-                    return res.status(500).send('Internal Server Error');
-                }
-                res.redirect('/profile/admin/seats');
-            });
-        });
+        res.redirect('/profile/admin/rooms');
     });
 };

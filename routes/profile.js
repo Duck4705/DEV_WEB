@@ -36,15 +36,16 @@ router.get('/history', profileController.getHistory);
 // Các route dành cho người dùng truy cập vào trang profile có vai trò là admin_role_1
 router.get('/admin/theaters', restrictToAdminRole1, profileController.getTheaters);
 router.post('/admin/theaters/add', restrictToAdminRole1, profileController.addTheater);
+router.post('/admin/theaters/delete', restrictToAdminRole1, profileController.deleteTheater);
 router.get('/admin/movies', restrictToAdminRole1, profileController.getMovies);
 router.post('/admin/movies/add', restrictToAdminRole1, profileController.addMovie);
 router.post('/admin/movies/edit/:id', restrictToAdminRole1, profileController.editMovie);
+router.post('/admin/movies/delete', restrictToAdminRole1, profileController.deleteMovie);
 router.get('/admin/showtimes', restrictToAdminRole1, profileController.getShowtimes);
 router.post('/admin/showtimes/add', restrictToAdminRole1, profileController.addShowtime);
-router.post('/admin/showtimes/delete/:id', restrictToAdminRole1, profileController.deleteShowtime);
+router.post('/admin/showtimes/delete', restrictToAdminRole1, profileController.deleteShowtime);
 router.get('/admin/rooms', restrictToAdminRole1, profileController.getRooms);
 router.post('/admin/rooms/add', restrictToAdminRole1, profileController.addRoom);
-router.get('/admin/seats', restrictToAdminRole1, profileController.getSeats);
-router.post('/admin/seats/add', restrictToAdminRole1, profileController.addSeat);
+router.post('/admin/rooms/delete', restrictToAdminRole1, profileController.deleteRoom);
 
 module.exports = router;
