@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Trang Chủ</title>
     <link rel="stylesheet" href="/style.css">
     <link rel="stylesheet" href="/index.css">
     <script src="https://unpkg.com/phosphor-icons"></script>
@@ -105,12 +105,10 @@
                 </div>
             {{/each}}
         </div>
-        <div class="align_row hide-mobile" style="margin: 20px;">
-            <div class="moredot"></div>
-            <div class="moredot" style="opacity: 50%;"></div>
-            <div class="moredot" style="opacity: 50%;"></div>
+       
+        <div class="load-more-container">
+            <button id="load-more-btn" style="padding: 10px 80px; background-color: transparent; border-radius: 5px; color: #f3ea28; font-family: 'Anton', sans-serif; border: 1px #f3ea28 solid; cursor: pointer;">XEM THÊM</button>
         </div>
-        <a style="padding: 10px 80px; background-color: transparent; border-radius: 5px; color: #f3ea28; font-family: 'Anton', sans-serif; border: 1px #f3ea28 solid;" href="movie_details/showing">XEM THÊM</a>
     </div>
 
 
@@ -178,11 +176,7 @@
                 </div>
             </div>  
         </div>
-        <div class="align_row hide-mobile" style="margin: 20px;">
-            <div class="moredot"></div>
-            <div class="moredot" style="opacity: 50%;"></div>
-            <div class="moredot" style="opacity: 50%;"></div>
-        </div>
+       
         <a style="padding: 10px 80px; background-color: transparent; border-radius: 5px; color: #f3ea28; font-family: 'Anton', sans-serif; border: 1px #f3ea28 solid;" href="">XEM THÊM</a>
     </div>
     
@@ -204,8 +198,6 @@
             <h4 style="font-size: 25px; margin: 10px 0px;">[NT208.P24] - Nhóm 3</h4>
         </div>
     </div>
-
-
     {{!-- Khung chiếu phim trong nền --}}
     <div id="trailerModal" class="modal">
         <div class="modal-content">
@@ -214,37 +206,152 @@
         </div>
     </div>
 
-
     <script>
         document.addEventListener('DOMContentLoaded', () => {
-        const modal = document.getElementById('trailerModal');
-        const trailerFrame = document.getElementById('trailerFrame');
-        const closeBtn = document.querySelector('.close');
+            // --- Xử lý modal trailer và nút load more ---
+            const modal = document.getElementById('trailerModal');
+            const trailerFrame = document.getElementById('trailerFrame');
+            const closeBtn = document.querySelector('.close');
+            const loadMoreBtn = document.getElementById('load-more-btn');
+            const movieContainer = document.querySelectorAll('.align_movie')[0];
+            
+            let offset = {{initialLimit}} || 4; // Số phim đã hiển thị ban đầu
+            const limit = 4; // Số phim cần tải thêm mỗi lần            // Kiểm tra nếu không còn phim nào để tải thêm, ẩn nút ngay từ đầu
+            if (!{{hasMoreMovies}}) {
+                console.log('No more movies available initially, hiding button');
+                loadMoreBtn.style.display = 'none';
+            } else {
+                console.log('More movies available initially, showing button');
+            }
 
-        // Mở modal khi nhấn vào "Xem Trailer"
-        document.querySelectorAll('.trailer-link').forEach(link => {
-            link.addEventListener('click', (event) => {
-                event.preventDefault();
-                const trailerUrl = link.getAttribute('data-trailer');
-                trailerFrame.src = trailerUrl; // Gán URL video vào iframe
-                modal.style.display = 'block'; // Hiển thị modal
-            });
-        });
+            // Hàm để gắn sự kiện cho các trailer link mới
+            function attachTrailerEvents() {
+                document.querySelectorAll('.trailer-link').forEach(link => {
+                    if (!link.hasListener) {
+                        link.addEventListener('click', (event) => {
+                            event.preventDefault();
+                            const trailerUrl = link.getAttribute('data-trailer');
+                            trailerFrame.src = trailerUrl;
+                            modal.style.display = 'block';
+                        });
+                        link.hasListener = true;
+                    }
+                });
+            }
 
-        // Đóng modal khi nhấn vào nút "Đóng"
-        closeBtn.addEventListener('click', () => {
-            modal.style.display = 'none';
-            trailerFrame.src = ''; // Xóa URL video để dừng phát
-        });
-
-        // Đóng modal khi nhấn ra ngoài modal
-        window.addEventListener('click', (event) => {
-            if (event.target === modal) {
+            // Đóng modal khi nhấn vào nút "Đóng"
+            closeBtn.addEventListener('click', () => {
                 modal.style.display = 'none';
                 trailerFrame.src = ''; // Xóa URL video để dừng phát
-            }
+            });
+
+            // Đóng modal khi nhấn ra ngoài modal
+            window.addEventListener('click', (event) => {
+                if (event.target === modal) {
+                    modal.style.display = 'none';
+                    trailerFrame.src = ''; // Xóa URL video để dừng phát
+                }
+            });
+
+            // Gắn sự kiện cho trailer links ban đầu
+            attachTrailerEvents();
+
+            // Xử lý nút load more
+            loadMoreBtn.addEventListener('click', function() {
+                console.log('Load more button clicked');
+                loadMoreBtn.textContent = 'ĐANG TẢI...';
+                loadMoreBtn.disabled = true;
+
+                fetch(`/api/load-more-movies?offset=${offset}&limit=${limit}`)                    .then(response => response.json())
+                    .then(data => {
+                        console.log('Data received from API:', data);
+                        console.log('Movies array:', data.movies);
+                        console.log('Data properties available:', Object.keys(data));
+
+                        loadMoreBtn.textContent = 'XEM THÊM';
+                        loadMoreBtn.disabled = false;
+
+                        // Thêm log kiểm tra selector và data
+                        console.log('typeof data.movies:', typeof data.movies, Array.isArray(data.movies));
+                        console.log('data.movies:', data.movies);
+                        console.log('movieContainer:', movieContainer);
+                        if (!movieContainer) {
+                            alert('Không tìm thấy movieContainer!');
+                            return;
+                        }
+
+                        try {
+                            if (Array.isArray(data.movies) && data.movies.length > 0) {
+                                console.log('Processing', data.movies.length, 'movies');
+                                // Xử lý trường hợp đặc biệt: nếu tải chính xác 1 phim và đã đạt tổng số
+                                if (data.movies.length === 1 && (offset + 1) >= data.total) {
+                                    console.log('Special case: Loaded exactly the last movie');
+                                }
+                                
+                                // Tạo danh sách phim mới từ dữ liệu nhận được
+                                data.movies.forEach((movie, index) => {
+                                    console.log(`Adding movie ${index + 1}:`, movie.TenPhim, movie.ID_P);
+                                    
+                                    const movieBox = document.createElement('div');
+                                    movieBox.className = 'moviebox';
+                                    movieBox.innerHTML = `
+                                        <img src="/img/img_poster/${movie.ID_P}.webp" alt="${movie.TenPhim}" width="100%" height="350px" style="object-fit: cover;">
+                                        <div class="align_column_between" style="height: 100px;">
+                                            <a style="color: white; font-size: 18px; font-weight: bold;" href="">${movie.TenPhim}</a>
+                                            <div class="align_row_between alignTrailer" style="width: 100%;">
+                                                <div class="align_row LogoTrailer">
+                                                    <div class="align_row BorderLogoTrailer" style="padding: 3px; border: 1px white solid; border-radius: 50%; margin: 5px;">
+                                                        <i style="color: black; font-size: 20px; background-color: white; padding: 3px; border-radius: 50%;" class="ph ph-monitor-play"></i>
+                                                    </div>
+                                                    <a class="trailer-link" style="color: white; font-size: 14px;" href="#" data-trailer="https://www.youtube.com/embed/${movie.LinkTrailer}">Xem Trailer</a>
+                                                </div>
+                                                <a style="padding: 10px 40px; background-color: #f3ea28; border-radius: 5px; color: black; font-family: 'Anton', sans-serif;" href="/movie_details/${movie.ID_P}">ĐẶT VÉ</a>
+                                            </div>
+                                        </div>
+                                    `;
+                                    movieContainer.appendChild(movieBox);                                    console.log(`Movie ${movie.TenPhim} with ID ${movie.ID_P} added to DOM`);
+                                });                                // Cập nhật offset cho lần tải tiếp theo
+                                offset += data.movies.length;
+                                console.log('New offset:', offset);
+                                
+                                // Kiểm tra an toàn để ẩn nút khi đã tải hết phim
+                                if (offset >= data.total) {
+                                    console.log('Fail-safe: All movies loaded, hiding button');
+                                    loadMoreBtn.style.display = 'none';
+                                }
+                                  // Sau khi thêm phim, gắn sự kiện cho trailer links mới
+                                setTimeout(attachTrailerEvents, 100);
+                                
+                                // Kiểm tra xem còn phim để tải không - kiểm tra cả hai thuộc tính có thể có
+                                console.log('hasMore value:', data.hasMore);
+                                
+                                // Kiểm tra đặc biệt để debug
+                                console.log('Complete response object:', JSON.stringify(data));
+                                console.log('Current offset:', offset);
+                                console.log('Total movies in database:', data.total);
+                                
+                                // Kiểm tra để ẩn nút khi không còn phim
+                                if (data.hasMore === false || offset >= data.total) {
+                                    console.log('No more movies to load, hiding button');
+                                    loadMoreBtn.style.display = 'none';
+                                } else {
+                                    console.log('More movies available, keeping button visible');
+                                }
+                            } else {
+                                console.log('No movies received from API.');
+                                loadMoreBtn.style.display = 'none';
+                            }
+                        } catch (err) {
+                            console.error('Error processing movie data:', err);
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error fetching more movies:', error);
+                        loadMoreBtn.textContent = 'THỬ LẠI';
+                        loadMoreBtn.disabled = false;
+                    });
+            });
         });
-    });
     </script>
 </body>
 

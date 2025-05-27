@@ -316,11 +316,19 @@
     }
     .moviebox {
         width: 95%;
-        margin: 20px 0;
-        height: auto;
+        margin: 15px auto;
+        padding: 30px;
     }
     .moviebox img {
-        margin: 20px 0;
+        height: fit-content;
+        object-fit: cover;
+        width: 100%;
+        margin: 0 auto;
+    }
+    .moviebox a {
+        font-size: 20px !important;
+        margin: 10px 0;
+        margin-top: 15px;
     }
     .alignTrailer
     {
@@ -528,8 +536,8 @@
     }
     iframe
     {
-        width: 400px;
-        height: 300px;
+        width: 22em !important;
+        height: 18em !important;
     }
     .bottom_bar
     {
