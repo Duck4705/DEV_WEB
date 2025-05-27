@@ -3,7 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>UIT THEATER</title>
+    <link rel="icon" type="image/x-icon" href="/img/img_access/video-camera.png">
     <link rel="stylesheet" href="/style.css">
     <link rel="stylesheet" href="/index.css">
     <script src="https://unpkg.com/phosphor-icons"></script>
@@ -37,12 +38,12 @@
                 <div class="user-menu align_row">
                     <div class="dropdown align_row">
                         <img src="/profile/avatar/{{user.ID_U}}" class="img-user" alt="">
-                        <div class="dropdown-menu">
+                        <div class="dropdown-menu" style="margin-top: 120px; margin-left: 150px;">
                             <a href="/profile"><i style="margin: 0px 8px 0px 0px;" class="ph ph-user"></i>Trang cá nhân</a>
                             <a href="/logout"><i style="margin: 0px 8px 0px 0px;" class="ph ph-sign-out"></i>Đăng xuất</a>
                         </div>
                     </div>
-                    <button class="dropdown-toggle">{{user.TongSoTien}} VNĐ</button>
+                    <button class="dropdown-toggle hide-mobile">{{user.TongSoTien}} VNĐ</button>
                 </div>
             {{else}}
                 <div class="align_row signIn">
@@ -63,24 +64,34 @@
         <div class="align_row">
             <div class="selectbook">
                 <select>
-                    <option value="1">Sản phẩm 1</option>
-                </select>
-            </div>
-            <i class="hide-mobile" style="margin-left: -40px; margin-right: 40px; pointer-events: none;" class="ph ph-caret-down"></i>
-            <div class="selectbook">
-                <select>
+                    <option value="0" disabled>Chọn rạp</option>
                     <option value="1">Sản phẩm 1</option>
                     <option value="2">Sản phẩm 1</option>
-                    <option value="3">Sản phẩm 1</option>
                 </select>
             </div>
-            <i class="hide-mobile" style="margin-left: -40px; margin-right: 40px; pointer-events: none;" class="ph ph-caret-down"></i>
+            <div class="hide-mobile" style="margin-top: 4px;">
+                <i style="margin-left: -40px; margin-right: 40px; pointer-events: none;" class="ph ph-caret-down"></i>
+            </div>
             <div class="selectbook">
                 <select>
+                    <option value="0" disabled>Chọn phim</option>
                     <option value="1">Sản phẩm 1</option>
+                    <option value="2">Sản phẩm 1</option>
                 </select>
             </div>
-            <i class="hide-mobile" style="margin-left: -40px; margin-right: 40px; pointer-events: none;" class="ph ph-caret-down"></i>
+            <div class="hide-mobile" style="margin-top: 4px;">
+                <i style="margin-left: -40px; margin-right: 40px; pointer-events: none;" class="ph ph-caret-down"></i>
+            </div>
+            <div class="selectbook">
+                <select>
+                    <option value="0" disabled>Chọn ngày</option>
+                    <option value="1">Sản phẩm 1</option>
+                    <option value="2">Sản phẩm 1</option>
+                </select>
+            </div>
+            <div class="hide-mobile" style="margin-top: 4px;">
+                <i style="margin-left: -40px; margin-right: 40px; pointer-events: none;" class="ph ph-caret-down"></i>
+            </div>
             <a style="padding: 10px; background-color: #663399; border-radius: 10px; color: white; font-family: 'Anton', sans-serif; margin-left: 10px;" href="">ĐẶT NGAY</a>
         </div>
     </div>
@@ -91,14 +102,14 @@
                 <div class="moviebox">
                     <img src="/img/img_poster/{{this.ID_P}}.webp" alt="{{this.TenPhim}}" width="100%" height="350px" style="object-fit: cover;">
                     <div class="align_column_between" style="height: 100px;">
-                        <a style="color: white; font-size: 18px; font-weight: bold;" href="">{{this.TenPhim}}</a>
+                        <p style="color: white; font-size: 18px; font-weight: bold;" href="">{{this.TenPhim}}</p>
                         <div class="align_row_between alignTrailer" style="width: 100%;">
-                            <div class="align_row LogoTrailer">
+                            <a class="trailer-link" style="color: white; font-size: 14px;" href="#" data-trailer="https://www.youtube.com/embed/{{this.LinkTrailer}}" class="align_row LogoTrailer">
                                 <div class="align_row BorderLogoTrailer" style="padding: 3px; border: 1px white solid; border-radius: 50%; margin: 5px;">
                                     <i style="color: black; font-size: 20px; background-color: white; padding: 3px; border-radius: 50%;" class="ph ph-monitor-play"></i>
                                 </div>
-                                <a class="trailer-link" style="color: white; font-size: 14px;" href="#" data-trailer="https://www.youtube.com/embed/{{this.LinkTrailer}}">Xem Trailer</a>
-                            </div>
+                                <a class="trailer-link" style="color: white; font-size: 14px; margin-left: -20px;" href="#" data-trailer="https://www.youtube.com/embed/{{this.LinkTrailer}}">Xem Trailer</a>
+                            </a>
                             <a style="padding: 10px 40px; background-color: #f3ea28; border-radius: 5px; color: black; font-family: 'Anton', sans-serif;" href="/movie_details/{{this.ID_P}}">ĐẶT VÉ</a>
                         </div>
                     </div>
