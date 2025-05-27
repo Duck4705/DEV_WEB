@@ -3,7 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Accout_history</title>
+    <title>Hồ sơ</title>
+    <link rel="icon" type="image/x-icon" href="/img/img_access/video-camera.png">
     <link rel="stylesheet" href="/style.css">
     <link rel="stylesheet" href="/profile.css">
     <link rel="stylesheet" href="/login.css">
@@ -19,9 +20,7 @@
             <i style="font-size: 40px;" class="ph ph-video-camera"></i>
             <h1 style="font-size: 20px; margin: 0px 20px; font-weight: 600;">UIT THEATER</h1>
         </div>
-        
         <div class="align_row" style="color: white;">
-        
             <div class="align_row" style="margin-left: 50px;">
                 {{#if user}}
                     <div class="user-menu" class="align_row">
@@ -40,7 +39,7 @@
     </div>
     
 
-     <div class="align_row" style="width: 1200px; margin-top: 100px; align-items: flex-start;">
+     <div class="alluser" style="width: 1200px; margin-top: 100px; align-items: flex-start;">
         <div class="user_left">
             <div class="user_img">
                 <img src="/profile/avatar/{{user.ID_U}}" style="border-radius: 50%;" alt="" width="50px" height="50px" id="userAvatar">
@@ -62,30 +61,48 @@
             </div>
 
             <div class="user_menu">
-                <div class="align_row" style="align-self: flex-start; padding: 10px;">
-                    <a style="color: #f8fafc;" href=""><i style="margin-right: 8px;" class="ph ph-user"></i></a>
+                <div class="usertab" style="align-self: flex-start; padding: 10px;">
+                    <a style="color: #f8fafc;" href="/profile"><i style="margin-right: 8px; margin-top: 5px;" class="ph ph-user"></i></a>
                     <a style="color: #f8fafc;" href="/profile">Trang cá nhân</a>
                 </div>
-                <div class="align_row" style="align-self: flex-start; padding: 10px; border-left: #f3ea28 2px solid;">
-                    <a style="color: #f3ea28;" href=""><i style="margin-right: 8px;" class="ph ph-clock-counter-clockwise"></i></a>
+                <div class="usertab" style="align-self: flex-start; padding: 10px; border-left: #f3ea28 2px solid;">
+                    <a style="color: #f3ea28;" href=""><i style="margin-right: 8px; margin-top: 5px;" class="ph ph-clock-counter-clockwise"></i></a>
                     <a style="color: #f3ea28;" href="">Lịch sử giao dịch</a>
                 </div>
+                {{#if (eq user.VaiTro 'admin_role_1')}}
+                <div class="usertab" style="align-self: flex-start; padding: 10px;">
+                    <a style="color: #f8fafc;" href="/profile/admin/theaters"><i style="margin-right: 8px; margin-top: 5px;" class="ph ph-storefront"></i></a>
+                    <a style="color: #f8fafc;" href="/profile/admin/theaters">Quản lý rạp chiếu</a>
+                </div>
+                <div class="usertab" style="align-self: flex-start; padding: 10px;">
+                    <a style="color: #f8fafc;" href="/profile/admin/movies"><i style="margin-right: 8px; margin-top: 5px;" class="ph ph-film-strip"></i></a>
+                    <a style="color: #f8fafc;" href="/profile/admin/movies">Quản lý phim</a>
+                </div>
+                <div class="usertab" style="align-self: flex-start; padding: 10px;">
+                    <a style="color: #f8fafc;" href="/profile/admin/showtimes"><i style="margin-right: 8px; margin-top: 5px;" class="ph ph-calendar"></i></a>
+                    <a style="color: #f8fafc;" href="/profile/admin/showtimes">Quản lý suất chiếu</a>
+                </div>
+                <div class="usertab" style="align-self: flex-start; padding: 10px;">
+                    <a style="color: #f8fafc;" href="/profile/admin/rooms"><i style="margin-right: 8px; margin-top: 5px;" class="ph ph-door"></i></a>
+                    <a style="color: #f8fafc;" href="/profile/admin/rooms">Quản lý phòng chiếu</a>
+                </div>
+                {{/if}}
             </div>
-            <div class="align_row" style="align-self: flex-start;">
+            <div class="usertab" style="align-self: flex-start;">
                 <a style="color: rgba(200, 200, 200, 0.5);" href=""><i style="margin-right: 8px;" class="ph ph-sign-out"></i></a>
                 <a style="color: rgba(200, 200, 200, 0.5);" href="/logout">Đăng xuất</a>
             </div>
         </div>
         <div class="user_right">
-            <h1 style="font-size: 40px; font-family: 'Anton', sans-serif; margin: 20px 0px; margin-top: 30px;">LỊCH SỬ MUA HÀNG</h1>
+            <h1 style="font-size: 40px; font-family: 'Anton', sans-serif; margin: 20px 0px;">LỊCH SỬ MUA HÀNG</h1>
             <p>Không có dữ liệu!</p>
         </div>
 
     </div>
-    <div class="bottom_bar" style="margin-top: 332px;">
+    <div class="bottom_bar" style="margin-top: 308px;">
         <div class="align_row_between" style="width: 1200px; margin: 30px 0px; ">
             <p>© 2023 Uitheater. All rights reserved.</p>
-            <div class="align_row">
+            <div class="align_row hide-mobile">
                 <a style="color: #f8fafc; padding: 0px 10px;" href="">Toàn diện</a>
                 <a style="color: #f8fafc; padding: 0px 10px;" href="">Sáng tạo</a>
                 <a style="color: #f8fafc; padding: 0px 10px;" href="">Phụng sự</a>
