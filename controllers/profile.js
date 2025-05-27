@@ -1,21 +1,18 @@
 const path = require('path');
 const fs = require('fs');
-const db = require('../db'); // Import database connection
+const db = require('../db');
 
 // Middleware to refresh session
 exports.refreshSession = (req, res, next) => {
     const user = req.session.user;
-
     if (!user) {
-        return next(); // Nếu không có session, bỏ qua middleware
+        return next();
     }
-
     db.query('SELECT * FROM users WHERE TenTaiKhoan = ?', [user.TenTaiKhoan], (err, results) => {
         if (err) {
             console.error('Database error:', err);
             return res.status(500).send('Internal Server Error');
         }
-
         if (results.length > 0) {
             const updatedUser = results[0];
             req.session.user = {
@@ -26,9 +23,9 @@ exports.refreshSession = (req, res, next) => {
                 SDT: updatedUser.SDT,
                 Email: updatedUser.Email,
                 TongSoTien: updatedUser.TongSoTien.toLocaleString('vi-VN'),
+                VaiTro: updatedUser.VaiTro,
             };
         }
-
         next();
     });
 };
@@ -36,17 +33,14 @@ exports.refreshSession = (req, res, next) => {
 // Render profile page
 exports.getProfile = (req, res) => {
     const user = req.session.user;
-
     if (!user) {
         return res.redirect('/login');
     }
-
     if (user.NgaySinh) {
         const ngaySinh = new Date(user.NgaySinh);
         const localDate = new Date(ngaySinh.getTime() - ngaySinh.getTimezoneOffset() * 60000);
         user.NgaySinh = localDate.toISOString().split('T')[0];
     }
-
     user.TongSoTien = user.TongSoTien.toLocaleString('vi-VN');
     res.render('profile', { user });
 };
@@ -55,11 +49,9 @@ exports.getProfile = (req, res) => {
 exports.editProfile = (req, res) => {
     const { HoTen, NgaySinh, SDT, Email } = req.body;
     const user = req.session.user;
-
     if (!user) {
         return res.redirect('/login');
     }
-
     db.query(
         'UPDATE users SET HoTen = ?, NgaySinh = ?, SDT = ?, Email = ? WHERE TenTaiKhoan = ?',
         [HoTen, NgaySinh, SDT, Email, user.TenTaiKhoan],
@@ -68,12 +60,10 @@ exports.editProfile = (req, res) => {
                 console.error('Database error:', err);
                 return res.status(500).send('Internal Server Error');
             }
-
             user.HoTen = HoTen;
             user.NgaySinh = NgaySinh;
             user.SDT = SDT;
             user.Email = Email;
-
             res.redirect('/profile');
         }
     );
@@ -84,15 +74,65 @@ exports.uploadAvatar = (req, res) => {
     if (!req.file) {
         return res.status(400).json({ success: false, message: 'Không có file được tải lên.' });
     }
-
     res.json({ success: true, fileName: req.file.filename });
+};
+
+// Handle poster upload
+exports.uploadPoster = (req, res) => {
+    const multer = require('multer');
+    const posterDir = path.join(__dirname, '../public/img/img_poster');
+    
+    // Create directory if it doesn't exist
+    fs.mkdir(posterDir, { recursive: true }, (mkdirErr) => {
+        if (mkdirErr) {
+            console.error('Create directory error:', mkdirErr);
+            return res.status(500).json({ success: false, message: 'Error creating directory' });
+        }
+        
+        // Count existing files to generate next ID
+        fs.readdir(posterDir, (err, files) => {
+            if (err) {
+                console.error('Read directory error:', err);
+                return res.status(500).json({ success: false, message: 'Error reading directory' });
+            }
+            
+            const nextId = files.length + 1;
+            const fileName = `P${nextId}.webp`; // Use webp for posters
+            
+            // Configure storage
+            const storage = multer.diskStorage({
+                destination: (req, file, cb) => {
+                    cb(null, posterDir);
+                },
+                filename: (req, file, cb) => {
+                    cb(null, fileName);
+                }
+            });
+            
+            // Initialize upload
+            const upload = multer({ storage: storage }).single('poster');
+            
+            // Process the upload
+            upload(req, res, function(err) {
+                if (err) {
+                    console.error('Upload error:', err);
+                    return res.status(400).json({ success: false, message: 'Upload failed' });
+                }
+                
+                if (!req.file) {
+                    return res.status(400).json({ success: false, message: 'No file uploaded' });
+                }
+                
+                return res.json({ success: true, fileName: fileName });
+            });
+        });
+    });
 };
 
 // Serve user avatar
 exports.getAvatar = (req, res) => {
     const userId = req.params.id;
     const filePath = path.join(__dirname, '../public/img/img_user', `${userId}.png`);
-
     fs.access(filePath, fs.constants.F_OK, (err) => {
         if (err) {
             return res.sendFile(path.join(__dirname, '../public/img/img_user/cat-user.png'));
@@ -101,20 +141,322 @@ exports.getAvatar = (req, res) => {
     });
 };
 
+// Add getPoster function for WebP format
+exports.getPoster = (req, res) => {
+    const posterId = req.params.id;
+    const filePath = path.join(__dirname, '../public/img/img_poster', `${posterId}.webp`);
+    fs.access(filePath, fs.constants.F_OK, (err) => {
+        if (err) {
+            // Try to send a default poster in webp format
+            const defaultPath = path.join(__dirname, '../public/img/img_poster/default-poster.webp');
+            fs.access(defaultPath, fs.constants.F_OK, (errDefault) => {
+                if (errDefault) {
+                    // If default webp doesn't exist, try png as fallback
+                    return res.sendFile(path.join(__dirname, '../public/img/img_poster/default-poster.png'));
+                }
+                return res.sendFile(defaultPath);
+            });
+        } else {
+            res.sendFile(filePath);
+        }
+    });
+};
+
+// Render transaction history
 exports.getHistory = (req, res) => {
-
     const user = req.session.user;
-
     if (!user) {
         return res.redirect('/login');
     }
-
     if (user.NgaySinh) {
         const ngaySinh = new Date(user.NgaySinh);
         const localDate = new Date(ngaySinh.getTime() - ngaySinh.getTimezoneOffset() * 60000);
         user.NgaySinh = localDate.toISOString().split('T')[0];
     }
-
     user.TongSoTien = user.TongSoTien.toLocaleString('vi-VN');
-    res.render('profile_history', {user});
+    res.render('profile_history', { user });
+};
+
+// Admin: Manage Theaters
+exports.getTheaters = (req, res) => {
+    db.query('SELECT * FROM RapPhim', (err, theaters) => {
+        if (err) {
+            console.error('Database error:', err);
+            return res.status(500).send('Internal Server Error');
+        }
+        res.render('admin_theaters', { user: req.session.user, theaters });
+    });
+};
+
+exports.addTheater = (req, res) => {
+    const { TenRap, DiaDiem } = req.body;
+    db.query('SELECT * FROM RapPhim WHERE TenRap = ? AND DiaDiem = ?', [TenRap, DiaDiem], (err, results) => {
+        if (err) {
+            console.error('Database error:', err);
+            return res.status(500).send('Internal Server Error');
+        }
+        if (results.length > 0) {
+            return res.render('admin_theaters', { user: req.session.user, theaters: results, error: 'Rạp đã tồn tại.' });
+        }
+        db.query('SELECT COUNT(*) AS count FROM RapPhim', (err, countResult) => {
+            if (err) {
+                console.error('Database error:', err);
+                return res.status(500).send('Internal Server Error');
+            }
+            const ID_R = `R${countResult[0].count + 1}`;
+            db.query('INSERT INTO RapPhim (ID_R, TenRap, DiaDiem) VALUES (?, ?, ?)', [ID_R, TenRap, DiaDiem], (err) => {
+                if (err) {
+                    console.error('Database error:', err);
+                    return res.status(500).send('Internal Server Error');
+                }
+                res.redirect('/profile/admin/theaters');
+            });
+        });
+    });
+};
+
+// Delete Theater
+exports.deleteTheater = (req, res) => {
+    const { ID_R } = req.body;
+    
+    // First check if there are any PhongChieu (rooms) associated with this theater
+    db.query('SELECT COUNT(*) as roomCount FROM PhongChieu WHERE ID_R = ?', [ID_R], (err, results) => {
+        if (err) {
+            console.error('Database error when checking for rooms:', err);
+            return res.render('admin_theaters', { 
+                user: req.session.user, 
+                error: 'Đã xảy ra lỗi khi kiểm tra dữ liệu phòng chiếu.'
+            });
+        }
+
+        const roomCount = results[0].roomCount;
+        
+        if (roomCount > 0) {
+            // There are rooms associated with this theater, cannot delete
+            return res.render('admin_theaters', { 
+                user: req.session.user, 
+                error: `Không thể xóa rạp ${ID_R} vì còn ${roomCount} phòng chiếu liên kết. Vui lòng xóa các phòng chiếu trước.`
+            });
+        }
+        
+        // No rooms associated, proceed with deletion
+        db.query('DELETE FROM RapPhim WHERE ID_R = ?', [ID_R], (err, result) => {
+            if (err) {
+                console.error('Database error when deleting theater:', err);
+                return res.render('admin_theaters', { 
+                    user: req.session.user, 
+                    error: 'Đã xảy ra lỗi khi xóa rạp chiếu.' 
+                });
+            }
+            
+            if (result.affectedRows === 0) {
+                // No theater was deleted, likely because ID doesn't exist
+                return res.render('admin_theaters', { 
+                    user: req.session.user, 
+                    error: `Không tìm thấy rạp với ID: ${ID_R}` 
+                });
+            }
+            
+            // Fetch updated theater list after successful deletion
+            db.query('SELECT * FROM RapPhim', (err, theaters) => {
+                if (err) {
+                    console.error('Database error when fetching theaters:', err);
+                    return res.redirect('/profile/admin/theaters');
+                }
+                
+                return res.render('admin_theaters', { 
+                    user: req.session.user, 
+                    theaters,
+                    success: `Đã xóa rạp ${ID_R} thành công.`
+                });
+            });
+        });
+    });
+};
+
+// Admin: Manage Movies
+exports.getMovies = (req, res) => {
+    db.query('SELECT * FROM Phim', (err, movies) => {
+        if (err) {
+            console.error('Database error:', err);
+            return res.status(500).send('Internal Server Error');
+        }
+        res.render('admin_movies', { user: req.session.user, movies });
+    });
+};
+
+exports.addMovie = (req, res) => {
+    const { TenPhim, TheLoai, LinkTrailer, LinkPoster, MoTaPhim, QuocGia, ThoiLuong, NgonNgu, NoiDung, DoTuoi } = req.body;
+    db.query('SELECT * FROM Phim WHERE TenPhim = ?', [TenPhim], (err, results) => {
+        if (err) {
+            console.error('Database error:', err);
+            return res.status(500).send('Internal Server Error');
+        }
+        if (results.length > 0) {
+            return res.render('admin_movies', { user: req.session.user, movies: results, error: 'Phim đã tồn tại.' });
+        }
+        db.query('SELECT COUNT(*) AS count FROM Phim', (err, countResult) => {
+            if (err) {
+                console.error('Database error:', err);
+                return res.status(500).send('Internal Server Error');
+            }
+            const ID_P = `P${countResult[0].count + 1}`;
+            db.query(
+                'INSERT INTO Phim (ID_P, TenPhim, TheLoai, LinkTrailer, MoTaPhim, QuocGia, ThoiLuong, NgonNgu, NoiDung, DoTuoi) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)',
+                [ID_P, TenPhim, TheLoai, LinkTrailer, MoTaPhim, QuocGia, ThoiLuong, NgonNgu, NoiDung, DoTuoi],
+                (err) => {
+                    if (err) {
+                        console.error('Database error:', err);
+                        return res.status(500).send('Internal Server Error');
+                    }
+                    res.redirect('/profile/admin/movies');
+                }
+            );
+        });
+    });
+};
+
+exports.editMovie = (req, res) => {
+    const { TenPhim, TheLoai, LinkTrailer, LinkPoster, MoTaPhim, QuocGia, ThoiLuong, NgonNgu, NoiDung, DoTuoi } = req.body;
+    const { id } = req.params;
+    db.query(
+        'UPDATE Phim SET TenPhim = ?, TheLoai = ?, LinkTrailer = ?, LinkPoster = ?, MoTaPhim = ?, QuocGia = ?, ThoiLuong = ?, NgonNgu = ?, NoiDung = ?, DoTuoi = ? WHERE ID_P = ?',
+        [TenPhim, TheLoai, LinkTrailer, LinkPoster, MoTaPhim, QuocGia, ThoiLuong, NgonNgu, NoiDung, DoTuoi, id],
+        (err) => {
+            if (err) {
+                console.error('Database error:', err);
+                return res.status(500).send('Internal Server Error');
+            }
+            res.redirect('/profile/admin/movies');
+        }
+    );
+};
+
+// Delete Movie
+exports.deleteMovie = (req, res) => {
+    const { ID_P } = req.body;
+    db.query('DELETE FROM Phim WHERE ID_P = ?', [ID_P], (err) => {
+        if (err) {
+            console.error('Database error:', err);
+            return res.status(500).send('Internal Server Error');
+        }
+        res.redirect('/profile/admin/movies');
+    });
+};
+
+// Admin: Manage Showtimes
+exports.getShowtimes = (req, res) => {
+    db.query('SELECT sc.*, p.TenPhim, pc.TenPhong, r.TenRap FROM SuatChieu sc JOIN Phim p ON sc.ID_P = p.ID_P JOIN PhongChieu pc ON sc.ID_PC = pc.ID_PC JOIN RapPhim r ON pc.ID_R = r.ID_R', (err, showtimes) => {
+        if (err) {
+            console.error('Database error:', err);
+            return res.status(500).send('Internal Server Error');
+        }
+        db.query('SELECT * FROM Phim', (err, movies) => {
+            if (err) {
+                console.error('Database error:', err);
+                return res.status(500).send('Internal Server Error');
+            }
+            db.query('SELECT * FROM PhongChieu', (err, rooms) => {
+                if (err) {
+                    console.error('Database error:', err);
+                    return res.status(500).send('Internal Server Error');
+                }
+                res.render('admin_showtimes', { user: req.session.user, showtimes, movies, rooms });
+            });
+        });
+    });
+};
+
+exports.addShowtime = (req, res) => {
+    const { ID_P, ID_PC, NgayGioChieu, GiaVe } = req.body;
+    db.query('SELECT * FROM SuatChieu WHERE ID_PC = ? AND NgayGioChieu = ?', [ID_PC, NgayGioChieu], (err, results) => {
+        if (err) {
+            console.error('Database error:', err);
+            return res.status(500).send('Internal Server Error');
+        }
+        if (results.length > 0) {
+            return res.render('admin_showtimes', { user: req.session.user, error: 'Suất chiếu đã tồn tại cho phòng và thời gian này.' });
+        }
+        db.query('SELECT COUNT(*) AS count FROM SuatChieu', (err, countResult) => {
+            if (err) {
+                console.error('Database error:', err);
+                return res.status(500).send('Internal Server Error');
+            }
+            const ID_SC = `SC${countResult[0].count + 1}`;
+            db.query('INSERT INTO SuatChieu (ID_SC, ID_P, ID_PC, NgayGioChieu, GiaVe) VALUES (?, ?, ?, ?, ?)', [ID_SC, ID_P, ID_PC, NgayGioChieu, GiaVe], (err) => {
+                if (err) {
+                    console.error('Database error:', err);
+                    return res.status(500).send('Internal Server Error');
+                }
+                res.redirect('/profile/admin/showtimes');
+            });
+        });
+    });
+};
+
+exports.deleteShowtime = (req, res) => {
+    const ID_SC = req.body.ID_SC || req.params.id; // Accept ID from both form submission and URL parameter
+    db.query('DELETE FROM SuatChieu WHERE ID_SC = ?', [ID_SC], (err) => {
+        if (err) {
+            console.error('Database error:', err);
+            return res.status(500).send('Internal Server Error');
+        }
+        res.redirect('/profile/admin/showtimes');
+    });
+};
+
+// Admin: Manage Rooms
+exports.getRooms = (req, res) => {
+    db.query('SELECT pc.*, r.TenRap FROM PhongChieu pc JOIN RapPhim r ON pc.ID_R = r.ID_R', (err, rooms) => {
+        if (err) {
+            console.error('Database error:', err);
+            return res.status(500).send('Internal Server Error');
+        }
+        db.query('SELECT * FROM RapPhim', (err, theaters) => {
+            if (err) {
+                console.error('Database error:', err);
+                return res.status(500).send('Internal Server Error');
+            }
+            res.render('admin_rooms', { user: req.session.user, rooms, theaters });
+        });
+    });
+};
+
+exports.addRoom = (req, res) => {
+    const { ID_R, TenPhong, LoaiPhong } = req.body;
+    db.query('SELECT * FROM PhongChieu WHERE TenPhong = ? AND ID_R = ?', [TenPhong, ID_R], (err, results) => {
+        if (err) {
+            console.error('Database error:', err);
+            return res.status(500).send('Internal Server Error');
+        }
+        if (results.length > 0) {
+            return res.render('admin_rooms', { user: req.session.user, error: 'Phòng chiếu đã tồn tại cho rạp này.' });
+        }
+        db.query('SELECT COUNT(*) AS count FROM PhongChieu', (err, countResult) => {
+            if (err) {
+                console.error('Database error:', err);
+                return res.status(500).send('Internal Server Error');
+            }
+            const ID_PC = `PC${countResult[0].count + 1}`;
+            db.query('INSERT INTO PhongChieu (ID_PC, ID_R, TenPhong, LoaiPhong) VALUES (?, ?, ?, ?)', [ID_PC, ID_R, TenPhong, LoaiPhong], (err) => {
+                if (err) {
+                    console.error('Database error:', err);
+                    return res.status(500).send('Internal Server Error');
+                }
+                res.redirect('/profile/admin/rooms');
+            });
+        });
+    });
+};
+
+// Delete Room
+exports.deleteRoom = (req, res) => {
+    const { ID_PC } = req.body;
+    db.query('DELETE FROM PhongChieu WHERE ID_PC = ?', [ID_PC], (err) => {
+        if (err) {
+            console.error('Database error:', err);
+            return res.status(500).send('Internal Server Error');
+        }
+        res.redirect('/profile/admin/rooms');
+    });
 };

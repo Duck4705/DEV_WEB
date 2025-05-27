@@ -3,15 +3,22 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<<<<<<< HEAD
+    <title>Hồ sơ</title>
+    <link rel="icon" type="image/x-icon" href="/img/img_access/video-camera.png">
+=======
     <title>Document</title>
+>>>>>>> refs/remotes/origin/develop
     <link rel="stylesheet" href="/style.css">
-    {{!-- <link rel="stylesheet" href="/index.css"> --}}
     <link rel="stylesheet" href="/login.css">
     <link rel="stylesheet" href="/profile.css">
-    {{!-- <link rel="stylesheet" href="/movie_details.css"> --}}
     <script src="https://unpkg.com/phosphor-icons"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
+<<<<<<< HEAD
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+=======
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+>>>>>>> refs/remotes/origin/develop
     <link href="https://fonts.googleapis.com/css2?family=Anton&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
 </head>
@@ -23,7 +30,6 @@
         </div>
         
         <div class="align_row" style="color: white;">
-        
             <div class="align_row" style="margin-left: 50px;">
                 {{#if user}}
                     <div class="user-menu" class="align_row">
@@ -40,10 +46,12 @@
             </div>
         </div>
     </div>
-    
 
-
-     <div class="align_row" style="width: 1200px; margin-top: 100px; align-items: flex-start;">
+<<<<<<< HEAD
+    <div class="alluser" style="width: 1200px; margin-top: 100px; align-items: flex-start;">
+=======
+    <div class="align_row" style="width: 1200px; margin-top: 100px; align-items: flex-start;">
+>>>>>>> refs/remotes/origin/develop
         <div class="user_left">
             <div class="user_img">
                 <img src="/profile/avatar/{{user.ID_U}}" style="border-radius: 50%;" alt="" width="50px" height="50px" id="userAvatar">
@@ -55,7 +63,7 @@
             </div>
 
             <div class="user_role">
-                <p style="font-family: 'Anton', sans-serif; font-size: 15px;">KHÁCH HÀNG</p>
+                <p style="font-family: 'Anton', sans-serif; font-size: 15px;">{{#if (eq user.VaiTro 'admin_role_1')}}QUẢN TRỊ VIÊN{{else}}KHÁCH HÀNG{{/if}}</p>
             </div>
 
             <div class="user_point">
@@ -65,6 +73,41 @@
             </div>
 
             <div class="user_menu">
+<<<<<<< HEAD
+                <div class="usertab" style="align-self: flex-start; padding: 10px; border-left: #f3ea28 2px solid;">
+                    <a style="color: #f3ea28;" href=""><i style="margin-right: 8px; margin-top: 5px;" class="ph ph-user"></i></a>
+                    <a style="color: #f3ea28;" href="">Trang cá nhân</a>
+                </div>
+                <div class="usertab" style="align-self: flex-start; padding: 10px;">
+                    <a style="color: #f8fafc;" href=""><i style="margin-right: 8px; margin-top: 5px;" class="ph ph-clock-counter-clockwise"></i></a>
+                    <a style="color: #f8fafc;" href="/profile/history">Lịch sử giao dịch</a>
+                </div>
+                {{#if (eq user.VaiTro 'admin_role_1')}}
+                <div class="usertab" style="align-self: flex-start; padding: 10px;">
+                    <a style="color: #f8fafc;" href="/profile/admin/theaters"><i style="margin-right: 8px; margin-top: 5px;" class="ph ph-storefront"></i></a>
+                    <a style="color: #f8fafc;" href="/profile/admin/theaters">Quản lý rạp chiếu</a>
+                </div>
+                <div class="usertab" style="align-self: flex-start; padding: 10px;">
+                    <a style="color: #f8fafc;" href="/profile/admin/movies"><i style="margin-right: 8px; margin-top: 5px;" class="ph ph-film-strip"></i></a>
+                    <a style="color: #f8fafc;" href="/profile/admin/movies">Quản lý phim</a>
+                </div>
+                <div class="usertab" style="align-self: flex-start; padding: 10px;">
+                    <a style="color: #f8fafc;" href="/profile/admin/showtimes"><i style="margin-right: 8px; margin-top: 5px;" class="ph ph-calendar"></i></a>
+                    <a style="color: #f8fafc;" href="/profile/admin/showtimes">Quản lý suất chiếu</a>
+                </div>
+                <div class="usertab" style="align-self: flex-start; padding: 10px;">
+                    <a style="color: #f8fafc;" href="/profile/admin/rooms"><i style="margin-right: 8px; margin-top: 5px;" class="ph ph-door"></i></a>
+                    <a style="color: #f8fafc;" href="/profile/admin/rooms">Quản lý phòng chiếu</a>
+                </div>
+                <div class="usertab" style="align-self: flex-start; padding: 10px;">
+                    <a style="color: #f8fafc;" href="/profile/admin/seats"><i style="margin-right: 8px; margin-top: 5px;" class="ph ph-armchair"></i></a>
+                    <a style="color: #f8fafc;" href="/profile/admin/seats">Quản lý ghế</a>
+                </div>
+                {{/if}}
+            </div>
+            <div class="usertab" style="align-self: flex-start;">
+                <a style="color: rgba(200, 200, 200, 0.5);" href=""><i style="margin-right: 8px; margin-top: 5px;" class="ph ph-sign-out"></i></a>
+=======
                 <div class="align_row" style="align-self: flex-start; padding: 10px; border-left: #f3ea28 2px solid;">
                     <a style="color: #f3ea28;" href=""><i style="margin-right: 8px;" class="ph ph-user"></i></a>
                     <a style="color: #f3ea28;" href="">Trang cá nhân</a>
@@ -73,9 +116,28 @@
                     <a style="color: #f8fafc;" href=""><i style="margin-right: 8px;" class="ph ph-clock-counter-clockwise"></i></a>
                     <a style="color: #f8fafc;" href="/profile/history">Lịch sử giao dịch</a>
                 </div>
+                {{#if (eq user.VaiTro 'admin_role_1')}}
+                <div class="align_row" style="align-self: flex-start; padding: 10px;">
+                    <a style="color: #f8fafc;" href="/profile/admin/theaters"><i style="margin-right: 8px;" class="ph ph-storefront"></i></a>
+                    <a style="color: #f8fafc;" href="/profile/admin/theaters">Quản lý rạp chiếu</a>
+                </div>
+                <div class="align_row" style="align-self: flex-start; padding: 10px;">
+                    <a style="color: #f8fafc;" href="/profile/admin/movies"><i style="margin-right: 8px;" class="ph ph-film-strip"></i></a>
+                    <a style="color: #f8fafc;" href="/profile/admin/movies">Quản lý phim</a>
+                </div>
+                <div class="align_row" style="align-self: flex-start; padding: 10px;">
+                    <a style="color: #f8fafc;" href="/profile/admin/showtimes"><i style="margin-right: 8px;" class="ph ph-calendar"></i></a>
+                    <a style="color: #f8fafc;" href="/profile/admin/showtimes">Quản lý suất chiếu</a>
+                </div>
+                <div class="align_row" style="align-self: flex-start; padding: 10px;">
+                    <a style="color: #f8fafc;" href="/profile/admin/rooms"><i style="margin-right: 8px;" class="ph ph-door"></i></a>
+                    <a style="color: #f8fafc;" href="/profile/admin/rooms">Quản lý phòng chiếu</a>
+                </div>
+                {{/if}}
             </div>
             <div class="align_row" style="align-self: flex-start;">
                 <a style="color: rgba(200, 200, 200, 0.5);" href=""><i style="margin-right: 8px;" class="ph ph-sign-out"></i></a>
+>>>>>>> refs/remotes/origin/develop
                 <a style="color: rgba(200, 200, 200, 0.5);" href="/logout">Đăng xuất</a>
             </div>
         </div>
@@ -83,7 +145,11 @@
         <div class="user_right">
             <h1 style="font-size: 40px; font-family: 'Anton', sans-serif; margin: 20px 0px; margin-top: 30px;">THÔNG TIN KHÁCH HÀNG</h1>
             <div class="align_column" style="color: #0f172a; background-color: #f8fafc; align-items: flex-start; width: 100%; padding: 10px;">
+<<<<<<< HEAD
+                <form action="/profile/edit" method="POST" id="profileForm" style="width: 100%;">
+=======
                 <form action="/profile/edit" method="POST" id="profileForm">
+>>>>>>> refs/remotes/origin/develop
                     <h4 style="margin: 10px; font-size: 20px; font-family: 'Anton', sans-serif;">Thông tin cá nhân</h4>
                     <div class="align_row_between" style="width: 100%;">
                         <div class="input_info">
@@ -105,17 +171,27 @@
                             <input type="email" id="Email" name="Email" value="{{user.Email}}" readonly>
                         </div>
                     </div>
+<<<<<<< HEAD
+                    <button type="button" id="editButton" style="background-color: #f3ea28; border: none; margin: 10px; padding: 10px 20px; font-size: 15px; font-family: 'Anton', sans-serif;">CHỈNH SỬA THÔNG TIN</button>
+=======
                     <button type="button" id="editButton" style="background-color: #f3ea28; border: none; margin: 10px; padding: 10px; font-size: 15px; font-family: 'Anton', sans-serif;">CHỈNH SỬA THÔNG TIN</button>
+>>>>>>> refs/remotes/origin/develop
                     <button type="submit" id="saveButton" style="display: none; background-color: rgba(140, 140, 140, 0.5); border: none; margin: 10px; padding: 10px; font-size: 15px; font-family: 'Anton', sans-serif;">LƯU THÔNG TIN</button>
                 </form>
             </div>
         </div>
-
     </div>
+<<<<<<< HEAD
+    <div class="bottom_bar" style="margin-top: 239px;">
+        <div class="align_row_between" style="width: 1200px; margin: 30px 0px; ">
+            <p>© 2023 Uitheater. All rights reserved.</p>
+            <div class="align_row hide-mobile">
+=======
     <div class="bottom_bar" style="margin-top: 255px;">
         <div class="align_row_between" style="width: 1200px; margin: 30px 0px; ">
             <p>© 2023 Uitheater. All rights reserved.</p>
             <div class="align_row">
+>>>>>>> refs/remotes/origin/develop
                 <a style="color: #f8fafc; padding: 0px 10px;" href="">Toàn diện</a>
                 <a style="color: #f8fafc; padding: 0px 10px;" href="">Sáng tạo</a>
                 <a style="color: #f8fafc; padding: 0px 10px;" href="">Phụng sự</a>
@@ -130,9 +206,7 @@
         </div>
     </div>
 
-
     <script>
-
     // Bật chế độ chỉnh sửa cho các trường thông tin cá nhân    
     document.addEventListener('DOMContentLoaded', () => {
         const editButton = document.getElementById('editButton');
@@ -140,15 +214,12 @@
         const editableInputs = ['HoTen', 'NgaySinh', 'SDT']; // Chỉ các trường này được chỉnh sửa
 
         editButton.addEventListener('click', () => {
-            // Bật chế độ chỉnh sửa cho các trường được phép
             editableInputs.forEach(id => {
                 const input = document.getElementById(id);
                 if (input) {
                     input.removeAttribute('readonly');
                 }
             });
-
-            // Hiển thị nút "Lưu thông tin" và ẩn nút "Chỉnh sửa thông tin"
             editButton.style.display = 'none';
             saveButton.style.display = 'inline-block';
         });
@@ -163,8 +234,6 @@
             if (file) {
                 const formData = new FormData();
                 formData.append('avatar', file);
-
-                // Gửi ảnh lên server
                 fetch('/profile/upload-avatar', {
                     method: 'POST',
                     body: formData
@@ -172,19 +241,21 @@
                 .then(response => response.json())
                 .then(data => {
                     if (data.success) {
-                        // Tải lại trang sau khi ảnh được tải lên thành công
                         location.reload();
                     }
                 })
                 .catch(err => {
                     console.error('Error uploading avatar:', err);
-                    // Tải lại trang ngay cả khi có lỗi
                     location.reload();
                 });
             }
         });
     });
-</script>
+    </script>
 </body>
-
 </html>
+
+{{!-- CHANGES FOR ADMIN ROLE 1 --}}
+{{!-- Added Handlebars helper 'eq' for role comparison --}}
+{{!-- Added admin menu items under user_menu, visible only if user.VaiTro === 'admin_role_1' --}}
+{{!-- Updated user_role display to show 'QUẢN TRỊ VIÊN' for admin_role_1 --}}

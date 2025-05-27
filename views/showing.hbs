@@ -3,7 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<<<<<<< HEAD
+    <title>Đặt vé</title>
+    <link rel="icon" type="image/x-icon" href="/img/img_access/video-camera.png">
+=======
     <title>Document</title>
+>>>>>>> refs/remotes/origin/develop
     <link rel="stylesheet" href="/style.css">
     <link rel="stylesheet" href="/index.css">
     <script src="https://unpkg.com/phosphor-icons"></script>
@@ -13,6 +18,48 @@
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
 </head>
 <body>
+<<<<<<< HEAD
+    <div class="top_bar top_bar-row" style="border-bottom: 1px rgba(140, 140, 140, 0.5) solid;">
+        <div class="align_row topbar-group" style="color: white;">
+            <i style="font-size: 40px;" class="ph ph-video-camera"></i>
+            <h1 class="logoFont" style="font-size: 20px; margin: 0px 10px; font-weight: 600;">UIT THEATER</h1>
+        </div>
+        <div class="align_row topbar-group hide-mobile">
+            <a href="" class="booking hide-mobile">
+                <i style="margin-right: 8px; font-size: 22px;" class="ph ph-ticket"></i>
+                <span style="font-family: 'Anton', sans-serif;">ĐẶT VÉ NGAY</span>
+            </a>
+            <a href="" class="booking hide-mobile">
+                <i style="margin-right: 8px; font-size: 22px;" class="ph ph-popcorn"></i>
+                <span style="font-family: 'Anton', sans-serif;">ĐẶT BẮP NƯỚC</span>
+            </a>
+        </div>
+        <div class="align_row topbar-group searchBar" style="color: white;">
+            <input type="text" placeholder="Tìm phim" style="padding: 10px 20px; border-radius: 50px; font-size: 15px;">
+            <i style="margin-left: -25px; color: black; font-size: 15px;" class="ph ph-magnifying-glass"></i>
+        </div>
+        <div class="align_row topbar-group" style="color: white;">
+            {{#if user}}
+                <div class="user-menu align_row">
+                    <div class="dropdown align_row">
+                        <img src="/profile/avatar/{{user.ID_U}}" class="img-user" alt="">
+                        <div class="dropdown-menu" style="margin-top: 120px; margin-left: 150px;">
+                            <a href="/profile"><i style="margin: 0px 8px 0px 0px;" class="ph ph-user"></i>Trang cá nhân</a>
+                            <a href="/logout"><i style="margin: 0px 8px 0px 0px;" class="ph ph-sign-out"></i>Đăng xuất</a>
+                        </div>
+                    </div>
+                    <button class="dropdown-toggle hide-mobile">{{user.TongSoTien}} VNĐ</button>
+                </div>
+            {{else}}
+                <div class="align_row signIn">
+                    <a href="/login" class="signIn_logo" style="color: #f8fafc;"><i style="font-size: 30px; margin: 10px;" class="ph ph-user-circle"></i></a>
+                    
+                    <h2 class="hide-mobile" style="font-size: 20px;">
+                        <a class="btSign" style="background-color: #0f172a; color: #f8fafc;" href="/login">Đăng nhập</a>
+                    </h2>
+                </div>
+            {{/if}}
+=======
     <div class="top_bar" style="border-bottom: 1px rgba(140, 140, 140, 0.5) solid;">
         <div class="align_row" style="color: white;">
             <i style="font-size: 40px;" class="ph ph-video-camera"></i>
@@ -53,6 +100,7 @@
                     </h2>
                 {{/if}}
             </div>
+>>>>>>> refs/remotes/origin/develop
         </div>
     </div>
 
@@ -76,10 +124,13 @@
                     </div>
                 </div>
             {{/each}}
+<<<<<<< HEAD
+=======
 
 
 
            
+>>>>>>> refs/remotes/origin/develop
         </div>
         
     </div>
@@ -92,7 +143,11 @@
     <div class="bottom_bar">
         <div class="align_row_between" style="width: 1200px; margin: 30px 0px; ">
             <p>© 2023 Uitheater. All rights reserved.</p>
+<<<<<<< HEAD
+            <div class="align_row hide-mobile">
+=======
             <div class="align_row">
+>>>>>>> refs/remotes/origin/develop
                 <a style="color: #f8fafc; padding: 0px 10px;" href="">Toàn diện</a>
                 <a style="color: #f8fafc; padding: 0px 10px;" href="">Sáng tạo</a>
                 <a style="color: #f8fafc; padding: 0px 10px;" href="">Phụng sự</a>

@@ -95,7 +95,7 @@ exports.getSeatDetails = (req, res) => {
     const ID_SC = req.params.ID_SC; // Lấy ID suất chiếu từ URL
 
     const screeningQuery = `
-        SELECT sc.ID_SC, sc.NgayGioChieu, pc.TenPhong, rp.TenRap, p.TenPhim
+        SELECT sc.ID_SC, sc.NgayGioChieu, pc.TenPhong, rp.TenRap, p.TenPhim, sc.GiaVe
         FROM SuatChieu sc
         JOIN PhongChieu pc ON sc.ID_PC = pc.ID_PC
         JOIN RapPhim rp ON pc.ID_R = rp.ID_R
@@ -115,18 +115,38 @@ exports.getSeatDetails = (req, res) => {
 
         const screeningDetails = screeningResults[0];
 
-        // Render view với dữ liệu suất chiếu, không cần khởi tạo ghế ở đây
-        // vì ghế sẽ được khởi tạo trong WebSocket khi client kết nối
-        res.render('get_seat_thongnhat', { 
-            user, 
-            screeningDetails,
-            ID_SC: screeningDetails.ID_SC,
-            phim: screeningDetails.TenPhim,
-            rapPhim: screeningDetails.TenRap,
-            phongChieu: screeningDetails.TenPhong,
-            ngayChieu: new Date(screeningDetails.NgayGioChieu).toLocaleString('vi-VN')
-            // Removed giaVe field as it doesn't exist in the database
-        });
+
+        if (screeningDetails.TenPhong == "Thống Nhất") {
+            // Render view với dữ liệu suất chiếu, không cần khởi tạo ghế ở đây
+            // vì ghế sẽ được khởi tạo trong WebSocket khi client kết nối
+            res.render('get_seat_thongnhat', { 
+                user, 
+                screeningDetails,
+                ID_SC: screeningDetails.ID_SC,
+                phim: screeningDetails.TenPhim,
+                rapPhim: screeningDetails.TenRap,
+                phongChieu: screeningDetails.TenPhong,
+                giaVeDon: screeningDetails.GiaVe,
+                giaVeDoi: screeningDetails.GiaVe * 2,
+                ngayChieu: new Date(screeningDetails.NgayGioChieu).toLocaleString('vi-VN')
+                // Removed giaVe field as it doesn't exist in the database
+            });
+        }
+        else if (screeningDetails.TenPhong == "Giải Phóng") {
+            // Render view với dữ liệu suất chiếu, không cần khởi tạo ghế ở đây
+            // vì ghế sẽ được khởi tạo trong WebSocket khi client kết nối
+            res.render('get_seat_giaiphong', { 
+                user, 
+                screeningDetails,
+                ID_SC: screeningDetails.ID_SC,
+                phim: screeningDetails.TenPhim,
+                rapPhim: screeningDetails.TenRap,
+                phongChieu: screeningDetails.TenPhong,
+                giaVeDon: screeningDetails.GiaVe,
+                giaVeDoi: screeningDetails.GiaVe * 2,
+                ngayChieu: new Date(screeningDetails.NgayGioChieu).toLocaleString('vi-VN')
+                // Removed giaVe field as it doesn't exist in the database
+            });
+        }
     });
 };
-

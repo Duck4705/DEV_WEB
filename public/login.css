@@ -120,3 +120,77 @@ input
     align-self: flex-end;
     margin: 10px 0px;
 }
+
+/* Responsive styles */
+@media (max-width: 1200px) {
+    .top_bar, .quickbook, .img_ads, .movie, .bottom_bar {
+        width: 100% !important;
+        min-width: unset;
+        max-width: 100vw;
+    }
+    .signin, .register, .userbox {
+        width: 60%;
+    }
+}
+
+@media (max-width: 900px) {
+    .top_bar, .quickbook, .img_ads, .movie, .bottom_bar {
+        width: 100% !important;
+        min-width: unset;
+        max-width: 100vw;
+    }
+    .signin, .register, .userbox {
+        width: 90%;
+        padding: 20px;
+    }
+    .top_bar {
+        flex-direction: column;
+        height: auto;
+        padding: 10px 0;
+    }
+    .bottom_bar {
+        flex-direction: column;
+        align-items: flex-start;
+        margin-top: 100px !important;
+    }
+}
+
+@media (max-width: 600px) {
+    .top_bar, .quickbook, .img_ads, .movie, .bottom_bar {
+        width: 100% !important;
+        min-width: unset;
+        max-width: 100vw;
+    }
+    .signin, .register, .userbox {
+        width: 100%;
+        padding: 10px;
+    }
+    .top_bar h1, .bottom_bar h1, .bottom_bar h4 {
+        font-size: 16px !important;
+    }
+    .btSign, .btForgot, .btReg {
+        font-size: 18px !important;
+        padding: 10px !important;
+    }
+    .top_bar {
+        flex-direction: column;
+        height: auto;
+        padding: 5px 0;
+    }
+    .bottom_bar {
+        flex-direction: column;
+        align-items: flex-start;
+        margin-top: 50px !important;
+    }
+    .align_row, .align_row_between {
+        flex-direction: column !important;
+        align-items: flex-start !important;
+        width: 100% !important;
+    }
+    .signin, .register {
+        font-size: 14px;
+    }
+    input, label {
+        font-size: 14px;
+    }
+}
