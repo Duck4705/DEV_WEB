@@ -1,17 +1,9 @@
-.movie_details_1 {
+.movie_details {
     width: 1200px;
     display: flex;
     flex-direction: row;
     justify-content: center;
     align-items: center;
-}
-.movie_details_2 {
-    width: 1200px;
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    align-items: center;
-    display: none;
 }
 .movie_img {
     width: 50%;
@@ -24,23 +16,9 @@
     justify-content: space-between;
     align-items: flex-start;
     margin-left: 30px;
-    height: 730px;
+    height: 750px;
 }
 .movie_text h4{
-    font-size: 20px;
-}
-.movie_text_2 {
-    width: 50%;
-    color: #f8fafc;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    align-items: flex-start;
-    margin-left: 30px;
-    height: 750px;
-    display: none;
-}
-.movie_text_2 h4{
     font-size: 20px;
 }
 .movie_timeline {
@@ -50,13 +28,6 @@
     justify-content: center;
     align-items: center;
     color: #f8fafc;
-}
-.logoTrailer
-{
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    align-items: center;
 }
 .day_box {
     width: 120px;
@@ -120,7 +91,6 @@ ul {
     align-items: center;
     color: #f8fafc;
 }
-
 .ticket_box {
     width: 33%;
     padding: 20px;
@@ -191,289 +161,4 @@ ul {
     padding: 20px 10px;
     border-radius: 8px;
     width: 250px;
-}
-.moreseat
-{
-    width: 40px;
-    margin: 0px 5px;
-}
-/* Responsive styles for movie_details page */
-@media (max-width: 1200px) {
-    .movie_details {
-        max-width: 100vw;
-        width: 100%;
-        flex-direction: column;
-        align-items: center;
-        padding: 0 10px;
-        box-sizing: border-box;
-    }
-    .movie_img, .movie_text {
-        width: 100%;
-        margin-left: 0;
-        height: auto;
-        padding: 0px;
-    }
-    .movie_timeline,
-    .movie_position,
-    .movie_tickets,
-    .seat1,
-    .payment {
-        width: 100% !important;
-        max-width: 100vw;
-        box-sizing: border-box;
-    }
-    }
-
-    @media (max-width: 900px) {
-    .movie_details {
-        flex-direction: row;
-        width: 100%;
-        padding: 0 5px;
-    }
-    .movie_img, .movie_text {
-        width: 100%;
-        margin-left: 0;
-        height: auto;
-    }
-    .movie_timeline,
-    .movie_position,
-    .movie_tickets,
-    .seat1,
-    .payment {
-        width: 100% !important;
-        max-width: 100vw;
-        box-sizing: border-box;
-    }
-    .ticket_box {
-        width: 90% !important;
-        margin: 10px auto;
-    }
-    }
-
-    @media (max-width: 600px) {
-    .movie_details_2 {
-        display: flex !important;
-        flex-direction: row !important;
-        justify-content: center !important;
-        align-items: center !important;
-        width: 100%;
-        padding: 20px;
-        box-sizing: border-box;
-    }
-    .movie_img {
-        width: 100%;
-        margin: 0px 10px;
-        height: auto;
-        margin-top: 20px !important;
-    }
-    .movie_text {
-        display: flex !important;
-        flex-direction: column !important;
-        justify-content: space-between !important;
-        align-items: flex-start !important;
-        height: 100% !important;
-    }
-    .movie_text h1 {
-        font-size: 20px !important;
-    }
-    
-    .movie_text h4 {
-        font-size: 12px !important;
-    }
-    .movie_timeline,
-    .movie_position,
-    .movie_tickets,
-    .seat1,
-    .payment {
-        width: 100% !important;
-        max-width: 100vw;
-        box-sizing: border-box;
-        padding: 0 2px;
-    }
-    .ticket_box {
-        width: 100% !important;
-        margin: 10px 0;
-        padding: 10px;
-    }
-    .payment {
-        flex-direction: column;
-        gap: 10px;
-        align-items: flex-start;
-    }
-    .hide_mobile {
-        display: none;
-    }
-    .movie_details_1 {
-        display: none;
-    }
-    .movie_details_2 {
-        display: flex;
-    }
-    .movie_text_2 {
-        display: flex !important;
-        width: 85% !important;
-        flex-direction: column !important;
-        align-items: flex-start !important;
-        justify-content: center !important;
-        margin-right: 30px !important;
-       margin-top: -20px !important;
-    }
-    .movie_text_2 h1 {
-        font-size: 20px !important;
-    }
-    
-    .movie_text_2 h4 {
-        font-size: 12px !important;
-    }
-    .logoTrailer
-    {
-        display: flex !important;
-        flex-direction: row !important;
-        justify-content: center !important;
-        align-items: center !important;
-    }
-    .logoTrailer a
-    {
-        font-size: 12px !important;
-    }
-    .movie_position h1 
-    {
-        font-size: 25px !important;
-    }
-    .position_box
-    {
-        width: 90%;
-    }
-    .position_box h4
-    {
-        font-size: 20px !important;
-    }
-    .position_box p
-    {
-        font-size: 14px !important;
-    }
-    .position_time
-    {
-        width: 300px !important;
-    }
-    .bottom_bar {
-        margin-top: 50px !important;
-    }
-}
-
-/* Responsive styles for seat1 and booking page */
-@media (max-width: 1200px) {
-    .seat1 {
-        max-width: 100vw;
-        width: 100%;
-        padding: 0 10px;
-        box-sizing: border-box;
-    }
-}
-@media (max-width: 900px) {
-    .seat1 {
-        max-width: 100vw;
-        width: 100%;
-        padding: 0 5px;
-        box-sizing: border-box;
-    }
-}
-@media (max-width: 600px) {
-    .seat1 {
-        max-width: 100vw;
-        width: 100%;
-        padding: 0 2px;
-        box-sizing: border-box;
-    }
-    .movie-info {
-        font-size: 14px !important;
-        padding: 8px !important;
-    }
-    .movie-info h2 {
-        font-size: 18px !important;
-    }
-    .screen {
-        font-size: 14px !important;
-        padding: 6px !important;
-    }
-    .seats-container {
-        gap: 5px !important;
-        width: 100% !important;
-    }
-    .seat-row {
-        margin-bottom: 2px !important;
-        width: 100% !important;
-    }
-    .row-label {
-        width: 20px !important;
-        font-size: 12px !important;
-        margin-right: 6px !important;
-    }
-    .seat {
-        width: 20px !important;
-        height: 16px !important;
-        font-size: 8px !important;
-        margin: 0 2px !important;
-        border-radius: none;
-    }
-    .moreseat
-    {
-        width: 20px !important;
-        height: 16px !important;
-        font-size: 8px !important;
-        margin: 0 2px !important;
-        border-radius: none;
-    }
-    .legend {
-        gap: 8px !important;
-        margin-top: 10px !important;
-        flex-wrap: wrap;
-    }
-    .legend-item span {
-        font-size: 12px !important;
-    }
-    .legend-box {
-        width: 14px !important;
-        height: 14px !important;
-        margin-right: 3px !important;
-    }
-    .controls {
-        flex-direction: column !important;
-        gap: 8px !important;
-        padding: 8px !important;
-    }
-    #timer, #price-info {
-        font-size: 13px !important;
-        padding: 6px 8px !important;
-        min-width: 70px !important;
-    }
-    button {
-        padding: 6px 10px !important;
-        font-size: 13px !important;
-    }
-    .seats-container {
-        width: 100% !important;
-        max-width: 100vw !important;
-        box-sizing: border-box !important;
-        margin: 0 !important;
-        padding: 0 2px !important;
-    }
-    .bottom_bar {
-        padding: 0 !important;
-        align-items: center !important;
-        justify-content: center !important;
-    }
-    .movie-info {
-        margin: 0 0 10px 0 !important;
-        border-radius: 8px !important;
-        box-shadow: none !important;
-    }
-    .screen {
-        width: 100% !important;
-        margin: 10px 0 !important;
-    }
-    .fontH1
-    {
-        font-size: 25px !important;
-    }
 }

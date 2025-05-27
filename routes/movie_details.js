@@ -1,6 +1,13 @@
+<<<<<<< HEAD
 const express = require('express');
 const router = express.Router();
 const movieDetailsController = require('../controllers/movie_details'); // Import controller
+=======
+// Thêm thư viện ở dươi dòng này
+const express = require('express');
+const router = express.Router();
+const movieDetailsController = require('../controllers/movie_details'); 
+>>>>>>> refs/remotes/origin/develop
 
 // Route chi tiết phim
 router.get('/showing', movieDetailsController.getMovieShowing);

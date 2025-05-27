@@ -7,7 +7,7 @@
     align-items: center;
     background-color: #0f172a;
     height: 80px;
-    width: 1210px;
+    width: 1200px;
     align-self: center;
 }
 .booking
@@ -156,19 +156,41 @@ input
 }
 
 @media (max-width: 600px) {
-    .box_login
-    {
-        width: 89.8% !important;
-        margin-left: 40px !important;
-        margin-top: -20px !important;
-        border: none !important;
+    .top_bar, .quickbook, .img_ads, .movie, .bottom_bar {
+        width: 100% !important;
+        min-width: unset;
+        max-width: 100vw;
     }
-    .hide_mobile
-    {
-        display: none;
+    .signin, .register, .userbox {
+        width: 100%;
+        padding: 10px;
     }
-    .bottom_bar
-    {
-        margin-top: 232px !important;
+    .top_bar h1, .bottom_bar h1, .bottom_bar h4 {
+        font-size: 16px !important;
+    }
+    .btSign, .btForgot, .btReg {
+        font-size: 18px !important;
+        padding: 10px !important;
+    }
+    .top_bar {
+        flex-direction: column;
+        height: auto;
+        padding: 5px 0;
+    }
+    .bottom_bar {
+        flex-direction: column;
+        align-items: flex-start;
+        margin-top: 50px !important;
+    }
+    .align_row, .align_row_between {
+        flex-direction: column !important;
+        align-items: flex-start !important;
+        width: 100% !important;
+    }
+    .signin, .register {
+        font-size: 14px;
+    }
+    input, label {
+        font-size: 14px;
     }
 }

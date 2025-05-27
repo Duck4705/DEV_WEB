@@ -59,18 +59,7 @@ input
     outline: none;
 }
 
-.top_bar
-{
-    position: fixed;
-    display: flex;
-    flex-direction: row;
-    justify-content: space-around;
-    align-items: center;
-    background-color: #0f172a;
-    height: 80px;
-    width: 1210px;
-    align-self: center;
-}
+
 
 
 
@@ -383,18 +372,6 @@ input
         width: 100% !important;
         min-width: unset;
         max-width: 100vw;
-    }
-    .top_bar {
-        flex-direction: row !important;
-        align-items: center !important;
-        justify-content: space-between !important;
-        height: auto;
-        padding: 10px 0;
-        width: 100% !important;
-    }
-    .top_bar .align_row {
-        flex-direction: row !important;
-        align-items: center !important;
     }
     .top_bar h1, .bottom_bar h1, .bottom_bar h4, .movie h1 {
         font-size: 16px !important;

@@ -4,14 +4,21 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Quản lý phim</title>
+<<<<<<< HEAD
     <link rel="icon" type="image/x-icon" href="/img/img_access/video-camera.png">
+=======
+>>>>>>> refs/remotes/origin/develop
     <link rel="stylesheet" href="/style.css">
     <link rel="stylesheet" href="/profile.css">
     <link rel="stylesheet" href="/login.css">
     <script src="https://unpkg.com/phosphor-icons"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
+<<<<<<< HEAD
     <link rel="preconnect" href="https://fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+=======
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+>>>>>>> refs/remotes/origin/develop
     <link href="https://fonts.googleapis.com/css2?family=Anton&display=swap" rel="stylesheet">
 </head>
 <body style="background-color: #0f172a;">
@@ -20,6 +27,7 @@
             <i style="font-size: 40px;" class="ph ph-video-camera"></i>
             <h1 style="font-size: 20px; margin: 0px 20px; font-weight: 600;">UIT THEATER</h1>
         </div>
+<<<<<<< HEAD
         
         <div class="align_row" style="color: white;">
             <div class="align_row" style="margin-left: 50px;">
@@ -29,6 +37,16 @@
                             <img src="/profile/avatar/{{user.ID_U}}" class="img-user" alt="">
                             <div class="dropdown-menu">
                                 <a href="/"><i style="margin: 0px 8px 0px 0px;" class="ph ph-user"></i>Home</a>
+=======
+        <div class="align_row" style="color: white;">
+            <div class="align_row" style="margin-left: 50px;">
+                {{#if user}}
+                    <div class="user-menu align_row">
+                        <div class="dropdown align_row">
+                            <img src="/profile/avatar/{{user.ID_U}}" class="img-user" alt="">
+                            <div class="dropdown-menu">
+                                <a href="/profile"><i style="margin: 0px 8px 0px 0px;" class="ph ph-user"></i>Trang cá nhân</a>
+>>>>>>> refs/remotes/origin/develop
                                 <a href="/logout"><i style="margin: 0px 8px 0px 0px;" class="ph ph-sign-out"></i>Đăng xuất</a>
                             </div>
                         </div>
@@ -38,7 +56,11 @@
             </div>
         </div>
     </div>
+<<<<<<< HEAD
     <div class="alluser" style="width: 1200px; margin-top: 100px; align-items: flex-start;">
+=======
+    <div class="align_row" style="width: 1200px; margin-top: 100px; align-items: flex-start;">
+>>>>>>> refs/remotes/origin/develop
         <div class="user_left">
             <div class="user_img">
                 <img src="/profile/avatar/{{user.ID_U}}" style="border-radius: 50%;" alt="" width="50px" height="50px" id="userAvatar">
@@ -57,6 +79,7 @@
                 <p>0/10K</p>
             </div>
             <div class="user_menu">
+<<<<<<< HEAD
                 <div class="usertab menu-item" style="align-self: flex-start; padding: 10px;">
                     <a style="color: #f8fafc;" href="/profile"><i style="margin-right: 8px; margin-top: 5px;" class="ph ph-user"></i></a>
                     <a style="color: #f8fafc;" href="/profile">Trang cá nhân</a>
@@ -88,6 +111,31 @@
             </div>
             <div class="align_row menu-item" style="align-self: flex-start;">
                 <a style="color: rgba(200, 200, 200, 0.5);" href=""><i style="margin-right: 8px; margin-top: 5px;" class="ph ph-sign-out"></i></a>
+=======
+                <div class="align_row menu-item" style="align-self: flex-start; padding: 10px;">
+                    <a style="color: #f8fafc;" href="/profile"><i style="margin-right: 8px;" class="ph ph-user"></i></a>
+                    <a style="color: #f8fafc;" href="/profile">Trang cá nhân</a>
+                </div>
+                <div class="align_row menu-item" style="align-self: flex-start; padding: 10px;">
+                    <a style="color: #f8fafc;" href="/profile/admin/theaters"><i style="margin-right: 8px;" class="ph ph-storefront"></i></a>
+                    <a style="color: #f8fafc;" href="/profile/admin/theaters">Quản lý rạp chiếu</a>
+                </div>
+                <div class="align_row menu-item active" style="align-self: flex-start; padding: 10px; border-left: #f3ea28 2px solid;">
+                    <a style="color: #f3ea28;" href="/profile/admin/movies"><i style="margin-right: 8px;" class="ph ph-film-strip"></i></a>
+                    <a style="color: #f3ea28;" href="/profile/admin/movies">Quản lý phim</a>
+                </div>
+                <div class="align_row menu-item" style="align-self: flex-start; padding: 10px;">
+                    <a style="color: #f8fafc;" href="/profile/admin/showtimes"><i style="margin-right: 8px;" class="ph ph-calendar"></i></a>
+                    <a style="color: #f8fafc;" href="/profile/admin/showtimes">Quản lý suất chiếu</a>
+                </div>
+                <div class="align_row menu-item" style="align-self: flex-start; padding: 10px;">
+                    <a style="color: #f8fafc;" href="/profile/admin/rooms"><i style="margin-right: 8px;" class="ph ph-door"></i></a>
+                    <a style="color: #f8fafc;" href="/profile/admin/rooms">Quản lý phòng chiếu</a>
+                </div>
+            </div>
+            <div class="align_row" style="align-self: flex-start;">
+                <a style="color: rgba(200, 200, 200, 0.5);" href=""><i style="margin-right: 8px;" class="ph ph-sign-out"></i></a>
+>>>>>>> refs/remotes/origin/develop
                 <a style="color: rgba(200, 200, 200, 0.5);" href="/logout">Đăng xuất</a>
             </div>
         </div>
@@ -96,6 +144,7 @@
             {{#if error}}
                 <p style="color: red;">{{error}}</p>
             {{/if}}
+<<<<<<< HEAD
             <div class="align_column" style="color: #0f172a; background-color: #f8fafc; align-items: flex-start; width: 100%; padding: 10px;">
                 <form action="/profile/admin/movies/add" method="POST" style="width: 100%;">
                     <div class="align_row_between" style="width: 100%;">
@@ -140,17 +189,85 @@
                         <div class="input_info">
                             <label for="DoTuoi" style="font-weight: bold; color: black;">Độ tuổi</label>
                             <input type="number" id="DoTuoi" name="DoTuoi">
+=======
+            <div style="background-color: #f8fafc; padding: 20px; border-radius: 10px;">
+                <form action="/profile/admin/movies/add" method="POST">
+                    <div class="align_row_between" style="width: 100%; margin-bottom: 15px;">
+                        <div class="input_info" style="width: 48%;">
+                            <label for="TenPhim" style="font-weight: bold; color: black;">Tên phim</label>
+                            <input type="text" id="TenPhim" name="TenPhim" required style="width: 100%; padding: 8px; border: 1px solid #ddd; border-radius: 5px;">
+                        </div>
+                        <div class="input_info" style="width: 48%;">
+                            <label for="TheLoai" style="font-weight: bold; color: black;">Thể loại</label>
+                            <input type="text" id="TheLoai" name="TheLoai" required style="width: 100%; padding: 8px; border: 1px solid #ddd; border-radius: 5px;">
+                        </div>
+                    </div>
+                    <div class="align_row_between" style="width: 100%; margin-bottom: 15px;">
+                        <div class="input_info" style="width: 48%;">
+                            <label for="LinkTrailer" style="font-weight: bold; color: black;">Link trailer</label>
+                            <input type="text" id="LinkTrailer" name="LinkTrailer" style="width: 100%; padding: 8px; border: 1px solid #ddd; border-radius: 5px;">
+                        </div>
+                        <div class="input_info" style="width: 48%;">
+                            <label style="font-weight: bold; color: black;">Poster phim</label>
+                            <input type="file" id="posterInput" accept="image/*" style="display: none;">
+                            <button type="button" id="posterBtn" style="width: 100%; padding: 8px; border: 1px solid #ddd; border-radius: 5px; background: #eee;">Chọn ảnh poster</button>
+                            <span id="posterFileName" style="font-size: 13px; color: #333;"></span>
+                            <input type="hidden" id="LinkPoster" name="LinkPoster">
+                        </div>
+                    </div>
+                    <div class="input_info" style="width: 100%; margin-bottom: 15px;">
+                        <label for="MoTaPhim" style="font-weight: bold; color: black;">Mô tả phim</label>
+                        <textarea id="MoTaPhim" name="MoTaPhim" style="width: 100%; height: 100px; padding: 8px; border: 1px solid #ddd; border-radius: 5px;"></textarea>
+                    </div>
+                    <div class="align_row_between" style="width: 100%; margin-bottom: 15px;">
+                        <div class="input_info" style="width: 48%;">
+                            <label for="QuocGia" style="font-weight: bold; color: black;">Quốc gia</label>
+                            <input type="text" id="QuocGia" name="QuocGia" style="width: 100%; padding: 8px; border: 1px solid #ddd; border-radius: 5px;">
+                        </div>
+                        <div class="input_info" style="width: 48%;">
+                            <label for="ThoiLuong" style="font-weight: bold; color: black;">Thời lượng (phút)</label>
+                            <input type="number" id="ThoiLuong" name="ThoiLuong" style="width: 100%; padding: 8px; border: 1px solid #ddd; border-radius: 5px;">
+                        </div>
+                    </div>
+                    <div class="align_row_between" style="width: 100%; margin-bottom: 15px;">
+                        <div class="input_info" style="width: 48%;">
+                            <label for="NgonNgu" style="font-weight: bold; color: black;">Ngôn ngữ</label>
+                            <input type="text" id="NgonNgu" name="NgonNgu" style="width: 100%; padding: 8px; border: 1px solid #ddd; border-radius: 5px;">
+                        </div>
+                        <div class="input_info" style="width: 48%;">
+                            <label for="DoTuoi" style="font-weight: bold; color: black;">Độ tuổi</label>
+                            <input type="number" id="DoTuoi" name="DoTuoi" style="width: 100%; padding: 8px; border: 1px solid #ddd; border-radius: 5px;">
+>>>>>>> refs/remotes/origin/develop
                         </div>
                     </div>
                     <div class="input_info" style="width: 100%; margin-bottom: 15px;">
                         <label for="NoiDung" style="font-weight: bold; color: black;">Nội dung</label>
+<<<<<<< HEAD
                         <textarea id="NoiDung" name="NoiDung"></textarea>
                     </div>
                     <button type="submit" style="background-color: #f3ea28; border: none; margin: 10px; padding: 10px 20px; font-size: 15px; font-family: 'Anton', sans-serif;">THÊM PHIM</button>
+=======
+                        <textarea id="NoiDung" name="NoiDung" style="width: 100%; height: 100px; padding: 8px; border: 1px solid #ddd; border-radius: 5px;"></textarea>
+                    </div>
+                    <button type="submit" style="background-color: #f3ea28; border: none; margin: 10px 0; padding: 10px 20px; font-size: 15px; font-family: 'Anton', sans-serif; color: black;">THÊM PHIM</button>
+                </form>
+            </div>
+
+            <!-- Add delete form -->
+            <div style="background-color: #f8fafc; padding: 20px; border-radius: 10px; margin-top: 20px;">
+                <h4 style="font-weight: bold; color: black; margin-bottom: 15px;">Xóa phim</h4>
+                <form action="/profile/admin/movies/delete" method="POST">
+                    <div class="input_info" style="width: 100%; margin-bottom: 15px;">
+                        <label for="ID_P" style="font-weight: bold; color: black;">ID phim cần xóa (vd: P1, P2)</label>
+                        <input type="text" id="ID_P" name="ID_P" required style="width: 100%; padding: 8px; border: 1px solid #ddd; border-radius: 5px;">
+                    </div>
+                    <button type="submit" style="background-color: #ff4d4d; border: none; margin: 10px 0; padding: 10px 20px; font-size: 15px; font-family: 'Anton', sans-serif; color: white;">XÓA PHIM</button>
+>>>>>>> refs/remotes/origin/develop
                 </form>
             </div>
         </div>
     </div>
+<<<<<<< HEAD
     <div class="bottom_bar" style="margin-top: 150px;">
         <div class="align_row_between" style="width: 1200px; margin: 30px 0px; ">
             <p>© 2023 Uitheater. All rights reserved.</p>
@@ -167,6 +284,9 @@
         <div class="align_row">
             <h4 style="font-size: 25px; margin: 10px 0px;">[NT208.P24] - Nhóm 3</h4>
         </div>
+=======
+    <div class="bottom_bar" style="margin-top: 255px;">
+>>>>>>> refs/remotes/origin/develop
     </div>
     <script>
     // Gửi ảnh đại diện lên server
@@ -194,6 +314,47 @@
                 });
             }
         });
+<<<<<<< HEAD
+=======
+
+        // Xử lý poster upload
+        const posterInput = document.getElementById('posterInput');
+        const posterBtn = document.getElementById('posterBtn');
+        const posterFileName = document.getElementById('posterFileName');
+        const linkPoster = document.getElementById('LinkPoster');
+        
+        posterBtn.addEventListener('click', () => {
+            posterInput.click();
+        });
+        
+        posterInput.addEventListener('change', () => {
+            const file = posterInput.files[0];
+            if (file) {
+                const formData = new FormData();
+                formData.append('poster', file);
+                
+                fetch('/profile/upload-poster', {
+                    method: 'POST',
+                    body: formData
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        posterFileName.textContent = data.fileName;
+                        linkPoster.value = data.fileName;
+                    } else {
+                        posterFileName.textContent = 'Tải lên thất bại';
+                        linkPoster.value = '';
+                    }
+                })
+                .catch(err => {
+                    console.error('Error uploading poster:', err);
+                    posterFileName.textContent = 'Tải lên thất bại';
+                    linkPoster.value = '';
+                });
+            }
+        });
+>>>>>>> refs/remotes/origin/develop
     });
     </script>
 </body>

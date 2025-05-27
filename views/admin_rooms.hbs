@@ -4,14 +4,21 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Quản lý phòng chiếu</title>
+<<<<<<< HEAD
     <link rel="icon" type="image/x-icon" href="/img/img_access/video-camera.png">
+=======
+>>>>>>> refs/remotes/origin/develop
     <link rel="stylesheet" href="/style.css">
     <link rel="stylesheet" href="/profile.css">
     <link rel="stylesheet" href="/login.css">
     <script src="https://unpkg.com/phosphor-icons"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
+<<<<<<< HEAD
     <link rel="preconnect" href="https://fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+=======
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+>>>>>>> refs/remotes/origin/develop
     <link href="https://fonts.googleapis.com/css2?family=Anton&display=swap" rel="stylesheet">
 </head>
 <body style="background-color: #0f172a;">
@@ -20,6 +27,7 @@
             <i style="font-size: 40px;" class="ph ph-video-camera"></i>
             <h1 style="font-size: 20px; margin: 0px 20px; font-weight: 600;">UIT THEATER</h1>
         </div>
+<<<<<<< HEAD
         
         <div class="align_row" style="color: white;">
             <div class="align_row" style="margin-left: 50px;">
@@ -29,6 +37,16 @@
                             <img src="/profile/avatar/{{user.ID_U}}" class="img-user" alt="">
                             <div class="dropdown-menu">
                                 <a href="/"><i style="margin: 0px 8px 0px 0px;" class="ph ph-user"></i>Home</a>
+=======
+        <div class="align_row" style="color: white;">
+            <div class="align_row" style="margin-left: 50px;">
+                {{#if user}}
+                    <div class="user-menu align_row">
+                        <div class="dropdown align_row">
+                            <img src="/profile/avatar/{{user.ID_U}}" class="img-user" alt="">
+                            <div class="dropdown-menu">
+                                <a href="/profile"><i style="margin: 0px 8px 0px 0px;" class="ph ph-user"></i>Trang cá nhân</a>
+>>>>>>> refs/remotes/origin/develop
                                 <a href="/logout"><i style="margin: 0px 8px 0px 0px;" class="ph ph-sign-out"></i>Đăng xuất</a>
                             </div>
                         </div>
@@ -38,7 +56,11 @@
             </div>
         </div>
     </div>
+<<<<<<< HEAD
     <div class="alluser" style="width: 1200px; margin-top: 100px; align-items: flex-start;">
+=======
+    <div class="align_row" style="width: 1200px; margin-top: 100px; align-items: flex-start;">
+>>>>>>> refs/remotes/origin/develop
         <div class="user_left">
             <div class="user_img">
                 <img src="/profile/avatar/{{user.ID_U}}" style="border-radius: 50%;" alt="" width="50px" height="50px" id="userAvatar">
@@ -57,6 +79,7 @@
                 <p>0/10K</p>
             </div>
             <div class="user_menu">
+<<<<<<< HEAD
                 <div class="usertab menu-item" style="align-self: flex-start; padding: 10px;">
                     <a style="color: #f8fafc;" href="/profile"><i style="margin-right: 8px; margin-top: 5px;" class="ph ph-user"></i></a>
                     <a style="color: #f8fafc;" href="/profile">Trang cá nhân</a>
@@ -88,6 +111,31 @@
             </div>
             <div class="usertab menu-item" style="align-self: flex-start;">
                 <a style="color: rgba(200, 200, 200, 0.5);" href=""><i style="margin-right: 8px; margin-top: 5px;" class="ph ph-sign-out"></i></a>
+=======
+                <div class="align_row menu-item" style="align-self: flex-start; padding: 10px;">
+                    <a style="color: #f8fafc;" href="/profile"><i style="margin-right: 8px;" class="ph ph-user"></i></a>
+                    <a style="color: #f8fafc;" href="/profile">Trang cá nhân</a>
+                </div>
+                <div class="align_row menu-item" style="align-self: flex-start; padding: 10px;">
+                    <a style="color: #f8fafc;" href="/profile/admin/theaters"><i style="margin-right: 8px;" class="ph ph-storefront"></i></a>
+                    <a style="color: #f8fafc;" href="/profile/admin/theaters">Quản lý rạp chiếu</a>
+                </div>
+                <div class="align_row menu-item" style="align-self: flex-start; padding: 10px;">
+                    <a style="color: #f8fafc;" href="/profile/admin/movies"><i style="margin-right: 8px;" class="ph ph-film-strip"></i></a>
+                    <a style="color: #f8fafc;" href="/profile/admin/movies">Quản lý phim</a>
+                </div>
+                <div class="align_row menu-item" style="align-self: flex-start; padding: 10px;">
+                    <a style="color: #f8fafc;" href="/profile/admin/showtimes"><i style="margin-right: 8px;" class="ph ph-calendar"></i></a>
+                    <a style="color: #f8fafc;" href="/profile/admin/showtimes">Quản lý suất chiếu</a>
+                </div>
+                <div class="align_row menu-item active" style="align-self: flex-start; padding: 10px; border-left: #f3ea28 2px solid;">
+                    <a style="color: #f3ea28;" href="/profile/admin/rooms"><i style="margin-right: 8px;" class="ph ph-door"></i></a>
+                    <a style="color: #f3ea28;" href="/profile/admin/rooms">Quản lý phòng chiếu</a>
+                </div>
+            </div>
+            <div class="align_row" style="align-self: flex-start;">
+                <a style="color: rgba(200, 200, 200, 0.5);" href=""><i style="margin-right: 8px;" class="ph ph-sign-out"></i></a>
+>>>>>>> refs/remotes/origin/develop
                 <a style="color: rgba(200, 200, 200, 0.5);" href="/logout">Đăng xuất</a>
             </div>
         </div>
@@ -96,17 +144,27 @@
             {{#if error}}
                 <p style="color: red;">{{error}}</p>
             {{/if}}
+<<<<<<< HEAD
             <div class="align_column" style="color: #0f172a; background-color: #f8fafc; align-items: flex-start; width: 100%; padding: 10px;">
                 <form action="/profile/admin/rooms/add" method="POST" style="width: 100%;">
                     <div class="align_row_between" style="width: 100%;">
                         <div class="input_info">
                             <label for="ID_R" style="font-weight: bold; color: black;">Rạp</label>
                             <select id="ID_R" name="ID_R" required>
+=======
+            <div style="background-color: #f8fafc; padding: 20px; border-radius: 10px;">
+                <form action="/profile/admin/rooms/add" method="POST">
+                    <div class="align_row_between" style="width: 100%; margin-bottom: 15px;">
+                        <div class="input_info" style="width: 48%;">
+                            <label for="ID_R" style="font-weight: bold; color: black;">Rạp</label>
+                            <select id="ID_R" name="ID_R" required style="width: 100%; padding: 8px; border: 1px solid #ddd; border-radius: 5px;">
+>>>>>>> refs/remotes/origin/develop
                                 {{#each theaters}}
                                     <option value="{{this.ID_R}}">{{this.TenRap}}</option>
                                 {{/each}}
                             </select>
                         </div>
+<<<<<<< HEAD
                         <div class="input_info">
                             <label for="TenPhong" style="font-weight: bold; color: black;">Tên phòng</label>
                             <input type="text" id="TenPhong" name="TenPhong" required>
@@ -117,10 +175,35 @@
                         <input type="text" id="LoaiPhong" name="LoaiPhong" required>
                     </div> 
                     <button type="submit" style="background-color: #f3ea28; border: none; margin: 10px; padding: 10px 20px; font-size: 15px; font-family: 'Anton', sans-serif;">THÊM PHÒNG CHIẾU</button>
+=======
+                        <div class="input_info" style="width: 48%;">
+                            <label for="TenPhong" style="font-weight: bold; color: black;">Tên phòng</label>
+                            <input type="text" id="TenPhong" name="TenPhong" required style="width: 100%; padding: 8px; border: 1px solid #ddd; border-radius: 5px;">
+                        </div>
+                    </div>
+                    <div class="input_info" style="width: 100%; margin-bottom: 15px;">
+                        <label for="LoaiPhong" style="font-weight: bold; color: black;">Loại phòng</label>
+                        <input type="text" id="LoaiPhong" name="LoaiPhong" required style="width: 100%; padding: 8px; border: 1px solid #ddd; border-radius: 5px;">
+                    </div>
+                    <button type="submit" style="background-color: #f3ea28; border: none; margin: 10px 0; padding: 10px 20px; font-size: 15px; font-family: 'Anton', sans-serif; color: black;">THÊM PHÒNG CHIẾU</button>
+                </form>
+            </div>
+
+            <!-- Add delete form -->
+            <div style="background-color: #f8fafc; padding: 20px; border-radius: 10px; margin-top: 20px;">
+                <h4 style="font-weight: bold; color: black; margin-bottom: 15px;">Xóa phòng chiếu</h4>
+                <form action="/profile/admin/rooms/delete" method="POST">
+                    <div class="input_info" style="width: 100%; margin-bottom: 15px;">
+                        <label for="ID_PC" style="font-weight: bold; color: black;">ID phòng chiếu cần xóa (vd: PC1, PC2)</label>
+                        <input type="text" id="ID_PC" name="ID_PC" required style="width: 100%; padding: 8px; border: 1px solid #ddd; border-radius: 5px;">
+                    </div>
+                    <button type="submit" style="background-color: #ff4d4d; border: none; margin: 10px 0; padding: 10px 20px; font-size: 15px; font-family: 'Anton', sans-serif; color: white;">XÓA PHÒNG CHIẾU</button>
+>>>>>>> refs/remotes/origin/develop
                 </form>
             </div>
         </div>
     </div>
+<<<<<<< HEAD
     <div class="bottom_bar" style="margin-top: 150px;">
         <div class="align_row_between" style="width: 1200px; margin: 30px 0px; ">
             <p>© 2023 Uitheater. All rights reserved.</p>
@@ -137,6 +220,9 @@
         <div class="align_row">
             <h4 style="font-size: 25px; margin: 10px 0px;">[NT208.P24] - Nhóm 3</h4>
         </div>
+=======
+    <div class="bottom_bar" style="margin-top: 255px;">
+>>>>>>> refs/remotes/origin/develop
     </div>
     <script>
     // Gửi ảnh đại diện lên server

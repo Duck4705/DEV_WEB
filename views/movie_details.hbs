@@ -16,6 +16,7 @@
 </head>
 <body>
     
+<<<<<<< HEAD
     <div class="top_bar top_bar-row" style="border-bottom: 1px rgba(140, 140, 140, 0.5) solid;">
         <div class="align_row topbar-group" style="color: white;">
             <i style="font-size: 40px;" class="ph ph-video-camera"></i>
@@ -60,6 +61,53 @@
     </div>
 
     <div class="movie_details_1" style="margin-top: 100px; height: fit-content;">
+=======
+    <div class="top_bar" style="border-bottom: 1px rgba(140, 140, 140, 0.5) solid;">
+        <div class="align_row" style="color: white;">
+            <i style="font-size: 40px;" class="ph ph-video-camera"></i>
+            <h1 style="font-size: 20px; margin: 0px 20px; font-weight: 600;">UIT THEATER</h1>
+        </div>
+        <div class="align_row">
+            <a href="" class="booking">
+                <i style="margin-right: 10px; font-size: 25px;" class="ph ph-ticket"></i>
+                <span style="font-family: 'Anton', sans-serif;">ĐẶT VÉ NGAY</span>
+            </a>
+            <a href="" class="booking">
+                <i style="margin-right: 10px; font-size: 25px;" class="ph ph-popcorn"></i>
+                <span style="font-family: 'Anton', sans-serif;">ĐẶT BẮP NƯỚC</span>
+            </a>
+        </div>
+        
+        <div class="align_row" style="color: white;">
+            <div class="align_row"> 
+                <input type="text" placeholder="Tìm phim" style="padding: 10px 20px; border-radius: 50px; font-size: 15px;">
+                <i style="margin-left: -25px; color: black; font-size: 15px;" class="ph ph-magnifying-glass"></i>
+            </div>
+            
+            <div class="align_row" style="margin-left: 50px;">
+                {{#if user}}
+                    <div class="user-menu" class="align_row">
+                        <div class="dropdown" class="align_row">
+                            <img src="/profile/avatar/{{user.ID_U}}" class="img-user" alt="">
+                            <div class="dropdown-menu">
+                                <a href="/profile"><i style="margin: 0px 8px 0px 0px;" class="ph ph-user"></i>Trang cá nhân</a>
+                                <a href="/logout"><i style="margin: 0px 8px 0px 0px;" class="ph ph-sign-out"></i>Đăng xuất</a>
+                            </div>
+                        </div>
+                        <button class="dropdown-toggle">{{user.TongSoTien}} VNĐ</button>
+                    </div>
+                {{else}}
+                    <i style="font-size: 30px; margin: 10px;" class="ph ph-user-circle"></i>
+                    <h2 style="font-size: 20px;">
+                        <a class="btSign" style="background-color: #0f172a; color: #f8fafc;" href="/">Home</a>
+                    </h2>
+                {{/if}}
+            </div>
+        </div>
+    </div>
+
+    <div class="movie_details" class="align_row" style="margin-top: 100px; height: fit-content;">
+>>>>>>> refs/remotes/origin/develop
         <div class="movie_img">
             <img src="/img/img_poster/{{phim.ID_P}}.webp" alt="" width="100%">
         </div>
@@ -81,13 +129,18 @@
                 <h4>T{{phim.DoTuoi}}: Phim dành cho khán giả từ đủ {{phim.DoTuoi}} tuổi trở lên ({{phim.DoTuoi}}+)</h4>
             </div>
             <h1 style="font-size: 40px; font-family: 'Anton', sans-serif;">MÔ TẢ</h1>
+<<<<<<< HEAD
             <div id="description-container-1">
+=======
+            <div id="description-container">
+>>>>>>> refs/remotes/origin/develop
                 {{!-- Phần này có script xử lý ở dưới --}}
             </div>
             <h1 style="font-size: 40px; font-family: 'Anton', sans-serif;">NỘI DUNG PHIM</h1>
             <div>
                 <p>{{phim.NoiDung}}</p>
             </div>
+<<<<<<< HEAD
             <a href="#" class="trailer-link" data-trailer="https://www.youtube.com/embed/{{phim.LinkTrailer}}">
                 <div class="logoTrailer">
                     <div class="align_row" style="padding: 3px; border: 1px white solid; border-radius: 50%; margin: 5px;">
@@ -142,29 +195,60 @@
 
     </div>
 
+=======
+            <div class="align_row">
+                <div class="align_row" style="padding: 3px; border: 1px white solid; border-radius: 50%; margin: 5px;">
+                    <i style="color: black; font-size: 20px; background-color: white; padding: 3px; border-radius: 50%;"class="ph ph-monitor-play"></i>
+                </div>
+                <a style="color: white; font-size: 20px; margin-left: 10px;" href="#" class="trailer-link" data-trailer="https://www.youtube.com/embed/{{phim.LinkTrailer}}">Xem Trailer</a>
+            </div>
+        </div>
+    </div>
+    
+>>>>>>> refs/remotes/origin/develop
     <div class="movie_position">
         <h1 style="font-size: 40px; font-family: 'Anton', sans-serif; margin: 40px;">DANH SÁCH RẠP</h1>
         {{#each showtimes}}
         <div class="align_column" style="width: 100%;">
             <div class="position_box">
+<<<<<<< HEAD
+=======
+                
+>>>>>>> refs/remotes/origin/develop
                 <h4 style="font-weight: bold; font-size: 30px;">{{this.TenRap}}</h4> 
                 <p style="font-size: 15px; color: #f8fafc; margin: 20px 0px;">Phòng: {{this.TenPhong}}</p>
                 <ul class="position_time">
                     {{#each this.screenings}}
+<<<<<<< HEAD
                     <li class="time_box"> <a href="/movie_details/get_seat/{{this.ID_SC}}" style="text-decoration: none; color: white; width: 100%">{{this.time}}</a></li>
                     {{/each}}
                 </ul>
+=======
+                    <li class="time_box"> <a href="/movie_details/get_seat/{{this.ID_SC}}" style="text-decoration: none; color: white;">{{this.time}}</a></li>
+                    {{/each}}
+                </ul>
+               
+>>>>>>> refs/remotes/origin/develop
             </div>
         </div>
         {{/each}}
     </div>
    
     
+<<<<<<< HEAD
     
     <div class="bottom_bar">
         <div class="align_row_between" style="width: 1200px; margin: 30px 0px;">
             <p>© 2023 Uitheater. All rights reserved.</p>
             <div class="align_row hide_mobile">
+=======
+     
+    
+    <div class="bottom_bar">
+        <div class="align_row_between" style="width: 1200px; margin: 30px 0px; ">
+            <p>© 2023 Uitheater. All rights reserved.</p>
+            <div class="align_row">
+>>>>>>> refs/remotes/origin/develop
                 <a style="color: #f8fafc; padding: 0px 10px;" href="">Toàn diện</a>
                 <a style="color: #f8fafc; padding: 0px 10px;" href="">Sáng tạo</a>
                 <a style="color: #f8fafc; padding: 0px 10px;" href="">Phụng sự</a>
@@ -222,7 +306,11 @@
         document.addEventListener('DOMContentLoaded', () => {
             // Lấy nội dung từ Handlebars
             const description = "{{phim.MoTaPhim}}".replace(/&quot;/g, '"').replace(/&#39;/g, "'");
+<<<<<<< HEAD
             const container = document.getElementById('description-container-1');
+=======
+            const container = document.getElementById('description-container');
+>>>>>>> refs/remotes/origin/develop
 
             // Kiểm tra nếu container tồn tại
             if (!container) {
@@ -236,6 +324,7 @@
             // Tạo các dòng từ mảng
             parts.forEach(part => {
                 if (part.trim()) { // Bỏ qua các phần tử rỗng
+<<<<<<< HEAD
                     const line = document.createElement('h4'); // Tạo thẻ <p> cho mỗi dòng
                     line.textContent = part.trim(); // Loại bỏ khoảng trắng thừa
                     container.appendChild(line); // Thêm dòng vào container
@@ -261,6 +350,9 @@
             parts.forEach(part => {
                 if (part.trim()) { // Bỏ qua các phần tử rỗng
                     const line = document.createElement('h4'); // Tạo thẻ <p> cho mỗi dòng
+=======
+                    const line = document.createElement('p'); // Tạo thẻ <p> cho mỗi dòng
+>>>>>>> refs/remotes/origin/develop
                     line.textContent = part.trim(); // Loại bỏ khoảng trắng thừa
                     container.appendChild(line); // Thêm dòng vào container
                 }
