@@ -1,0 +1,411 @@
+/* Top bar styling */
+        .top_bar {
+            position: fixed; /* Make the top bar fixed at the top */
+            top: 0; /* Align it to the top of the page */
+            left: 0; /* Align it to the left of the page */
+            width: 100%; /* Make it span the full width of the page */
+            background-color: #0f172a; /* Dark background color */
+            color: white; /* White text color */
+            display: flex; /* Use flexbox for alignment */
+            align-items: center; /* Vertically align items */
+            padding: 10px 20px; /* Add padding for spacing */
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); /* Add a subtle shadow */
+            z-index: 1000; /* Ensure it stays on top of other elements */
+            justify-content: space-between;
+            border-bottom: 1px rgba(140, 140, 140, 0.5) solid;
+        }
+
+        .top_bar .align_row {
+            display: flex; /* Use flexbox for alignment */
+            align-items: center; /* Vertically align items */
+            justify-content: flex-start; /* Align content to the left */
+        }
+
+        .top_bar i {
+            font-size: 40px; /* Icon size */
+            margin-right: 10px; /* Add spacing between the icon and text */
+        }
+
+        .top_bar h1 {
+            font-size: 20px; /* Font size for the title */
+            font-weight: 600; /* Bold font */
+            margin: 0; /* Remove default margin */
+        }
+
+        /* Add spacing below the top bar */
+        body {
+            margin: 0;
+            padding: 0;
+            padding-top: 60px; /* Add padding equal to the height of the top bar */
+            min-height: 100vh;
+            background-color: #0f172a;
+            font-family: 'Montserrat', sans-serif;
+        }
+/* Step indicator styling */
+.step-indicator {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 40px 0;
+    padding: 0 20px;
+}
+
+.step {
+    font-size: 18px;
+    font-weight: bold;
+    color: white;
+    margin: 0 40px;
+    position: relative;
+}
+
+.step.active {
+    color: yellow;
+}
+
+.step:not(:last-child)::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    right: -40px;
+    width: 30px;
+    height: 2px;
+    background-color: white;
+    transform: translateY(-50%);
+}
+
+/* Jumbotron styling for the form and summary */
+.jumbotron {
+    display: flex;
+    justify-content: space-between;
+    padding: 40px;
+    margin: 20px auto;
+    width: 80%;
+    background-color: #1a2b5c; /* Blue background for the box */
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+/* Form container styling */
+.form-container {
+    width: 50%;
+}
+
+.form-container form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.form-container label {
+    display: flex; /* Use flexbox to align the checkbox and text */
+    align-items: center; /* Vertically align the checkbox and text */
+    gap: 10px; /* Add spacing between the checkbox and text */
+    font-size: 16px; /* Ensure consistent font size */
+    font-weight: normal; /* Adjust font weight if needed */
+}
+
+.form-container input {
+    padding: 15px;
+    border-radius: 10px;
+    border: none;
+    font-size: 16px;
+    width: 100%;
+}
+
+.form-container input::placeholder {
+    color: #ccc;
+}
+
+.form-container button {
+    background-color: yellow;
+    color: black;
+    font-size: 18px;
+    font-weight: bold;
+    padding: 15px;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    text-transform: uppercase;
+}
+
+/* Checkbox styling */
+.form-container label input[type="checkbox"] {
+    margin: 0; /* Remove default margin */
+    width: 16px; /* Set a consistent size for the checkbox */
+    height: 16px; /* Set a consistent size for the checkbox */
+}
+
+/* Summary container styling */
+.summary-container {
+    width: 40%;
+    background-color: #1a2b5c;
+    padding: 20px;
+    border-radius: 10px;
+    color: white;
+}
+
+.summary-container h2 {
+    font-size: 20px;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.summary-container p {
+    font-size: 14px;
+    margin: 10px 0;
+}
+
+.summary-container .total {
+    font-size: 24px;
+    font-weight: bold;
+    color: yellow;
+    text-align: right;
+    margin-top: 20px;
+}
+
+/* Selection box styling */
+.selection-box {
+    background-color: #1a2b5c; /* Blue background */
+    padding: 20px;
+    border-radius: 10px;
+    margin: 20px 0;
+    color: white;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Add subtle shadow */
+}
+
+.selection-box h2 {
+    font-size: 20px;
+    font-weight: bold;
+    margin-bottom: 20px;
+}
+
+/* Payment options styling */
+.payment-options {
+    display: flex;
+    flex-direction: column;
+    width: 400px;
+}
+
+.payment_method{
+    display:none;
+}
+  label{
+    display:block;
+    border: 1px solid rgba(140, 140, 140, 0.5);
+    padding: 10px 20px;
+    border-radius: 5px;
+    margin: 20px 0;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    -ms-border-radius: 5px;
+    -o-border-radius: 5px;
+    width: 500px;
+}
+  input[type="radio"]:checked+label{
+    background-color: #f8fafc;
+   color:#0f172a;
+}
+
+/* Button styling */
+.btn {
+    padding: 12px 24px;
+    border-radius: 5px;
+    font-weight: bold;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    border: none;
+    cursor: pointer;
+}
+
+.btn-secondary {
+    background-color: rgba(255, 255, 255, 0.2);
+    color: white;
+}
+
+.btn-secondary:hover {
+    background-color: rgba(255, 255, 255, 0.3);
+}
+
+.btn-primary {
+    background-color: yellow;
+    color: black;
+}
+
+.btn-primary:hover {
+    background-color: #f3c623;
+}
+
+/* Align buttons to the right */
+.btn-group {
+    display: flex;
+    justify-content: flex-end; /* Align buttons to the right */
+    gap: 20px; /* Add spacing between buttons */
+    margin-top: 20px; /* Add spacing above the buttons */
+}
+
+/* Message box styling */
+.message-box {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent background */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.message-box.hidden {
+    display: none; /* Hide the message box by default */
+}
+
+.message-content {
+    background-color: white;
+    padding: 20px 30px;
+    border-radius: 8px;
+    text-align: center;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.message-content p {
+    margin-bottom: 20px;
+    font-size: 16px;
+    color: #333;
+}
+
+.message-content .btn {
+    padding: 10px 20px;
+    font-size: 14px;
+    font-weight: bold;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    background-color: yellow;
+    color: black;
+    transition: background-color 0.3s ease;
+}
+
+.message-content .btn:hover {
+    background-color: #f3c623;
+}
+
+/* Transaction result styling */
+.transaction-result {
+    max-width: 800px;
+    margin: 40px auto;
+    padding: 30px;
+    background-color: #1a2b5c;
+    border-radius: 10px;
+    color: white;
+    text-align: center;
+}
+
+.success-icon, .error-icon {
+    font-size: 64px;
+    margin-bottom: 20px;
+}
+
+.success-icon {
+    color: #4CAF50;
+}
+
+.error-icon {
+    color: #f44336;
+}
+
+h2.success {
+    color: #4CAF50;
+    margin-bottom: 30px;
+}
+
+h2.error {
+    color: #f44336;
+    margin-bottom: 20px;
+}
+
+.error-message {
+    color: #f44336;
+    font-size: 18px;
+    margin-bottom: 30px;
+}
+
+/* Booking details styling */
+.booking-details {
+    background-color: rgba(255, 255, 255, 0.1);
+    border-radius: 8px;
+    padding: 20px;
+    margin: 30px 0;
+    text-align: left;
+}
+
+.booking-details h3 {
+    color: yellow;
+    margin-bottom: 20px;
+    font-size: 20px;
+}
+
+.detail-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.detail-item:last-child {
+    border-bottom: none;
+}
+
+.detail-item .label {
+    color: rgba(255, 255, 255, 0.7);
+}
+
+.detail-item .value {
+    font-weight: bold;
+}
+
+.detail-item.total {
+    margin-top: 20px;
+    padding-top: 20px;
+    border-top: 2px solid rgba(255, 255, 255, 0.2);
+}
+
+.detail-item.total .value {
+    color: yellow;
+    font-size: 20px;
+}
+
+/* Action buttons styling */
+.action-buttons {
+    margin-top: 30px;
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+}
+
+/* Booking button styling */
+.booking {
+    display: flex;
+    align-items: center;
+    background-color: yellow;
+    color: black;
+    padding: 8px 16px;
+    border-radius: 5px;
+    text-decoration: none;
+    transition: all 0.3s ease;
+}
+
+.booking:hover {
+    background-color: #f3c623;
+}
+
+/* Bottom bar styling */
+.bottom_bar {
+    margin-top: 60px;
+    padding: 20px;
+    background-color: #0f172a;
+    color: white;
+    text-align: center;
+}

@@ -1,0 +1,36 @@
+<h3>{{title}}</h3>
+<div class="table-responsive">
+  <form id="createOrder" action="create_payment_url" method="POST">
+    <div class="form-group">
+      <label>Số tiền</label>
+      <input class="form-control" id="amount" name="amount" placeholder="Số tiền" value="{{amount}}">
+    </div>
+    <div class="form-group">
+      <label>Chọn Phương thức thanh toán:</label>
+      <div class="controls">
+        <label class="radio-inline">
+          <input type="radio" name="bankCode" value="" checked="checked"> Cổng thanh toán VNPAYQR
+        </label>
+        <label class="radio-inline">
+          <input type="radio" name="bankCode" value="VNBANK"> Thanh toán qua ATM-Tài khoản ngân hàng nội địa
+        </label>
+        <label class="radio-inline">
+          <input type="radio" name="bankCode" value="INTCARD"> Thanh toán qua thẻ quốc tế
+        </label>
+      </div>
+    </div>
+    <div class="form-group">
+      <label>Ngôn ngữ</label>
+      <div class="controls">
+        <label class="radio-inline">
+          <input type="radio" name="language" value="vn" checked="checked"> Tiếng việt
+        </label>
+        <label class="radio-inline">
+          <input type="radio" name="language" value="en"> Tiếng anh
+        </label>
+      </div>
+    </div>
+    <button class="btn btn-default" id="btnPopup" type="submit">Thanh toán</button>
+  </form>
+</div>
+<p>&nbsp;</p>

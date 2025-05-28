@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trang Thanh Toán</title>
+    <link rel="stylesheet" href="/index.css">
+    <link rel="stylesheet" href="/style.css">
+    <link rel="stylesheet" href="/transaction_step1.css">
+    <script src="https://unpkg.com/phosphor-icons"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Anton&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+    <style>
+        /* Top bar styling */
+        .top_bar {
+            position: fixed; /* Make the top bar fixed at the top */
+            top: 0; /* Align it to the top of the page */
+            left: 0; /* Align it to the left of the page */
+            width: 100%; /* Make it span the full width of the page */
+            background-color: #0f172a; /* Dark background color */
+            color: white; /* White text color */
+            display: flex; /* Use flexbox for alignment */
+            align-items: center; /* Vertically align items */
+            padding: 10px 20px; /* Add padding for spacing */
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); /* Add a subtle shadow */
+            z-index: 1000; /* Ensure it stays on top of other elements */
+        }
+
+        .top_bar .align_row {
+            display: flex; /* Use flexbox for alignment */
+            align-items: center; /* Vertically align items */
+            justify-content: flex-start; /* Align content to the left */
+        }
+
+        .top_bar i {
+            font-size: 40px; /* Icon size */
+            margin-right: 10px; /* Add spacing between the icon and text */
+        }
+
+        .top_bar h1 {
+            font-size: 20px; /* Font size for the title */
+            font-weight: 600; /* Bold font */
+            margin: 0; /* Remove default margin */
+        }
+
+        /* Add spacing below the top bar */
+        body {
+            margin: 0;
+            padding: 0;
+            padding-top: 90px; /* Add padding equal to the height of the top bar */
+        }
+    </style>
+</head>
+<body>
+    <div class="top_bar" style="border-bottom: 1px rgba(140, 140, 140, 0.5) solid; justify-content: flex-start;">
+        <div class="align_row" style="color: white;">
+            <i style="font-size: 40px;" class="ph ph-video-camera"></i>
+            <h1 style="font-size: 20px; margin: 0px 20px; font-weight: 600;">UIT THEATER</h1>
+        </div>
+    </div>
+    <!-- Step Indicator -->
+    <div class="step-indicator">
+        <span class="step active">1. THÔNG TIN KHÁCH HÀNG</span>
+        <span class="step">2. THANH TOÁN</span>
+        <span class="step">3. HOÀN TẤT</span>
+    </div>
+
+    <!-- Jumbotron -->
+    <div class="jumbotron">
+        <!-- Left Form -->
+        <div class="form-container">
+            <form action="/payment/transaction_step2" method="POST">
+                <input type="hidden" name="bookingId" value="{{bookingId}}">
+                <div>
+                    <label for="name">Họ và tên <span style="color: red;">*</span></label>
+                    <input type="text" id="name" name="name" placeholder="Họ và tên" required>
+                </div>
+                <div>
+                    <label for="phone">Số điện thoại <span style="color: red;">*</span></label>
+                    <input type="tel" id="phone" name="phone" placeholder="Số điện thoại" required>
+                </div>
+                <div>
+                    <label for="email">Email <span style="color: red;">*</span></label>
+                    <input type="email" id="email" name="email" placeholder="Email" required>
+                </div>
+                <div>
+                    <label>
+                        <input type="checkbox" required> Đảm bảo mua vé đúng số tuổi quy định.
+                    </label>
+                </div>
+                <div>
+                    <label>
+                        <input type="checkbox" required> Đồng ý với <a href="/payment/dieu-khoan-chung" style="color: yellow;">điều khoản</a> của UIT THEATER.
+                    </label>
+                </div>
+                <button type="submit">Tiếp Tục</button>
+            </form>
+        </div>
+
+        <!-- Right Summary -->
+        <div class="summary-container">
+            <h2>{{rap}}</h2>
+            <p><strong>Suất chiếu:</strong> {{suatchieu}}</p>
+            <p><strong>Ghế:</strong> {{seatList}}</p>
+            <hr>
+            <p><strong>Mã đặt vé:</strong> {{bookingId}}</p>
+            <p><strong>Tổng tiền:</strong> {{totalPrice}} VND</p>
+            <hr>
+            <div class="total">{{totalPrice}} VND</div>
+        </div>
+    </div>
+    {{#if error}}
+    <div id="toast" class="alert alert-danger" style="position: fixed; top: 20px; right: 20px; z-index: 9999;">
+        {{error}}
+    </div>
+    <script>
+        setTimeout(function() {
+            document.getElementById('toast').style.display = 'none';
+        }, 3000);
+    </script>
+    {{/if}}
+</body>
+</html>

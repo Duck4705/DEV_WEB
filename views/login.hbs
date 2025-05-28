@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign in</title>
+    <link rel="stylesheet" href="/style.css">
+    <link rel="stylesheet" href="/login.css">
+    <script src="https://unpkg.com/phosphor-icons"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Anton&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+</head>
+<body style="cursor: default;">
+    <div class="top_bar" style="border-bottom: 1px rgba(140, 140, 140, 0.5) solid;">
+        <div class="align_row" style="color: white;">
+            <i style="font-size: 40px;" class="ph ph-video-camera"></i>
+            <h1 style="font-size: 20px; margin: 0px 20px; font-weight: 600;">UIT THEATER</h1>
+        </div>
+        
+        <div class="align_row" style="color: white;">
+            <div class="align_row" style="margin-left: 50px;">
+                <i style="font-size: 30px; margin: 10px;" class="ph ph-user-circle"></i>
+                {{#if user}}
+                    <h2 style="font-size: 20px;">
+                        <span>Xin chào, {{user.HoTen}}</span>
+                        <a class="btSign" style="background-color: #0f172a; color: #f8fafc;" href="/profile">Trang cá nhân</a>
+                        <a class="btSign" style="background-color: #0f172a; color: #f8fafc;" href="/logout">Đăng xuất</a>
+                        <!-- Thêm nút Đăng xuất Google -->
+                        <a class="btSign" style="background-color: #0f172a; color: #f8fafc;" href="/logout-google">Đăng xuất Google</a>
+                    </h2>
+                {{else}}
+                    <h2 style="font-size: 20px;"><a class="btSign" style="background-color: #0f172a; color: #f8fafc;" href="/">Home</a></h2>
+                {{/if}}
+            </div>
+        </div>
+    </div>
+    
+    {{#if user}}
+        <div class="userbox">
+            <h3>Bạn đã đăng nhập! Truy cập <a href="/profile">trang cá nhân</a> hoặc <a href="/logout">đăng xuất</a>.</h3>
+            <!-- Thêm thông báo và nút Đăng xuất Google -->
+            <h3>Đăng nhập lại Google? <a href="/logout-google">Đăng xuất Google trước</a>.</h3>
+        </div>
+    {{else}}
+        <div class="userbox">
+            <a class="btSign">Đăng nhập</a>
+            <a class="btReg" href="/register">Đăng kí</a>
+        </div>
+        <div style="width: 100%;" class="align_row">
+            <form action="/auth/login" method="POST" class="signin" id="signin">
+                {{#if message}}
+                <h4 style="font-size: 15px; font-weight: 600; color: red; margin: 0px 0px 20px 0px; align-self: center">{{message}}</h4>
+                {{/if}}
+                <label for="username">Tài khoản</label>
+                <input type="text" id="username" name="TenTaiKhoan">
+                <label for="password">Mật khẩu</label>
+                <input type="password" id="password" name="MatKhau">
+                <a href="/forgot_pass" style="font-size: 15px; font-weight: 500; color: #0f172a; border-bottom: 1px solid #0f172a; width: fit-content; align-self: flex-end;">Quên mật khẩu ?</a>
+            
+                <button type="submit" style="margin-bottom: 20px;" class="submit">Đăng nhập</button>
+                <a href="/auth/google?prompt=select_account" style="display: block; text-align: center;">
+                    <img src="https://developers.google.com/identity/images/btn_google_signin_light_normal_web.png" alt="Đăng nhập bằng Google" style="height: 40px;">
+                </a>
+            </form>
+        </div>
+    {{/if}}
+
+    <div class="bottom_bar" style="margin-top: 222px;">
+        <div class="align_row_between" style="width: 1200px; margin: 30px 0px;">
+            <p>© 2023 Uitheater. All rights reserved.</p>
+            <div class="align_row">
+                <a style="color: #f8fafc; padding: 0px 10px;" href="">Toàn diện</a>
+                <a style="color: #f8fafc; padding: 0px 10px;" href="">Sáng tạo</a>
+                <a style="color: #f8fafc; padding: 0px 10px;" href="">Phụng sự</a>
+            </div>
+        </div>
+        <div class="align_row">
+            <i style="font-size: 50px;" class="ph ph-video-camera"></i>
+            <h1 style="font-size: 30px; margin-left: 20px; margin-top: 8px; font-weight: bold;">UIT THEATER</h1>
+        </div>
+        <div class="align_row">
+            <h4 style="font-size: 25px; margin: 10px 0px;">[NT208.P24] - Nhóm 3</h4>
+        </div>
+    </div>
+</body>
+</html>

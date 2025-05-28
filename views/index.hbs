@@ -1,0 +1,437 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trang Chủ</title>
+    <link rel="stylesheet" href="/style.css">
+    <link rel="stylesheet" href="/index.css">
+    <script src="https://unpkg.com/phosphor-icons"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Anton&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="top_bar top_bar-row" style="border-bottom: 1px rgba(140, 140, 140, 0.5) solid;">
+        <div class="align_row topbar-group" style="color: white;">
+            <i style="font-size: 40px;" class="ph ph-video-camera"></i>
+            <h1 class="logoFont" style="font-size: 20px; margin: 0px 10px; font-weight: 600;">UIT THEATER</h1>
+        </div>
+        <div class="align_row topbar-group hide-mobile">
+            <a href="" class="booking hide-mobile">
+                <i style="margin-right: 8px; font-size: 22px;" class="ph ph-ticket"></i>
+                <span style="font-family: 'Anton', sans-serif;">ĐẶT VÉ NGAY</span>
+            </a>
+            <a href="" class="booking hide-mobile">
+                <i style="margin-right: 8px; font-size: 22px;" class="ph ph-popcorn"></i>
+                <span style="font-family: 'Anton', sans-serif;">ĐẶT BẮP NƯỚC</span>
+            </a>
+        </div>
+        {{> searchbar}}
+        <div class="align_row topbar-group" style="color: white;">
+            {{#if user}}
+                <div class="user-menu align_row">
+                    <div class="dropdown align_row">
+                        <img src="/profile/avatar/{{user.ID_U}}" class="img-user" alt="">
+                        <div class="dropdown-menu">
+                            <a href="/profile"><i style="margin: 0px 8px 0px 0px;" class="ph ph-user"></i>Trang cá nhân</a>
+                            <a href="/logout"><i style="margin: 0px 8px 0px 0px;" class="ph ph-sign-out"></i>Đăng xuất</a>
+                        </div>
+                    </div>
+                    <button class="dropdown-toggle">{{user.TongSoTien}} VNĐ</button>
+                </div>
+            {{else}}
+                <div class="align_row signIn">
+                    <a href="/login" class="signIn_logo" style="color: #f8fafc;"><i style="font-size: 30px; margin: 10px;" class="ph ph-user-circle"></i></a>
+                    
+                    <h2 class="hide-mobile" style="font-size: 20px;">
+                        <a class="btSign" style="background-color: #0f172a; color: #f8fafc;" href="/login">Đăng nhập</a>
+                    </h2>
+                </div>
+            {{/if}}
+        </div>
+    </div>
+    <div class="img_ads">
+        <img src="/img/img_access/top-img.jpg" alt="" width="100%" style="border-radius: 5px;">
+    </div>
+    <div class="quickbook">
+        <h1 style="font-size: 30px; color: #3d3c3c; font-family: 'Anton', sans-serif; margin-left: 80px;">ĐẶT VÉ NHANH</h1>
+        <div class="align_row">
+            <div class="selectbook">
+                <select>
+                    <option value="1">Sản phẩm 1</option>
+                </select>
+            </div>
+            <i class="hide-mobile" style="margin-left: -40px; margin-right: 40px; pointer-events: none;" class="ph ph-caret-down"></i>
+            <div class="selectbook">
+                <select>
+                    <option value="1">Sản phẩm 1</option>
+                    <option value="2">Sản phẩm 1</option>
+                    <option value="3">Sản phẩm 1</option>
+                </select>
+            </div>
+            <i class="hide-mobile" style="margin-left: -40px; margin-right: 40px; pointer-events: none;" class="ph ph-caret-down"></i>
+            <div class="selectbook">
+                <select>
+                    <option value="1">Sản phẩm 1</option>
+                </select>
+            </div>
+            <i class="hide-mobile" style="margin-left: -40px; margin-right: 40px; pointer-events: none;" class="ph ph-caret-down"></i>
+            <a style="padding: 10px; background-color: #663399; border-radius: 10px; color: white; font-family: 'Anton', sans-serif; margin-left: 10px;" href="">ĐẶT NGAY</a>
+        </div>
+    </div>
+    <div class="movie">
+        <h1 style="font-size: 40px; font-family: 'Anton', sans-serif;">PHIM ĐANG CHIẾU</h1>
+        <div class="align_movie">
+            {{#each phim}}
+                <div class="moviebox">
+                    <img src="/img/img_poster/{{this.ID_P}}.webp" alt="{{this.TenPhim}}" width="100%" height="350px" style="object-fit: cover;">
+                    <div class="align_column_between" style="height: 100px;">
+                        <a style="color: white; font-size: 18px; font-weight: bold;" href="">{{this.TenPhim}}</a>
+                        <div class="align_row_between alignTrailer" style="width: 100%;">
+                            <div class="align_row LogoTrailer">
+                                <div class="align_row BorderLogoTrailer" style="padding: 3px; border: 1px white solid; border-radius: 50%; margin: 5px;">
+                                    <i style="color: black; font-size: 20px; background-color: white; padding: 3px; border-radius: 50%;" class="ph ph-monitor-play"></i>
+                                </div>
+                                <a class="trailer-link" style="color: white; font-size: 14px;" href="#" data-trailer="https://www.youtube.com/embed/{{this.LinkTrailer}}">Xem Trailer</a>
+                            </div>
+                            <a style="padding: 10px 40px; background-color: #f3ea28; border-radius: 5px; color: black; font-family: 'Anton', sans-serif;" href="/movie_details/{{this.ID_P}}">ĐẶT VÉ</a>
+                        </div>
+                    </div>
+                </div>
+            {{/each}}
+        </div>
+       
+        <div class="load-more-container">
+            <button id="load-more-btn" style="padding: 10px 80px; background-color: transparent; border-radius: 5px; color: #f3ea28; font-family: 'Anton', sans-serif; border: 1px #f3ea28 solid; cursor: pointer;">XEM THÊM</button>
+        </div>
+    </div>
+
+
+    <div class="movie">
+        <h1 style="font-size: 40px; font-family: 'Anton', sans-serif;">PHIM SẮP CHIẾU</h1>
+        <div class="align_movie">
+            <div class="moviebox">
+                <img src="/img/img_access/lac-troi.webp" alt="" width="100%">
+                <div class="align_column_between" style="height: 100px;">
+                    <a style="color: white; font-size: 18px; font-weight: bold;" href="">LẠC TRÔI (P)</a>
+                    <div class="align_row_between" style="width: 100%;">
+                        <div class="align_row">
+                            <div class="align_row" style="padding: 3px; border: 1px white solid; border-radius: 50%; margin: 5px;">
+                                <i style="color: black; font-size: 20px; background-color: white; padding: 3px; border-radius: 50%;"class="ph ph-monitor-play"></i>
+                            </div>
+                            <a style="color: white; font-size: 14px;" href="">Xem Trailer</a>
+                        </div>
+                        <a style="padding: 10px 40px; background-color: #f3ea28; border-radius: 5px; color: black; font-family: 'Anton', sans-serif;" href="">ĐẶT VÉ</a>
+                    </div>
+                </div>
+            </div>
+            <div class="moviebox">
+                <img src="/img/img_access/lac-troi.webp" alt="" width="100%">
+                <div class="align_column_between" style="height: 100px;">
+                    <a style="color: white; font-size: 18px; font-weight: bold;" href="">LẠC TRÔI (P)</a>
+                    <div class="align_row_between" style="width: 100%;">
+                        <div class="align_row">
+                            <div class="align_row" style="padding: 3px; border: 1px white solid; border-radius: 50%; margin: 5px;">
+                                <i style="color: black; font-size: 20px; background-color: white; padding: 3px; border-radius: 50%;"class="ph ph-monitor-play"></i>
+                            </div>
+                            <a style="color: white; font-size: 14px;" href="">Xem Trailer</a>
+                        </div>
+                        <a style="padding: 10px 40px; background-color: #f3ea28; border-radius: 5px; color: black; font-family: 'Anton', sans-serif;" href="">ĐẶT VÉ</a>
+                    </div>
+                </div>
+            </div>
+            <div class="moviebox">
+                <img src="/img/img_access/lac-troi.webp" alt="" width="100%">
+                <div class="align_column_between" style="height: 100px;">
+                    <a style="color: white; font-size: 18px; font-weight: bold;" href="">LẠC TRÔI (P)</a>
+                    <div class="align_row_between" style="width: 100%;">
+                        <div class="align_row">
+                            <div class="align_row" style="padding: 3px; border: 1px white solid; border-radius: 50%; margin: 5px;">
+                                <i style="color: black; font-size: 20px; background-color: white; padding: 3px; border-radius: 50%;"class="ph ph-monitor-play"></i>
+                            </div>
+                            <a style="color: white; font-size: 14px;" href="">Xem Trailer</a>
+                        </div>
+                        <a style="padding: 10px 40px; background-color: #f3ea28; border-radius: 5px; color: black; font-family: 'Anton', sans-serif;" href="">ĐẶT VÉ</a>
+                    </div>
+                </div>
+            </div>
+            <div class="moviebox">
+                <img src="/img/img_access/lac-troi.webp" alt="" width="100%">
+                <div class="align_column_between" style="height: 100px;">
+                    <a style="color: white; font-size: 18px; font-weight: bold;" href="">LẠC TRÔI (P)</a>
+                    <div class="align_row_between" style="width: 100%;">
+                        <div class="align_row">
+                            <div class="align_row" style="padding: 3px; border: 1px white solid; border-radius: 50%; margin: 5px;">
+                                <i style="color: black; font-size: 20px; background-color: white; padding: 3px; border-radius: 50%;"class="ph ph-monitor-play"></i>
+                            </div>
+                            <a style="color: white; font-size: 14px;" href="">Xem Trailer</a>
+                        </div>
+                        <a style="padding: 10px 40px; background-color: #f3ea28; border-radius: 5px; color: black; font-family: 'Anton', sans-serif;" href="">ĐẶT VÉ</a>
+                    </div>
+                </div>
+            </div>  
+        </div>
+       
+        <a style="padding: 10px 80px; background-color: transparent; border-radius: 5px; color: #f3ea28; font-family: 'Anton', sans-serif; border: 1px #f3ea28 solid;" href="">XEM THÊM</a>
+    </div>
+    
+
+    <div class="bottom_bar">
+        <div class="align_row_between" style="width: 1200px; margin: 30px 0px; ">
+            <p>© 2023 Uitheater. All rights reserved.</p>
+            <div class="align_row hide-mobile">
+                <a style="color: #f8fafc; padding: 0px 10px;" href="">Toàn diện</a>
+                <a style="color: #f8fafc; padding: 0px 10px;" href="">Sáng tạo</a>
+                <a style="color: #f8fafc; padding: 0px 10px;" href="">Phụng sự</a>
+            </div>
+        </div>
+        <div class="align_row">
+            <i style="font-size: 50px;" class="ph ph-video-camera"></i>
+            <h1 style="font-size: 30px; margin-left: 20px; margin-top: 8px; font-weight: bold;">UIT THEATER</h1>
+        </div>
+        <div class="align_row">
+            <h4 style="font-size: 25px; margin: 10px 0px;">[NT208.P24] - Nhóm 3</h4>
+        </div>
+    </div>
+    {{!-- Khung chiếu phim trong nền --}}
+    <div id="trailerModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <iframe id="trailerFrame" width="560" height="315" src="" frameborder="0" allowfullscreen></iframe>
+        </div>
+    </div>
+
+    {{#if toast}}
+    <div class="toast-notification {{toast.type}}" style="position: fixed; top: 20px; right: 20px; padding: 15px 25px; background: {{#if (eq toast.type 'error')}}#ff4444{{else}}#00C851{{/if}}; color: white; border-radius: 5px; z-index: 1000;">
+        {{toast.message}}
+    </div>
+    {{/if}}
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // --- Xử lý modal trailer và nút load more ---
+            const modal = document.getElementById('trailerModal');
+            const trailerFrame = document.getElementById('trailerFrame');
+            const closeBtn = document.querySelector('.close');
+            const loadMoreBtn = document.getElementById('load-more-btn');
+            const movieContainer = document.querySelectorAll('.align_movie')[0];
+            
+            let offset = {{initialLimit}} || 4; // Số phim đã hiển thị ban đầu
+            const limit = 4; // Số phim cần tải thêm mỗi lần            // Kiểm tra nếu không còn phim nào để tải thêm, ẩn nút ngay từ đầu
+            if (!{{hasMoreMovies}}) {
+                console.log('No more movies available initially, hiding button');
+                loadMoreBtn.style.display = 'none';
+            } else {
+                console.log('More movies available initially, showing button');
+            }
+
+            // Hàm để gắn sự kiện cho các trailer link mới
+            function attachTrailerEvents() {
+                document.querySelectorAll('.trailer-link').forEach(link => {
+                    if (!link.hasListener) {
+                        link.addEventListener('click', (event) => {
+                            event.preventDefault();
+                            const trailerUrl = link.getAttribute('data-trailer');
+                            trailerFrame.src = trailerUrl;
+                            modal.style.display = 'block';
+                        });
+                        link.hasListener = true;
+                    }
+                });
+            }
+
+            // Đóng modal khi nhấn vào nút "Đóng"
+            closeBtn.addEventListener('click', () => {
+                modal.style.display = 'none';
+                trailerFrame.src = ''; // Xóa URL video để dừng phát
+            });
+
+            // Đóng modal khi nhấn ra ngoài modal
+            window.addEventListener('click', (event) => {
+                if (event.target === modal) {
+                    modal.style.display = 'none';
+                    trailerFrame.src = ''; // Xóa URL video để dừng phát
+                }
+            });
+
+            // Gắn sự kiện cho trailer links ban đầu
+            attachTrailerEvents();
+
+            // Xử lý nút load more
+            loadMoreBtn.addEventListener('click', function() {
+                console.log('Load more button clicked');
+                loadMoreBtn.textContent = 'ĐANG TẢI...';
+                loadMoreBtn.disabled = true;
+
+                fetch(`/api/load-more-movies?offset=${offset}&limit=${limit}`)                    .then(response => response.json())
+                    .then(data => {
+                        console.log('Data received from API:', data);
+                        console.log('Movies array:', data.movies);
+                        console.log('Data properties available:', Object.keys(data));
+
+                        loadMoreBtn.textContent = 'XEM THÊM';
+                        loadMoreBtn.disabled = false;
+
+                        // Thêm log kiểm tra selector và data
+                        console.log('typeof data.movies:', typeof data.movies, Array.isArray(data.movies));
+                        console.log('data.movies:', data.movies);
+                        console.log('movieContainer:', movieContainer);
+                        if (!movieContainer) {
+                            alert('Không tìm thấy movieContainer!');
+                            return;
+                        }
+
+                        try {
+                            if (Array.isArray(data.movies) && data.movies.length > 0) {
+                                console.log('Processing', data.movies.length, 'movies');
+                                // Xử lý trường hợp đặc biệt: nếu tải chính xác 1 phim và đã đạt tổng số
+                                if (data.movies.length === 1 && (offset + 1) >= data.total) {
+                                    console.log('Special case: Loaded exactly the last movie');
+                                }
+                                
+                                // Tạo danh sách phim mới từ dữ liệu nhận được
+                                data.movies.forEach((movie, index) => {
+                                    console.log(`Adding movie ${index + 1}:`, movie.TenPhim, movie.ID_P);
+                                    
+                                    const movieBox = document.createElement('div');
+                                    movieBox.className = 'moviebox';
+                                    movieBox.innerHTML = `
+                                        <img src="/img/img_poster/${movie.ID_P}.webp" alt="${movie.TenPhim}" width="100%" height="350px" style="object-fit: cover;">
+                                        <div class="align_column_between" style="height: 100px;">
+                                            <a style="color: white; font-size: 18px; font-weight: bold;" href="">${movie.TenPhim}</a>
+                                            <div class="align_row_between alignTrailer" style="width: 100%;">
+                                                <div class="align_row LogoTrailer">
+                                                    <div class="align_row BorderLogoTrailer" style="padding: 3px; border: 1px white solid; border-radius: 50%; margin: 5px;">
+                                                        <i style="color: black; font-size: 20px; background-color: white; padding: 3px; border-radius: 50%;" class="ph ph-monitor-play"></i>
+                                                    </div>
+                                                    <a class="trailer-link" style="color: white; font-size: 14px;" href="#" data-trailer="https://www.youtube.com/embed/${movie.LinkTrailer}">Xem Trailer</a>
+                                                </div>
+                                                <a style="padding: 10px 40px; background-color: #f3ea28; border-radius: 5px; color: black; font-family: 'Anton', sans-serif;" href="/movie_details/${movie.ID_P}">ĐẶT VÉ</a>
+                                            </div>
+                                        </div>
+                                    `;
+                                    movieContainer.appendChild(movieBox);                                    console.log(`Movie ${movie.TenPhim} with ID ${movie.ID_P} added to DOM`);
+                                });                                // Cập nhật offset cho lần tải tiếp theo
+                                offset += data.movies.length;
+                                console.log('New offset:', offset);
+                                
+                                // Kiểm tra an toàn để ẩn nút khi đã tải hết phim
+                                if (offset >= data.total) {
+                                    console.log('Fail-safe: All movies loaded, hiding button');
+                                    loadMoreBtn.style.display = 'none';
+                                }
+                                  // Sau khi thêm phim, gắn sự kiện cho trailer links mới
+                                setTimeout(attachTrailerEvents, 100);
+                                
+                                // Kiểm tra xem còn phim để tải không - kiểm tra cả hai thuộc tính có thể có
+                                console.log('hasMore value:', data.hasMore);
+                                
+                                // Kiểm tra đặc biệt để debug
+                                console.log('Complete response object:', JSON.stringify(data));
+                                console.log('Current offset:', offset);
+                                console.log('Total movies in database:', data.total);
+                                
+                                // Kiểm tra để ẩn nút khi không còn phim
+                                if (data.hasMore === false || offset >= data.total) {
+                                    console.log('No more movies to load, hiding button');
+                                    loadMoreBtn.style.display = 'none';
+                                } else {
+                                    console.log('More movies available, keeping button visible');
+                                }
+                            } else {
+                                console.log('No movies received from API.');
+                                loadMoreBtn.style.display = 'none';
+                            }
+                        } catch (err) {
+                            console.error('Error processing movie data:', err);
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error fetching more movies:', error);
+                        loadMoreBtn.textContent = 'THỬ LẠI';
+                        loadMoreBtn.disabled = false;
+                    });
+            });
+        });
+
+        // Remove error message toast after 3 seconds
+        document.addEventListener('DOMContentLoaded', function() {
+            const toast = document.querySelector('.toast-notification');
+            if (toast) {
+                setTimeout(() => {
+                    toast.style.display = 'none';
+                }, 3000);
+            }
+        });
+
+        const searchInput = document.getElementById('searchInput');
+        const suggestionsContainer = document.getElementById('searchSuggestions');
+        let debounceTimer;
+
+        searchInput.addEventListener('input', () => {
+            clearTimeout(debounceTimer);
+            const query = searchInput.value.trim();
+            
+            if (query.length < 2) {
+                suggestionsContainer.style.display = 'none';
+                return;
+            }
+
+            debounceTimer = setTimeout(() => {
+                fetch(`/search/suggest?query=${encodeURIComponent(query)}`)
+                    .then(response => response.json())
+                    .then(suggestions => {
+                        if (suggestions.length > 0) {
+                            suggestionsContainer.innerHTML = suggestions.map(movie => `
+                                <a href="/movie_details/${movie.id}" class="suggestion-item" style="display: flex; align-items: center; padding: 10px; text-decoration: none; color: black; border-bottom: 1px solid #eee;">
+                                    <img src="${movie.poster}" alt="${movie.title}" style="width: 40px; height: 60px; object-fit: cover; margin-right: 10px; border-radius: 5px;">
+                                    <span style="font-size: 14px;">${movie.title}</span>
+                                </a>
+                            `).join('');
+                            suggestionsContainer.style.display = 'block';
+                        } else {
+                            suggestionsContainer.style.display = 'none';
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error fetching suggestions:', error);
+                        suggestionsContainer.style.display = 'none';
+                    });
+            }, 300);
+        });
+
+        // Close suggestions when clicking outside
+        document.addEventListener('click', (e) => {
+            if (!searchInput.contains(e.target) && !suggestionsContainer.contains(e.target)) {
+                suggestionsContainer.style.display = 'none';
+            }
+        });
+
+        // Style for suggestion items on hover
+        const style = document.createElement('style');
+        style.textContent = `
+            .suggestion-item:hover {
+                background-color: #f5f5f5;
+            }
+            .search-suggestions::-webkit-scrollbar {
+                width: 8px;
+            }
+            .search-suggestions::-webkit-scrollbar-track {
+                background: #f1f1f1;
+            }
+            .search-suggestions::-webkit-scrollbar-thumb {
+                background: #888;
+                border-radius: 4px;
+            }
+            .search-suggestions::-webkit-scrollbar-thumb:hover {
+                background: #555;
+            }
+        `;
+        document.head.appendChild(style);
+    </script>
+</body>
+
+
+</html>

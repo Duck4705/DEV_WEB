@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hoàn tất</title>
+    <link rel="stylesheet" href="/index.css">
+    <link rel="stylesheet" href="/style.css">
+    <link rel="stylesheet" href="/transaction_step3.css">
+    <script src="https://unpkg.com/phosphor-icons"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Anton&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="top_bar">
+        <div class="align_row" style="color: white;">
+            <i style="font-size: 40px;" class="ph ph-video-camera"></i>
+            <h1 style="font-size: 20px; margin: 0px 20px; font-weight: 600;">UIT THEATER</h1>
+        </div>
+        <div class="align_row">
+            <a href="/" class="booking">
+                <i style="margin-right: 10px; font-size: 25px;" class="ph ph-house"></i>
+                <span style="font-family: 'Anton', sans-serif;">VỀ TRANG CHỦ</span>
+            </a>
+        </div>
+    </div>
+
+    <!-- Step Indicator -->
+    <div class="step-indicator">
+        <span class="step">1. THÔNG TIN KHÁCH HÀNG</span>
+        <span class="step">2. THANH TOÁN</span>
+        <span class="step active">3. HOÀN TẤT</span>
+    </div>
+
+    <div class="transaction-result">
+        {{#if (eq code "00")}}
+            <div class="success-icon">
+                <i class="ph ph-check-circle"></i>
+            </div>
+            <h2 class="success">Giao dịch thành công!</h2>
+            {{#if bookingDetails}}
+            <div class="booking-details">
+                <h3>Chi tiết đặt vé</h3>
+                <div class="detail-item">
+                    <span class="label">Mã đặt vé:</span>
+                    <span class="value">{{bookingDetails.ID_DV}}</span>
+                </div>
+                <div class="detail-item">
+                    <span class="label">Phim:</span>
+                    <span class="value">{{bookingDetails.TenPhim}}</span>
+                </div>
+                <div class="detail-item">
+                    <span class="label">Rạp:</span>
+                    <span class="value">{{bookingDetails.TenRap}} - {{bookingDetails.TenPhong}}</span>
+                </div>
+                <div class="detail-item">
+                    <span class="label">Suất chiếu:</span>
+                    <span class="value">{{bookingDetails.suatchieu}}</span>
+                </div>
+                <div class="detail-item">
+                    <span class="label">Ghế:</span>
+                    <span class="value">{{bookingDetails.seats}}</span>
+                </div>
+                <div class="detail-item total">
+                    <span class="label">Tổng tiền:</span>
+                    <span class="value">{{bookingDetails.totalPrice}} VNĐ</span>
+                </div>
+            </div>
+            {{/if}}
+        {{else}}
+            <div class="error-icon">
+                <i class="ph ph-x-circle"></i>
+            </div>
+            <h2 class="error">Giao dịch thất bại!</h2>
+            <p class="error-message">{{message}}</p>
+        {{/if}}
+        
+        <div class="action-buttons">
+            <a href="/" class="btn btn-primary">Về trang chủ</a>
+            {{#if (eq code "00")}}
+                <a href="/profile" class="btn btn-secondary">Xem lịch sử đặt vé</a>
+            {{/if}}
+        </div>
+    </div>
+
+    <div class="bottom_bar">
+        <div class="align_row_between" style="width: 1200px; margin: 30px 0px; ">
+            <p>© 2023 Uitheater. All rights reserved.</p>
+            <div class="align_row">
+                <a style="color: #f8fafc; padding: 0px 10px;" href="">Toàn diện</a>
+                <a style="color: #f8fafc; padding: 0px 10px;" href="">Sáng tạo</a>
+                <a style="color: #f8fafc; padding: 0px 10px;" href="">Phụng sự</a>
+            </div>
+        </div>
+        <div class="align_row">
+            <i style="font-size: 50px;" class="ph ph-video-camera"></i>
+            <h1 style="font-size: 30px; margin-left: 20px; margin-top: 8px; font-weight: bold;">UIT THEATER</h1>
+        </div>
+        <div class="align_row">
+            <h4 style="font-size: 25px; margin: 10px 0px;">[NT208.P24] - Nhóm 3</h4>
+        </div>
+    </div>
+</body>
+</html>
