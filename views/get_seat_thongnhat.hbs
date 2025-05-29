@@ -51,33 +51,46 @@
             color: white; /* Thêm màu trắng cho chữ hàng ghế */
         }
         .seat {
-            width: 40px;
-            height: 40px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
+            cursor: pointer;
+            margin: 5px;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        .seat.available {
+            background-color: #fff;
+        }
+        .seat.selected {
+            background-color: #4CAF50;
+        }
+        .seat.booked {
+            background-color: #f44336;
+            cursor: not-allowed;
+        }
+        .seat.pending_payment {
+            background-color: #2196F3;
+            cursor: not-allowed;
+        }
+        .seat.selected-by-others {
+            background-color: #FFC107;
+            cursor: not-allowed;
+        }
+        #bookButton {
+            margin-top: 20px;
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
             border-radius: 5px;
             cursor: pointer;
-            font-weight: bold;
-            border: 1px solid #ddd;
-            margin: 0 5px;
         }
-        .available {
-            background-color: white;
-            color: #333; /* Màu chữ cho ghế trống */
-        }
-        .selected {
-            background-color: #4CAF50; /* Green */
-            color: white; /* Màu chữ cho ghế đang chọn */
-        }
-        .selected-by-other {
-            background-color: #FFD700; /* Yellow */
-            color: #333; /* Màu chữ cho ghế đang được người khác chọn */
-        }
-        .booked {
-            background-color: #808080; /* Grey */
-            color: white; /* Màu chữ cho ghế đã đặt */
+        #bookButton:disabled {
+            background-color: #cccccc;
             cursor: not-allowed;
+        }
+        .countdown {
+            color: #f44336;
+            font-weight: bold;
         }
         .controls {
             position: fixed;
@@ -366,11 +379,15 @@
                     stopTimer();
                 }
             }
-            else if (data.type === 'bookingSuccess') {
+            else if (data.type === 'bookingCreated') {
                 selectedSeats.clear();
                 stopTimer();
                 updateControls();
                 alert(data.message);
+                // Redirect to payment page
+                if (data.redirectUrl) {
+                    window.location.href = data.redirectUrl;
+                }
             }
             else if (data.type === 'error') {
                 alert(data.message);
@@ -496,14 +513,14 @@
                         seatElement.className = 'seat ' + status;
                         if (status === 'selected' && selectedBy === userId) {
                             seatElement.classList.add('selected');
-                            seatElement.classList.remove('selected-by-other');
+                            seatElement.classList.remove('selected-by-others');
                             seatElement.style.backgroundColor = '#4CAF50'; // Green
                             selectedSeats.add(seatId);
                         } else if (status === 'selected') {
-                            seatElement.classList.add('selected-by-other');
-                            seatElement.style.backgroundColor = '#FFD700'; // Yellow
+                            seatElement.classList.add('selected-by-others');
+                            seatElement.style.backgroundColor = '#FFC107'; // Yellow
                         } else if (status === 'booked') {
-                            seatElement.style.backgroundColor = '#808080'; // Grey
+                            seatElement.style.backgroundColor = '#f44336'; // Red
                         }
                         
                         // Add click event
@@ -535,7 +552,7 @@
             
             const availableSeat = createLegendItem('available', 'Ghế trống');
             const selectedSeat = createLegendItem('selected', 'Ghế đang chọn');
-            const selectedByOtherSeat = createLegendItem('selected-by-other', 'Ghế đang được chọn');
+            const selectedByOtherSeat = createLegendItem('selected-by-others', 'Ghế đang được chọn');
             const bookedSeat = createLegendItem('booked', 'Ghế đã đặt');
             
             legend.appendChild(availableSeat);
@@ -556,10 +573,10 @@
                 box.style.backgroundColor = 'white';
             } else if (status === 'selected') {
                 box.style.backgroundColor = '#4CAF50'; // Green
-            } else if (status === 'selected-by-other') {
-                box.style.backgroundColor = '#FFD700'; // Yellow
+            } else if (status === 'selected-by-others') {
+                box.style.backgroundColor = '#FFC107'; // Yellow
             } else if (status === 'booked') {
-                box.style.backgroundColor = '#808080'; // Grey
+                box.style.backgroundColor = '#f44336'; // Red
             }
             
             const text = document.createElement('span');
@@ -591,14 +608,14 @@
                     selectedSeats.add(seat.id);
                 } else {
                     seatElement.classList.remove('selected');
-                    seatElement.classList.add('selected-by-other');
-                    seatElement.style.backgroundColor = '#FFD700'; // Yellow
+                    seatElement.classList.add('selected-by-others');
+                    seatElement.style.backgroundColor = '#FFC107'; // Yellow
                     selectedSeats.delete(seat.id);
                 }
             } 
             else if (seat.status === 'booked') {
                 seatElement.classList.add('booked');
-                seatElement.style.backgroundColor = '#808080'; // Grey
+                seatElement.style.backgroundColor = '#f44336'; // Red
                 selectedSeats.delete(seat.id);
             }
             

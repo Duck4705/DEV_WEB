@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Thanh toán - UIT Theater</title>
+    <link rel="stylesheet" href="/css/payment.css">
+</head>
+<body>
+    <div class="payment-container">
+        <div class="payment-header">
+            <h1>Thanh toán vé xem phim</h1>
+            <div class="timer-container">
+                <span>Thời gian còn lại:</span>
+                <span id="payment-timer" class="countdown">05:00</span>
+            </div>
+        </div>
+
+        <div class="order-summary">
+            <h2>Thông tin đặt vé</h2>
+            <div class="movie-info">
+                <p><strong>Phim:</strong> {{movieName}}</p>
+                <p><strong>Rạp:</strong> {{theaterName}}</p>
+                <p><strong>Suất chiếu:</strong> {{showtime}}</p>
+                <p><strong>Ghế:</strong> {{selectedSeats}}</p>
+            </div>
+            <div class="price-summary">
+                <p><strong>Tổng tiền:</strong> {{totalPrice}} VNĐ</p>
+            </div>
+        </div>
+
+        <form id="payment-form" action="/process-payment" method="POST">
+            <input type="hidden" name="bookingId" value="{{bookingId}}">
+            <input type="hidden" name="amount" value="{{amount}}">
+            
+            <div class="payment-methods">
+                <h2>Phương thức thanh toán</h2>
+                <div class="payment-option">
+                    <input type="radio" id="vnpay" name="paymentMethod" value="vnpay" checked>
+                    <label for="vnpay">
+                        <img src="/img/vnpay-logo.png" alt="VNPay">
+                        <span>Thanh toán qua VNPay</span>
+                    </label>
+                </div>
+            </div>
+
+            <div class="action-buttons">
+                <button type="button" class="cancel-btn" onclick="window.location.href='/'">Hủy</button>
+                <button type="submit" class="pay-btn">Thanh toán ngay</button>
+            </div>
+        </form>
+    </div>
+
+    <script src="/js/countdown.js"></script>
+    <script src="/js/payment_countdown.js"></script>
+</body>
+</html> 

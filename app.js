@@ -68,11 +68,12 @@ app.use('/auth', authRoutes);
 app.use('/profile', require('./routes/profile'));
 app.use('/movie_details', require('./routes/movie_details'));
 app.use('/api', require('./routes/websocket'));
+app.use('/payment', require('./routes/payment'));
 
 //Thiết lập WebSocket
 websocketController.initWebSocketHandlers(wss);
 
 // Start server. Lưu ý khi làm việc thì có thể đổi port khác 3000 nhưng push lên phải để port 3000
-server.listen(3000, () => {
-    console.log('Server is running on http://localhost:3000');
+server.listen(3007, () => {
+    console.log('Server is running on http://localhost:3007');
 });

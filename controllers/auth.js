@@ -9,7 +9,8 @@ const db = mysql.createConnection({
     host: process.env.DATABASE_HOST,
     user: process.env.DATABASE_USER,
     password: process.env.DATABASE_PASSWORD,
-    database: process.env.DATABASE
+    database: process.env.DATABASE,
+    port: 3000
 });
 
 exports.register = (req, res) => {
@@ -217,22 +218,29 @@ exports.forgot_pass = (req, res) => {
 exports.verifyOtp = (req, res) => {
     const { otp } = req.body;
 
-    if (!req.session.otp || !req.session.otpExpires) {
-        return res.render('otp', { message: 'Mã OTP không hợp lệ hoặc đã hết hạn!' });
+    // Kiểm tra OTP có tồn tại và còn hiệu lực
+    if (!req.session.otp || !req.session.otpExpires || Date.now() > req.session.otpExpires) {
+        return res.render('otp', { message: 'OTP đã hết hạn hoặc không hợp lệ!' });
     }
 
-    if (Date.now() > req.session.otpExpires) {
-        return res.render('otp', { message: 'Mã OTP đã hết hạn!' });
-    }
-
+    // Kiểm tra OTP có đúng không
     if (otp !== req.session.otp) {
-        return res.render('otp', { message: 'Mã OTP không đúng!' });
+        return res.render('otp', { message: 'OTP không đúng!' });
     }
 
-    // Xác thực thành công
-    req.session.otp = null; // Xóa OTP khỏi session
-    req.session.otpExpires = null;
-    res.redirect('/'); // Chuyển hướng đến trang chính
+    // Xóa OTP và thời gian hết hạn khỏi session
+    delete req.session.otp;
+    delete req.session.otpExpires;
+
+    // Check if there's a pending payment
+    if (req.session.pendingPayment) {
+        const returnTo = '/payment/transaction_step2';
+        delete req.session.pendingPayment;
+        return res.redirect(returnTo);
+    }
+
+    // If no pending payment, redirect to home
+    res.redirect('/');
 };
 
 exports.verify_code = (req, res) => {
@@ -352,25 +360,4 @@ exports.loginWithOtp = (req, res) => {
                 res.status(500).send('Không thể gửi mã OTP. Vui lòng thử lại sau.');
             });
     });
-};
-
-exports.verifyOtp = (req, res) => {
-    const { otp } = req.body;
-
-    if (!req.session.otp || !req.session.otpExpires) {
-        return res.render('otp', { message: 'Mã OTP không hợp lệ hoặc đã hết hạn!' });
-    }
-
-    if (Date.now() > req.session.otpExpires) {
-        return res.render('otp', { message: 'Mã OTP đã hết hạn!' });
-    }
-
-    if (otp !== req.session.otp) {
-        return res.render('otp', { message: 'Mã OTP không đúng!' });
-    }
-
-    // Xác thực thành công
-    req.session.otp = null; // Xóa OTP khỏi session
-    req.session.otpExpires = null;
-    res.redirect('/'); //
 };

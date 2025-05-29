@@ -263,7 +263,11 @@ function handleSeatSelection(ws, screeningId, seatId, userId) {
         screening.seats[seatId].selectedBy = userId;
         screening.seats[seatId].selectedAt = new Date();
         
-        // Set timeout 5 phút cho ghế
+        // Set timeout 10 phút cho ghế
+        if (seatTimeouts[`${screeningId}-${seatId}`]) {
+            clearTimeout(seatTimeouts[`${screeningId}-${seatId}`]);
+        }
+        
         seatTimeouts[`${screeningId}-${seatId}`] = setTimeout(() => {
             if (screening.seats[seatId].status === 'selected' && 
                 screening.seats[seatId].selectedBy === userId) {
@@ -272,21 +276,52 @@ function handleSeatSelection(ws, screeningId, seatId, userId) {
                 screening.seats[seatId].selectedBy = null;
                 screening.seats[seatId].selectedAt = null;
                 
-                // Sử dụng hàm broadcastSeatUpdate đã cải tiến chỉ với hai tham số
                 broadcastSeatUpdate(screeningId, seatId);
+
+                // Notify the user that their selection has expired
+                ws.send(JSON.stringify({
+                    type: 'selectionExpired',
+                    seatId: seatId,
+                    message: 'Thời gian giữ ghế đã hết. Vui lòng chọn lại.'
+                }));
             }
-        }, 5 * 60 * 1000); // 5 phút
+        }, 10 * 60 * 1000); // 10 phút
         
-        // Sử dụng hàm broadcastSeatUpdate đã cải tiến chỉ với hai tham số
+        // Broadcast to all clients immediately
         broadcastSeatUpdate(screeningId, seatId);
         
         ws.send(JSON.stringify({
             type: 'seatsSelected',
             seatIds: [seatId],
-            message: 'Ghế đã được chọn. Bạn có 5 phút để hoàn tất đặt vé.'
+            selectedBy: userId,
+            status: 'selected',
+            message: 'Ghế đã được chọn. Bạn có 10 phút để hoàn tất thanh toán.'
         }));
-    } 
-    
+    } else if (screening.seats[seatId].status === 'selected' && screening.seats[seatId].selectedBy === userId) {
+        // Allow user to deselect their own selection
+        screening.seats[seatId].status = 'available';
+        screening.seats[seatId].selectedBy = null;
+        screening.seats[seatId].selectedAt = null;
+        
+        // Clear timeout
+        if (seatTimeouts[`${screeningId}-${seatId}`]) {
+            clearTimeout(seatTimeouts[`${screeningId}-${seatId}`]);
+            delete seatTimeouts[`${screeningId}-${seatId}`];
+        }
+        
+        broadcastSeatUpdate(screeningId, seatId);
+        
+        ws.send(JSON.stringify({
+            type: 'seatDeselected',
+            seatId: seatId,
+            message: 'Đã hủy chọn ghế'
+        }));
+    } else {
+        ws.send(JSON.stringify({
+            type: 'error',
+            message: 'Ghế này đã được người khác chọn.'
+        }));
+    }
 }
 
 function handleSeatDeselection(ws, screeningId, seatId, userId) {
@@ -318,6 +353,12 @@ function handleSeatDeselection(ws, screeningId, seatId, userId) {
     }));
 }
 
+// Add temporary booking storage
+const temporaryBookings = new Map();
+
+// Export temporaryBookings for other controllers to use
+exports.temporaryBookings = temporaryBookings;
+
 function handleSeatBooking(ws, screeningId, seatIds, userId) {
     const screening = screenings[screeningId];
     const bookedSeats = [];
@@ -342,7 +383,7 @@ function handleSeatBooking(ws, screeningId, seatIds, userId) {
         }));
         return;
     }
-    
+
     // Đảm bảo bản đồ ánh xạ ghế đã được khởi tạo cho suất chiếu này
     initializeSeatMap(screeningId)
         .then(() => {
@@ -355,20 +396,18 @@ function handleSeatBooking(ws, screeningId, seatIds, userId) {
                         return;
                     }
                     
-                    // Nếu không tìm thấy giá vé
                     if (!priceResults || priceResults.length === 0) {
                         console.error('No price found for screening:', screeningId);
                         reject('Không tìm thấy thông tin giá vé cho suất chiếu này.');
                         return;
                     }
                     
-                    const basePrice = priceResults[0].GiaVe || 45000; // Giá vé cơ bản, mặc định 45000 nếu không tìm thấy
+                    const basePrice = priceResults[0].GiaVe || 45000;
                     resolve(basePrice);
                 });
             });
         })
         .then(basePrice => {
-            // Lấy ID_DV mới cho đặt vé
             return new Promise((resolve, reject) => {
                 db.query('SELECT MAX(CAST(SUBSTRING(ID_DV, 3) AS UNSIGNED)) as maxId FROM DatVe', (err, results) => {
                     if (err) {
@@ -377,21 +416,14 @@ function handleSeatBooking(ws, screeningId, seatIds, userId) {
                         return;
                     }
                     
-                    // Tạo ID_DV mới
                     const maxId = results[0].maxId || 0;
                     const newBookingId = `DV${maxId + 1}`;
-                    const bookingTime = new Date().toISOString().slice(0, 19).replace('T', ' '); // Format: YYYY-MM-DD HH:MM:SS
-                    
-                    // Kiểm tra xem userId có phải là ID hợp lệ trong bảng users không
-                    // hoặc bắt đầu bằng 'user-' (ID tạm thời)
+                    const bookingTime = new Date().toISOString().slice(0, 19).replace('T', ' ');
                     let dbUserId = null;
                     
                     if (userId && !userId.startsWith('user-')) {
-                        // Chỉ sử dụng ID_U nếu nó là ID từ database (không phải ID tạm thời)
                         dbUserId = userId;
                     }
-                    
-                    console.log(`Booking with user ID: ${dbUserId || 'NULL'}`);
                     
                     resolve({
                         newBookingId,
@@ -403,26 +435,21 @@ function handleSeatBooking(ws, screeningId, seatIds, userId) {
             });
         })
         .then(bookingInfo => {
-            // Tính tổng tiền dựa trên loại ghế (sẽ được tính chính xác sau khi lấy thông tin từ database)
             let totalPrice = 0;
             const seatInfos = [];
-            const { newBookingId, bookingTime, dbUserId, basePrice } = bookingInfo;
+            const { newBookingId, dbUserId, bookingTime, basePrice } = bookingInfo;
             
-            // Lấy thông tin từng ghế và tính toán giá tiền
+            // Calculate prices and collect seat information
             const seatPromises = seatIds.map(seatId => {
                 return new Promise((resolve, reject) => {
-                    // Lấy ID_G từ bản đồ ánh xạ đã khởi tạo
                     if (seatIdToIDGMap[screeningId] && seatIdToIDGMap[screeningId][seatId]) {
                         const seatInfo = seatIdToIDGMap[screeningId][seatId];
                         const seatId_G = seatInfo.ID_G;
                         
-                        // Tính giá vé dựa trên loại ghế
                         let seatPrice = basePrice;
                         if (seatInfo.LoaiGhe === 'Đôi') {
                             seatPrice = basePrice * 2;
                         }
-                        
-                        console.log(`Using mapped ID_G for ${seatId}: ${seatId_G} (${seatInfo.SoGhe}, ${seatInfo.LoaiGhe}), price: ${seatPrice}`);
                         
                         resolve({
                             seatId,
@@ -431,167 +458,65 @@ function handleSeatBooking(ws, screeningId, seatIds, userId) {
                             loaiGhe: seatInfo.LoaiGhe
                         });
                     } else {
-                        // Nếu không tìm thấy trong bản đồ ánh xạ, truy vấn thông tin từ cơ sở dữ liệu
-                        console.error(`Seat ${seatId} not found in mapping for screening ${screeningId}. Searching in database...`);
-                        
-                        // Truy vấn thông tin phòng chiếu từ suất chiếu
-                        db.query('SELECT sc.ID_PC FROM SuatChieu sc WHERE sc.ID_SC = ?', [screeningId], (err, roomResults) => {
-                            if (err) {
-                                console.error(`Error getting room for screening ${screeningId}:`, err);
-                                reject(err);
-                                return;
-                            }
-                            
-                            if (!roomResults || roomResults.length === 0) {
-                                console.error(`No room found for screening ${screeningId}`);
-                                reject(new Error(`Không tìm thấy phòng chiếu cho suất chiếu ${screeningId}`));
-                                return;
-                            }
-                            
-                            const roomId = roomResults[0].ID_PC;
-                            
-                            // Truy vấn thông tin ghế từ tên ghế
-                            // Chuyển đổi từ định dạng A01 thành A1 để tìm trong SoGhe
-                            const row = seatId.charAt(0);
-                            const seatNumber = parseInt(seatId.substring(1));
-                            const SoGhe = `${row}${seatNumber}`; // Ví dụ: "A1", "B2", "J14"
-                            
-                            db.query('SELECT ID_G, LoaiGhe FROM Ghe WHERE ID_PC = ? AND SoGhe = ?', 
-                                [roomId, SoGhe], 
-                                (err, seatResults) => {
-                                    if (err) {
-                                        console.error(`Error finding seat ${SoGhe} in room ${roomId}:`, err);
-                                        reject(err);
-                                        return;
-                                    }
-                                    
-                                    if (!seatResults || seatResults.length === 0) {
-                                        console.error(`Seat ${SoGhe} not found in room ${roomId}`);
-                                        reject(new Error(`Không tìm thấy ghế ${SoGhe} trong phòng ${roomId}`));
-                                        return;
-                                    }
-                                    
-                                    const seatId_G = seatResults[0].ID_G;
-                                    const loaiGhe = seatResults[0].LoaiGhe;
-                                    
-                                    // Tính giá vé dựa trên loại ghế
-                                    let seatPrice = basePrice;
-                                    if (loaiGhe === 'Đôi') {
-                                        seatPrice = basePrice * 2;
-                                    }
-                                    
-                                    // Lưu vào bản đồ ánh xạ để sử dụng lần sau
-                                    if (!seatIdToIDGMap[screeningId]) {
-                                        seatIdToIDGMap[screeningId] = {};
-                                    }
-                                    
-                                    seatIdToIDGMap[screeningId][seatId] = {
-                                        ID_G: seatId_G,
-                                        LoaiGhe: loaiGhe,
-                                        SoGhe: SoGhe
-                                    };
-                                    
-                                    console.log(`Found seat in database: ${seatId} -> ${seatId_G} (${SoGhe}, ${loaiGhe}), price: ${seatPrice}`);
-                                    
-                                    resolve({
-                                        seatId,
-                                        seatId_G,
-                                        price: seatPrice,
-                                        loaiGhe
-                                    });
-                                }
-                            );
-                        });
+                        reject(new Error(`Không tìm thấy thông tin ghế ${seatId}`));
                     }
                 });
             });
             
             return Promise.all(seatPromises)
                 .then(results => {
-                    // Tính tổng tiền
                     totalPrice = Number(results.reduce((sum, seat) => Number(sum) + Number(seat.price), 0));
-                    console.log('Total price calculated:', totalPrice);
                     
-                    return {
+                    // Store temporary booking
+                    const tempBooking = {
+                        bookingId: newBookingId,
+                        screeningId,
+                        userId: dbUserId,
                         seatInfos: results,
-                        newBookingId,
-                        dbUserId,
-                        bookingTime,
                         totalPrice,
-                        screeningId
+                        bookingTime,
+                        expiresAt: new Date(Date.now() + 10 * 60 * 1000), // 10 minutes
+                        seats: seatIds
                     };
-                });
-        })
-        .then(bookingData => {
-            // Insert vào bảng DatVe
-            const { seatInfos, newBookingId, dbUserId, bookingTime, totalPrice, screeningId } = bookingData;
-            
-            return new Promise((resolve, reject) => {
-                const insertBooking = `
-                    INSERT INTO DatVe (ID_DV, ID_SC, ID_U, ThoiGianDat, TongTien) 
-                    VALUES (?, ?, ?, ?, ?)
-                `;
-                
-                db.query(insertBooking, [newBookingId, screeningId, dbUserId, bookingTime, totalPrice], (err) => {
-                    if (err) {
-                        console.error('Error inserting booking:', err);
-                        reject('Đã xảy ra lỗi khi đặt vé. Vui lòng thử lại.');
-                        return;
-                    }
                     
-                    resolve(bookingData);
+                    temporaryBookings.set(newBookingId, tempBooking);
+                    
+                    // Set timeout to clear temporary booking
+                    setTimeout(() => {
+                        if (temporaryBookings.has(newBookingId)) {
+                            const booking = temporaryBookings.get(newBookingId);
+                            // Release seats if payment not completed
+                            booking.seats.forEach(seatId => {
+                                if (screening.seats[seatId].status !== 'booked') {
+                                    screening.seats[seatId].status = 'available';
+                                    screening.seats[seatId].selectedBy = null;
+                                    screening.seats[seatId].selectedAt = null;
+                                    broadcastSeatUpdate(screeningId, seatId);
+                                }
+                            });
+                            temporaryBookings.delete(newBookingId);
+                        }
+                    }, 10 * 60 * 1000);
+
+                    // Mark seats as temporarily reserved
+                    seatIds.forEach(seatId => {
+                        screening.seats[seatId].status = 'pending_payment';
+                        bookedSeats.push(seatId);
+                    });
+
+                    // Broadcast updates
+                    broadcastSeatUpdates(screeningId, bookedSeats);
+                    
+                    // Send success response with booking details and redirect URL
+                    ws.send(JSON.stringify({ 
+                        type: 'bookingCreated', 
+                        seatIds: bookedSeats,
+                        bookingId: newBookingId,
+                        totalPrice: totalPrice,
+                        redirectUrl: `/payment/transaction_step1?bookingId=${newBookingId}`,
+                        message: `Đã tạo đơn đặt vé ${newBookingId}. Vui lòng hoàn tất thanh toán trong vòng 10 phút.`
+                    }));
                 });
-            });
-        })
-        .then(bookingData => {
-            // Insert vào bảng ChiTietDatVe
-            const { seatInfos, newBookingId, totalPrice, screeningId } = bookingData;
-            
-            // Xử lý từng ghế
-            let completedSeats = 0;
-            
-            // Lặp qua từng ghế được đặt
-            seatInfos.forEach(seatInfo => {
-                // Insert vào bảng ChiTietDatVe với giá vé tương ứng
-                db.query(
-                    'INSERT INTO ChiTietDatVe (ID_DV, ID_G, GiaVe) VALUES (?, ?, ?)', 
-                    [newBookingId, seatInfo.seatId_G, seatInfo.price], 
-                    (err) => {
-                        completedSeats++;
-                        
-                        if (err) {
-                            console.error('Error inserting booking detail:', err);
-                        } else {
-                            // Đánh dấu ghế đã được đặt thành công trong bộ nhớ
-                            screening.seats[seatInfo.seatId].status = 'booked';
-                            screening.seats[seatInfo.seatId].selectedBy = null;
-                            screening.seats[seatInfo.seatId].selectedAt = null;
-                            bookedSeats.push(seatInfo.seatId);
-                            
-                            // Xóa timeout nếu có
-                            if (seatTimeouts[`${screeningId}-${seatInfo.seatId}`]) {
-                                clearTimeout(seatTimeouts[`${screeningId}-${seatInfo.seatId}`]);
-                                delete seatTimeouts[`${screeningId}-${seatInfo.seatId}`];
-                            }
-                        }
-                        
-                        // Khi đã xử lý hết tất cả ghế
-                        if (completedSeats === seatInfos.length) {
-                            // Broadcast updates cho tất cả clients
-                            broadcastSeatUpdates(screeningId, bookedSeats);
-                            
-                            // Gửi thông báo thành công
-                            ws.send(JSON.stringify({ 
-                                type: 'bookingSuccess', 
-                                seatIds: bookedSeats,
-                                bookingId: newBookingId,
-                                totalPrice: totalPrice,
-                                message: `Đặt vé thành công! Mã đặt vé của bạn là ${newBookingId}`
-                            }));
-                        }
-                    }
-                );
-            });
         })
         .catch(error => {
             console.error('Error during booking process:', error);
@@ -602,12 +527,83 @@ function handleSeatBooking(ws, screeningId, seatIds, userId) {
         });
 }
 
+// Add function to confirm booking after payment
+exports.confirmBooking = async (bookingId) => {
+    const booking = temporaryBookings.get(bookingId);
+    if (!booking) {
+        throw new Error('Booking not found or expired');
+    }
+
+    // Insert into DatVe
+    await new Promise((resolve, reject) => {
+        db.query(
+            'INSERT INTO DatVe (ID_DV, ID_SC, ID_U, ThoiGianDat, TongTien) VALUES (?, ?, ?, ?, ?)',
+            [booking.bookingId, booking.screeningId, booking.userId, booking.bookingTime, booking.totalPrice],
+            (err) => {
+                if (err) reject(err);
+                else resolve();
+            }
+        );
+    });
+
+    // Insert into ChiTietDatVe
+    await Promise.all(booking.seatInfos.map(seatInfo => {
+        return new Promise((resolve, reject) => {
+            db.query(
+                'INSERT INTO ChiTietDatVe (ID_DV, ID_G, GiaVe) VALUES (?, ?, ?)',
+                [booking.bookingId, seatInfo.seatId_G, seatInfo.price],
+                (err) => {
+                    if (err) reject(err);
+                    else resolve();
+                }
+            );
+        });
+    }));
+
+    // Update seat status to booked
+    booking.seats.forEach(seatId => {
+        const screening = screenings[booking.screeningId];
+        if (screening && screening.seats[seatId]) {
+            screening.seats[seatId].status = 'booked';
+            broadcastSeatUpdate(booking.screeningId, seatId);
+        }
+    });
+
+    // Remove temporary booking
+    temporaryBookings.delete(bookingId);
+    return booking;
+};
+
+// Add function to cancel booking
+exports.cancelBooking = (bookingId) => {
+    const booking = temporaryBookings.get(bookingId);
+    if (booking) {
+        booking.seats.forEach(seatId => {
+            const screening = screenings[booking.screeningId];
+            if (screening && screening.seats[seatId]) {
+                screening.seats[seatId].status = 'available';
+                screening.seats[seatId].selectedBy = null;
+                screening.seats[seatId].selectedAt = null;
+                broadcastSeatUpdate(booking.screeningId, seatId);
+            }
+        });
+        temporaryBookings.delete(bookingId);
+    }
+};
+
 function broadcastSeatUpdate(screeningId, seatId) {
-    // Sử dụng biến globalWss thay vì lấy từ req
+    const screening = screenings[screeningId];
+    if (!screening || !screening.seats[seatId]) return;
+
     const update = {
         type: 'seatUpdate',
         screeningId,
-        seat: screenings[screeningId].seats[seatId]
+        seatId,
+        seat: {
+            ...screening.seats[seatId],
+            remainingTime: screening.seats[seatId].selectedAt ? 
+                Math.max(0, 600 - Math.floor((Date.now() - new Date(screening.seats[seatId].selectedAt).getTime()) / 1000)) : 0
+        }
     };
     
     globalWss.clients.forEach(client => {
@@ -615,7 +611,6 @@ function broadcastSeatUpdate(screeningId, seatId) {
             client.send(JSON.stringify(update));
         }
     });
-    
 }
 
 function broadcastSeatUpdates(screeningId, seatIds) {
