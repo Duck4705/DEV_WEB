@@ -57,4 +57,55 @@ Sau đâu là chi tiết mục đích của các nhánh:
 - Nhánh `hotfix`: Là nhánh khắc phục lỗi nhanh khi bản phát hành chính thức đang bị lỗi, sau khi khắc phục lỗi thì sẽ được merge lại vào nhánh `main`
     
 ## Nội dung đồ án
+## 🎬 Website Đặt Vé Xem Phim Trực Tuyến
+
+## 📌 Giới thiệu
+
+Đây là đồ án môn *Lập trình Web Ứng dụng* với mục tiêu xây dựng một **website đặt vé xem phim trực tuyến**, cho phép người dùng tra cứu thông tin phim và đặt vé một cách trực quan, nhanh chóng.
+
+---
+
+## 🚀 Chức năng chính
+
+### 🎥 Hiển thị phim đang chiếu
+- Giao diện trang chủ hiển thị danh sách các bộ phim đang được chiếu tại rạp.
+- Thông tin phim gồm: tên phim, mô tả ngắn, thời lượng, poster, lịch chiếu.
+
+### 💺 Đặt vé trực quan bằng sơ đồ ghế
+- Người dùng chọn suất chiếu và thực hiện đặt vé bằng **cách chọn ghế trực tiếp trên màn hình**.
+- Giao diện sơ đồ ghế thể hiện rõ ghế trống và ghế đã được đặt.
+- Tình trạng ghế được cập nhật **theo thời gian thực**, giúp tránh trùng lặp đặt chỗ.
+
+### 📝 Lưu thông tin đặt vé
+- Sau khi đặt vé, hệ thống lưu lại các thông tin:
+  - Tên người đặt
+  - Suất chiếu đã chọn
+  - Vị trí ghế
+- Hỗ trợ xác nhận đặt vé và tra cứu lại khi cần thiết.
+
+### 🔐 Trang quản trị cho Admin
+- Quản trị viên có thể đăng nhập vào hệ thống quản lý và thực hiện:
+  - ✅ Thêm phim mới
+  - 📝 Chỉnh sửa thông tin phim
+  - ❌ Xóa phim không còn chiếu
+  - 📅 Quản lý suất chiếu và các thông tin liên quan
+
+---
+
+## 🛠️ Công nghệ sử dụng
+
+- **Frontend:** HTML, CSS, JavaScript
+- **Backend:** Node.js, Express.js
+- **Cơ sở dữ liệu:** MySQL
+- **Thư viện & Công cụ hỗ trợ:** Socket(Dùng cho chức năng chọn ghế).
+
+---
+
+## 🖼️ Một số hình ảnh tham khảo của website
+
+
+
+---
+
+
 ## Tổng kết
