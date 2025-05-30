@@ -93,9 +93,10 @@
             {{/if}}
             <div class="align_column" style="color: #0f172a; background-color: #f8fafc; align-items: flex-start; width: 100%; padding: 10px;">
                 <form action="/profile/admin/rooms/add" method="POST" style="width: 100%;">
+                    <h4 style="margin: 10px; font-size: 20px; font-family: 'Anton', sans-serif;">Thêm phòng chiếu</h4>
                     <div class="align_row_between" style="width: 100%;">
                         <div class="input_info">
-                            <label for="ID_R" style="font-weight: bold; color: black;">Rạp</label>
+                            <label for="ID_R">Rạp:</label>
                             <select id="ID_R" name="ID_R" required>
                                 {{#each theaters}}
                                     <option value="{{this.ID_R}}">{{this.TenRap}}</option>
@@ -103,15 +104,26 @@
                             </select>
                         </div>
                         <div class="input_info">
-                            <label for="TenPhong" style="font-weight: bold; color: black;">Tên phòng</label>
+                            <label for="TenPhong">Tên phòng:</label>
                             <input type="text" id="TenPhong" name="TenPhong" required>
                         </div>
                     </div>
                     <div class="input_info" style="width: 100%;">
-                        <label for="LoaiPhong" style="font-weight: bold; color: black;">Loại phòng</label>
+                        <label for="LoaiPhong">Loại phòng:</label>
                         <input type="text" id="LoaiPhong" name="LoaiPhong" required>
                     </div> 
                     <button type="submit" style="background-color: #f3ea28; border: none; margin: 10px; padding: 10px 20px; font-size: 15px; font-family: 'Anton', sans-serif;">THÊM PHÒNG CHIẾU</button>
+                </form>
+            </div>
+
+            <div class="align_column" style="color: #0f172a; background-color: #f8fafc; align-items: flex-start; width: 100%; padding: 10px; margin-top: 20px;">
+                <h4 style="margin: 10px; font-size: 20px; font-family: 'Anton', sans-serif;">Xóa phòng chiếu</h4>
+                <form action="/profile/admin/rooms/delete" method="POST" style="width: 100%;">
+                    <div class="input_info" style="width: 100%; margin-bottom: 15px;">
+                        <label for="ID_PC">ID phòng chiếu cần xóa (vd: PC1, PC2):</label>
+                        <input type="text" id="ID_PC" name="ID_PC" required>
+                    </div>
+                    <button type="submit" style="background-color: #ff4d4d; border: none; margin: 10px; padding: 10px 20px; font-size: 15px; font-family: 'Anton', sans-serif; color: white;">XÓA PHÒNG CHIẾU</button>
                 </form>
             </div>
         </div>

@@ -18,7 +18,7 @@
     <div class="top_bar" style="border-bottom: 1px rgba(140, 140, 140, 0.5) solid;">
         <div class="align_row" style="color: white;">
             <i style="font-size: 40px;" class="ph ph-video-camera"></i>
-            <h1 style="font-size: 20px; margin: 0px 20px; font-weight: 600;">UIT THEATER</h1>
+            <a style="font-size: 20px; margin: 0px 20px; font-weight: 600;" href="/">UIT THEATER</a>
         </div>
         <div class="align_row" style="color: white;">
             <div class="align_row" style="margin-left: 50px;">
@@ -93,55 +93,67 @@
             {{/if}}
             <div class="align_column" style="color: #0f172a; background-color: #f8fafc; align-items: flex-start; width: 100%; padding: 10px;">
                 <form action="/profile/admin/movies/add" method="POST" style="width: 100%;">
+                    <h4 style="margin: 10px; font-size: 20px; font-family: 'Anton', sans-serif;">Thêm phim</h4>
+
                     <div class="align_row_between" style="width: 100%;">
                         <div class="input_info">
-                            <label for="TenPhim" style="font-weight: bold; color: black;">Tên phim</label>
+                            <label for="TenPhim">Tên phim:</label>
                             <input type="text" id="TenPhim" name="TenPhim" required>
                         </div>
                         <div class="input_info">
-                            <label for="TheLoai" style="font-weight: bold; color: black;">Thể loại</label>
+                            <label for="TheLoai">Thể loại:</label>
                             <input type="text" id="TheLoai" name="TheLoai" required>
                         </div>
                     </div>
                     <div class="align_row_between" style="width: 100%;">
                         <div class="input_info">
-                            <label for="LinkTrailer" style="font-weight: bold; color: black;">Link trailer</label>
+                            <label for="LinkTrailer">Link trailer:</label>
                             <input type="url" id="LinkTrailer" name="LinkTrailer">
                         </div>
                         <div class="input_info">
-                            <label for="LinkPoster" style="font-weight: bold; color: black;">Link poster</label>
+                            <label for="LinkPoster">Link poster:</label>
                             <input type="url" id="LinkPoster" name="LinkPoster">
                         </div>
                     </div>
                     <div class="input_info" style="width: 100%;">
-                        <label for="MoTaPhim" style="font-weight: bold; color: black;">Mô tả phim</label>
+                        <label for="MoTaPhim">Mô tả phim:</label>
                         <textarea id="MoTaPhim" name="MoTaPhim"></textarea>
                     </div>
                     <div class="align_row_between" style="width: 100%;">
                         <div class="input_info">
-                            <label for="QuocGia" style="font-weight: bold; color: black;">Quốc gia</label>
+                            <label for="QuocGia">Quốc gia:</label>
                             <input type="text" id="QuocGia" name="QuocGia">
                         </div>
                         <div class="input_info">
-                            <label for="ThoiLuong" style="font-weight: bold; color: black;">Thời lượng (phút)</label>
+                            <label for="ThoiLuong">Thời lượng (phút):</label>
                             <input type="number" id="ThoiLuong" name="ThoiLuong">
                         </div>
                     </div>
                     <div class="align_row_between" style="width: 100%;">
                         <div class="input_info">
-                            <label for="NgonNgu" style="font-weight: bold; color: black;">Ngôn ngữ</label>
+                            <label for="NgonNgu">Ngôn ngữ:</label>
                             <input type="text" id="NgonNgu" name="NgonNgu">
                         </div>
                         <div class="input_info">
-                            <label for="DoTuoi" style="font-weight: bold; color: black;">Độ tuổi</label>
+                            <label for="DoTuoi">Độ tuổi:</label>
                             <input type="number" id="DoTuoi" name="DoTuoi">
                         </div>
                     </div>
                     <div class="input_info" style="width: 100%; margin-bottom: 15px;">
-                        <label for="NoiDung" style="font-weight: bold; color: black;">Nội dung</label>
+                        <label for="NoiDung">Nội dung:</label>
                         <textarea id="NoiDung" name="NoiDung"></textarea>
                     </div>
                     <button type="submit" style="background-color: #f3ea28; border: none; margin: 10px; padding: 10px 20px; font-size: 15px; font-family: 'Anton', sans-serif;">THÊM PHIM</button>
+                </form>
+            </div>
+            <div class="align_column" style="color: #0f172a; background-color: #f8fafc; align-items: flex-start; width: 100%; padding: 10px; margin-top: 20px;">
+                <h4 style="margin: 10px; font-size: 20px; font-family: 'Anton', sans-serif;">Xóa phim</h4>
+                <form action="/profile/admin/movies/delete" method="POST" style="width: 100%;">
+                    <div class="input_info" style="width: 100%; margin-bottom: 15px;">
+                        <label for="ID_P">ID phim cần xóa (vd: P1, P2):</label>
+                        <input type="text" id="ID_P" name="ID_P" required style="width: 100%;">
+                    </div>
+                    <button type="submit" style="background-color: #ff4d4d; border: none; margin: 10px; padding: 10px 20px; font-size: 15px; font-family: 'Anton', sans-serif; color: white;">XÓA PHIM</button>
                 </form>
             </div>
         </div>

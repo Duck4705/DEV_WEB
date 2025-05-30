@@ -51,7 +51,7 @@
             </div>
 
             <div class="user_role">
-                <p style="font-family: 'Anton', sans-serif; font-size: 15px;">KHÁCH HÀNG</p>
+                <p style="font-family: 'Anton', sans-serif; font-size: 15px;">{{#if (eq user.VaiTro 'admin_role_1')}}QUẢN TRỊ VIÊN{{else}}KHÁCH HÀNG{{/if}}</p>
             </div>
 
             <div class="user_point">

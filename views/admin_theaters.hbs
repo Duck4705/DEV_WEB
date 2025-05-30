@@ -93,18 +93,29 @@
                 <p style="color: red;">{{error}}</p>
             {{/if}}
             <div class="align_column" style="color: #0f172a; background-color: #f8fafc; align-items: flex-start; width: 100%; padding: 10px;">
+                <h4 style="margin: 10px; font-size: 20px; font-family: 'Anton', sans-serif;">Thêm rạp chiếu</h4>
                 <form action="/profile/admin/theaters/add" method="POST" style="width: 100%;">
                     <div class="align_row_between" style="width: 100%;">
                         <div class="input_info">
-                            <label for="TenRap" style="font-weight: bold; color: black;">Tên rạp</label>
+                            <label for="TenRap">Tên rạp:</label>
                             <input type="text" id="TenRap" name="TenRap" required>
                         </div>
                         <div class="input_info">
-                            <label for="DiaDiem" style="font-weight: bold; color: black;">Địa điểm</label>
+                            <label for="DiaDiem">Địa điểm:</label>
                             <input type="text" id="DiaDiem" name="DiaDiem" required>
                         </div>
                     </div>
                     <button type="submit" style="background-color: #f3ea28; border: none; margin: 10px; padding: 10px 20px; font-size: 15px; font-family: 'Anton', sans-serif;">THÊM RẠP</button>
+                </form>
+            </div>
+            <div class="align_column" style="color: #0f172a; background-color: #f8fafc; align-items: flex-start; width: 100%; padding: 10px; margin-top: 20px;">
+                <h4 style="margin: 10px; font-size: 20px; font-family: 'Anton', sans-serif;">Xóa rạp chiếu</h4>
+                <form action="/profile/admin/theaters/delete" method="POST" style="width: 100%;">
+                    <div class="input_info" style="width: 100%; margin-bottom: 15px;">
+                        <label for="ID_R">ID rạp cần xóa (vd: R1, R2):</label>
+                        <input type="text" id="ID_R" name="ID_R" required>
+                    </div>
+                    <button type="submit" style="background-color: #ff4d4d; border: none; margin: 10px; padding: 10px 20px; font-size: 15px; font-family: 'Anton', sans-serif; color: white;">XÓA RẠP</button>
                 </form>
             </div>
         </div>

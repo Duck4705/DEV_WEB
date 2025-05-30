@@ -93,10 +93,11 @@
                 <p style="color: red;">{{error}}</p>
             {{/if}}
             <div class="align_column" style="color: #0f172a; background-color: #f8fafc; align-items: flex-start; width: 100%; padding: 10px;">
+                <h4 style="margin: 10px; font-size: 20px; font-family: 'Anton', sans-serif;">Thêm suất chiếu</h4>
                 <form action="/profile/admin/showtimes/add" method="POST" style="width: 100%;">
                     <div class="align_row_between" style="width: 100%;">
                         <div class="input_info">
-                            <label for="ID_P" style="font-weight: bold; color: black;">Phim</label>
+                            <label for="ID_P">Phim:</label>
                             <select id="ID_P" name="ID_P" required>
                                 {{#each movies}}
                                     <option value="{{this.ID_P}}">{{this.TenPhim}}</option>
@@ -104,7 +105,7 @@
                             </select>
                         </div>
                         <div class="input_info">
-                            <label for="ID_PC" style="font-weight: bold; color: black;">Phòng chiếu</label>
+                            <label for="ID_PC">Phòng chiếu:</label>
                             <select id="ID_PC" name="ID_PC" required>
                                 {{#each rooms}}
                                     <option value="{{this.ID_PC}}">{{this.TenPhong}}</option>
@@ -114,15 +115,25 @@
                     </div>
                     <div class="align_row_between" style="width: 100%;">
                         <div class="input_info">
-                            <label for="NgayGioChieu" style="font-weight: bold; color: black;">Ngày giờ chiếu</label>
+                            <label for="NgayGioChieu">Ngày giờ chiếu:</label>
                             <input type="datetime-local" id="NgayGioChieu" name="NgayGioChieu" required>
                         </div>
                         <div class="input_info">
-                            <label for="GiaVe" style="font-weight: bold; color: black;">Giá vé</label>
+                            <label for="GiaVe">Giá vé:</label>
                             <input type="number" id="GiaVe" name="GiaVe" required>
                         </div>
                     </div>
                     <button type="submit" style="background-color: #f3ea28; border: none; margin: 10px; padding: 10px 20px; font-size: 15px; font-family: 'Anton', sans-serif;">THÊM SUẤT CHIẾU</button>
+                </form>
+            </div>
+            <div class="align_column" style="color: #0f172a; background-color: #f8fafc; align-items: flex-start; width: 100%; padding: 10px; margin-top: 20px;">
+                <h4 style="margin: 10px; font-size: 20px; font-family: 'Anton', sans-serif;">Xóa suất chiếu</h4>
+                <form action="/profile/admin/showtimes/delete" method="POST" style="width: 100%;">
+                    <div class="input_info" style="width: 100%; margin-bottom: 15px;">
+                        <label for="ID_SC">ID suất chiếu cần xóa (vd: SC1, SC2):</label>
+                        <input type="text" id="ID_SC" name="ID_SC" required>
+                    </div>
+                    <button type="submit" style="background-color: #ff4d4d; border: none; margin: 10px; padding: 10px 20px; font-size: 15px; font-family: 'Anton', sans-serif; color: white;">XÓA SUẤT CHIẾU</button>
                 </form>
             </div>
         </div>
