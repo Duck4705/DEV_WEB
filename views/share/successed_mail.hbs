@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="/login.css">
     <script src="https://unpkg.com/phosphor-icons"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preconnect" href="https://fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css2?family=Anton&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
 </head>
@@ -29,16 +29,11 @@
     <div style="padding: 50px"></div>
     <div class="userbox">
         <a class="btForgot">Quên mật khẩu</a>
-        
     </div>
     
     
     
-    
-    
-    
-    
-    <div style="width: 100%;" class="align_row" >
+    <div style="width: 100%;" class="align_row box_login" >
         <form action="/auth/reset_pass" method="POST" class="signin" id="signin">
             {{#if message}}
             <h4 style="font-size: 15px; font-weight: 600; color: red; margin: 0px 0px 20px 0px; align-self: center">{{message}}</h4>
