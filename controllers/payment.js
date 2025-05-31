@@ -152,10 +152,10 @@ exports.postTransactionStep2 = async (req, res) => {
                 req.socket.remoteAddress ||
                 req.connection.socket.remoteAddress;
 
-            let tmnCode = config.get('vnp_TmnCode');
-            let secretKey = config.get('vnp_HashSecret');
-            let vnpUrl = config.get('vnp_Url');
-            let returnUrl = config.get('vnp_ReturnUrl');
+            let tmnCode = process.env.vnp_TmnCode;
+            let secretKey = process.env.vnp_HashSecret;
+            let vnpUrl = process.env.vnp_Url;
+            let returnUrl = process.env.vnp_ReturnUrl;
             let orderId = moment(date).format('DDHHmmss');
 
             let locale = req.body.language || 'vn';
@@ -235,7 +235,7 @@ exports.vnpayReturn = async (req, res) => {
 
         vnp_Params = sortObject(vnp_Params);
         var signData = qs.stringify(vnp_Params, { encode: false });
-        var hmac = crypto.createHmac("sha512", config.get('vnp_HashSecret'));
+        var hmac = crypto.createHmac("sha512", process.env.vnp_HashSecret);
         var signed = hmac.update(new Buffer(signData, 'utf-8')).digest("hex");
 
         if (secureHash === signed) {
