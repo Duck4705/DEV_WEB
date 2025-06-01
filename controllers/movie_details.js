@@ -1,5 +1,6 @@
 const db = require('../db'); // Kết nối cơ sở dữ liệu
 
+
 exports.getMovieDetails = (req, res) => {
     const user = req.session.user; // Lấy thông tin người dùng từ session
     const ID_P = req.params.ID_P; // Lấy ID phim từ URL
@@ -147,6 +148,43 @@ exports.getSeatDetails = (req, res) => {
                 ngayChieu: new Date(screeningDetails.NgayGioChieu).toLocaleString('vi-VN')
                 // Removed giaVe field as it doesn't exist in the database
             });
+        }
+    });
+};
+
+// Tìm kiếm phim theo tên
+exports.searchMovies = (req, res) => {
+    const q = req.query.q;
+    
+    // Simple search first
+    const sql = `
+        SELECT ID_P, TenPhim, LinkTrailer 
+        FROM Phim 
+        WHERE TenPhim LIKE ?
+        LIMIT 3
+    `;
+    
+    db.query(sql, [`%${q}%`], (err, results) => {
+        if (err) {
+            console.error('Search error:', err);
+            return res.status(500).json({ error: 'Database error' });
+        }
+        
+        if (results.length === 0) {
+            // Try without diacritics if no results
+            const simpleSql = `
+                SELECT ID_P, TenPhim, LinkTrailer 
+                FROM Phim 
+                WHERE LOWER(REPLACE(TenPhim, ' ', '')) LIKE LOWER(?)
+                LIMIT 5
+            `;
+            const simpleQuery = `%${q.replace(/ /g, '')}%`;
+            
+            db.query(simpleSql, [simpleQuery], (err, simpleResults) => {
+                res.json(simpleResults || []);
+            });
+        } else {
+            res.json(results);
         }
     });
 };
