@@ -168,13 +168,302 @@ exports.getHistory = (req, res) => {
     if (!user) {
         return res.redirect('/login');
     }
+    
+    // Format user data
     if (user.NgaySinh) {
         const ngaySinh = new Date(user.NgaySinh);
         const localDate = new Date(ngaySinh.getTime() - ngaySinh.getTimezoneOffset() * 60000);
         user.NgaySinh = localDate.toISOString().split('T')[0];
     }
     user.TongSoTien = user.TongSoTien.toLocaleString('vi-VN');
-    res.render('profile_history', { user });
+    
+    // Check if LichSuGiaoDich table exists
+    db.query("SHOW TABLES LIKE 'LichSuGiaoDich'", (err, tables) => {
+        if (err) {
+            console.error('Database error when checking table:', err);
+            return res.render('profile_history', { 
+                user, 
+                tableError: 'Lỗi khi kiểm tra bảng dữ liệu: ' + err.message 
+            });
+        }
+        
+        // If table doesn't exist, create it (for admin only)
+        if (tables.length === 0 && user.VaiTro === 'admin_role_1') {
+            const createTableQuery = `
+                CREATE TABLE LichSuGiaoDich (
+                    ID_GD varchar(50) PRIMARY KEY,
+                    ID_U varchar(50) NOT NULL,
+                    NgayGD datetime DEFAULT CURRENT_TIMESTAMP,
+                    TheLoaiGD varchar(50),
+                    PhuongThucGD varchar(50),
+                    FOREIGN KEY (ID_U) REFERENCES Users(ID_U) 
+                )
+            `;
+            
+            db.query(createTableQuery, (err) => {
+                if (err) {
+                    console.error('Database error when creating table:', err);
+                    return res.render('profile_history', { 
+                        user, 
+                        tableError: 'Không thể tạo bảng dữ liệu: ' + err.message 
+                    });
+                }
+                
+                return res.render('profile_history', { 
+                    user, 
+                    transactions: [],
+                    hasMore: false,
+                    tableCreated: true
+                });
+            });
+            return;
+        }
+        
+        // Determine query based on user role
+        let query, params;
+        const limit = 10; // Initial limit of records to show
+        
+        if (user.VaiTro === 'admin_role_1') {
+            // Admin sees all transactions from last 7 days
+            query = `
+                SELECT ID_GD, ID_U, NgayGD, TheLoaiGD, PhuongThucGD
+                FROM LichSuGiaoDich
+                WHERE NgayGD >= DATE_SUB(CURDATE(), INTERVAL 7 DAY)
+                ORDER BY NgayGD DESC
+                LIMIT ?
+            `;
+            params = [limit];
+        } else {
+            // Regular user sees only their own transactions
+            query = `
+                SELECT ID_GD, NgayGD, TheLoaiGD, PhuongThucGD
+                FROM LichSuGiaoDich
+                WHERE ID_U = ?
+                ORDER BY NgayGD DESC
+                LIMIT ?
+            `;
+            params = [user.ID_U, limit];
+        }
+        
+        // Execute the query
+        db.query(query, params, (err, transactions) => {
+            if (err) {
+                console.error('Database error when fetching transactions:', err);
+                return res.render('profile_history', { 
+                    user, 
+                    queryError: 'Lỗi khi truy vấn dữ liệu: ' + err.message 
+                });
+            }
+            
+            // Format dates for display
+            if (transactions && transactions.length > 0) {
+                transactions.forEach(transaction => {
+                    const date = new Date(transaction.NgayGD);
+                    transaction.formattedDate = date.toLocaleDateString('vi-VN', { 
+                        year: 'numeric', 
+                        month: '2-digit', 
+                        day: '2-digit',
+                        hour: '2-digit',
+                        minute: '2-digit'
+                    });
+                });
+            }
+            
+            // Count total records for pagination
+            let countQuery;
+            let countParams;
+            
+            if (user.VaiTro === 'admin_role_1') {
+                countQuery = `
+                    SELECT COUNT(*) as total FROM LichSuGiaoDich
+                    WHERE NgayGD >= DATE_SUB(CURDATE(), INTERVAL 7 DAY)
+                `;
+                countParams = [];
+            } else {
+                countQuery = `
+                    SELECT COUNT(*) as total FROM LichSuGiaoDich
+                    WHERE ID_U = ?
+                `;
+                countParams = [user.ID_U];
+            }
+            
+            db.query(countQuery, countParams, (err, countResult) => {
+                if (err) {
+                    console.error('Database error when counting records:', err);
+                    return res.render('profile_history', { 
+                        user, 
+                        transactions,
+                        hasMore: false,
+                        countError: 'Không thể đếm tổng số bản ghi'
+                    });
+                }
+                
+                const totalRecords = countResult[0].total;
+                const hasMore = totalRecords > limit;
+                
+                res.render('profile_history', { 
+                    user, 
+                    transactions, 
+                    hasMore,
+                    totalRecords,
+                    initialLimit: limit
+                });
+            });
+        });
+    });
+};
+
+// Add a new endpoint for loading more transaction history
+exports.loadMoreHistory = (req, res) => {
+    const user = req.session.user;
+    if (!user) {
+        return res.status(401).json({ success: false, message: 'Not authenticated' });
+    }
+    
+    const offset = parseInt(req.query.offset) || 0;
+    const limit = parseInt(req.query.limit) || 10;
+    
+    // Determine query based on user role
+    let query, params, countQuery, countParams;
+    
+    if (user.VaiTro === 'admin_role_1') {
+        // Admin sees all transactions from last 7 days
+        query = `
+            SELECT ID_GD, ID_U, NgayGD, TheLoaiGD, PhuongThucGD
+            FROM LichSuGiaoDich
+            WHERE NgayGD >= DATE_SUB(CURDATE(), INTERVAL 7 DAY)
+            ORDER BY NgayGD DESC
+            LIMIT ?, ?
+        `;
+        params = [offset, limit];
+        
+        countQuery = `
+            SELECT COUNT(*) as total FROM LichSuGiaoDich
+            WHERE NgayGD >= DATE_SUB(CURDATE(), INTERVAL 7 DAY)
+        `;
+        countParams = [];
+    } else {
+        // Regular user sees only their own transactions
+        query = `
+            SELECT ID_GD, NgayGD, TheLoaiGD, PhuongThucGD
+            FROM LichSuGiaoDich
+            WHERE ID_U = ?
+            ORDER BY NgayGD DESC
+            LIMIT ?, ?
+        `;
+        params = [user.ID_U, offset, limit];
+        
+        countQuery = `
+            SELECT COUNT(*) as total FROM LichSuGiaoDich
+            WHERE ID_U = ?
+        `;
+        countParams = [user.ID_U];
+    }
+    
+    // Execute the query
+    db.query(query, params, (err, transactions) => {
+        if (err) {
+            console.error('Database error when fetching more transactions:', err);
+            return res.status(500).json({ success: false, message: 'Database error when fetching transactions' });
+        }
+        
+        // Format dates for display
+        if (transactions && transactions.length > 0) {
+            transactions.forEach(transaction => {
+                const date = new Date(transaction.NgayGD);
+                transaction.formattedDate = date.toLocaleDateString('vi-VN', { 
+                    year: 'numeric', 
+                    month: '2-digit', 
+                    day: '2-digit',
+                    hour: '2-digit',
+                    minute: '2-digit'
+                });
+            });
+        }
+        
+        // Get total count for pagination info
+        db.query(countQuery, countParams, (err, countResult) => {
+            if (err) {
+                console.error('Database error when counting more records:', err);
+                return res.status(500).json({ success: false, message: 'Database error when counting records' });
+            }
+            
+            const totalRecords = countResult[0].total;
+            const hasMore = offset + transactions.length < totalRecords;
+            
+            res.json({ 
+                success: true, 
+                transactions, 
+                hasMore,
+                total: totalRecords
+            });
+        });
+    });
+};
+
+// Admin: Create LichSuGiaoDich table if it doesn't exist
+exports.createTransactionTable = (req, res) => {
+    const user = req.session.user;
+    if (!user || user.VaiTro !== 'admin_role_1') {
+        return res.status(403).json({ success: false, message: 'Unauthorized access' });
+    }
+    
+    const createTableQuery = `
+        CREATE TABLE IF NOT EXISTS LichSuGiaoDich (
+            ID_GD varchar(50) PRIMARY KEY,
+            ID_U varchar(50) NOT NULL,
+            NgayGD datetime DEFAULT CURRENT_TIMESTAMP,
+            TheLoaiGD varchar(50),
+            PhuongThucGD varchar(50),
+            FOREIGN KEY (ID_U) REFERENCES Users(ID_U) 
+        )
+    `;
+    
+    db.query(createTableQuery, (err) => {
+        if (err) {
+            console.error('Error creating LichSuGiaoDich table:', err);
+            return res.status(500).json({ success: false, message: 'Database error: ' + err.message });
+        }
+        
+        // Add sample data for testing
+        const generateUniqueId = () => {
+            return 'GD' + Date.now() + Math.floor(Math.random() * 1000);
+        };
+        
+        const sampleData = [
+            [generateUniqueId(), user.ID_U, new Date(), 'Nạp tiền', 'Chuyển khoản'],
+            [generateUniqueId(), user.ID_U, new Date(), 'Mua vé', 'Thẻ tín dụng'],
+            [generateUniqueId(), user.ID_U, new Date(), 'Hoàn tiền', 'Ví điện tử']
+        ];
+        
+        const insertSampleData = sampleData.map(data => {
+            return new Promise((resolve, reject) => {
+                db.query(
+                    'INSERT INTO LichSuGiaoDich (ID_GD, ID_U, NgayGD, TheLoaiGD, PhuongThucGD) VALUES (?, ?, ?, ?, ?)',
+                    data,
+                    (err) => {
+                        if (err) {
+                            console.error('Error inserting sample data:', err);
+                            reject(err);
+                        } else {
+                            resolve();
+                        }
+                    }
+                );
+            });
+        });
+        
+        Promise.all(insertSampleData)
+            .then(() => {
+                res.json({ success: true, message: 'Đã tạo bảng dữ liệu và thêm dữ liệu mẫu thành công' });
+            })
+            .catch(err => {
+                res.json({ 
+                    success: true, 
+                    message: 'Đã tạo bảng dữ liệu nhưng không thể thêm dữ liệu mẫu: ' + err.message 
+                });
+            });
+    });
 };
 
 // Admin: Manage Theaters
@@ -302,7 +591,7 @@ exports.addMovie = (req, res) => {
             }
             const ID_P = `P${countResult[0].count + 1}`;
             db.query(
-                'INSERT INTO Phim (ID_P, TenPhim, TheLoai, LinkTrailer, MoTaPhim, QuocGia, ThoiLuong, NgonNgu, NoiDung, DoTuoi) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)',
+                'INSERT INTO Phim (ID_P, TenPhim, TheLoai, LinkTrailer, MoTaPhim, QuocGia, ThoiLuong, NgonNgu, NoiDung, DoTuoi) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)',
                 [ID_P, TenPhim, TheLoai, LinkTrailer, MoTaPhim, QuocGia, ThoiLuong, NgonNgu, NoiDung, DoTuoi],
                 (err) => {
                     if (err) {

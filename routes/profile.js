@@ -32,6 +32,8 @@ router.get('/avatar/:id', profileController.getAvatar);
 router.get('/poster/:id', profileController.getPoster);
 router.post('/upload-poster', profileController.uploadPoster);
 router.get('/history', profileController.getHistory);
+router.get('/api/load-more-history', profileController.loadMoreHistory);
+router.post('/create-transaction-table', profileController.createTransactionTable);
 
 // Các route dành cho người dùng truy cập vào trang profile có vai trò là admin_role_1
 router.get('/admin/theaters', restrictToAdminRole1, profileController.getTheaters);
