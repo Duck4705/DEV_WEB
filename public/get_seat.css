@@ -133,3 +133,44 @@ button:disabled {
 #cancel-btn {
     background: #f44336;
 }
+
+
+.search-results {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background: white;
+    color: black;
+    border: 1px solid #ccc;
+    border-radius: 0 0 10px 10px;
+    list-style: none;
+    padding: 0;
+    margin: 5px 0 0 0;
+    max-height: 200px;
+    overflow-y: auto;
+    z-index: 999;
+    width: 100%; /* Add this to ensure full width */
+    box-sizing: border-box; /* Include padding in width */
+}
+
+.search-results li {
+    padding: 10px 20px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.search-results li:hover {
+    background-color: #f0f0f0;
+}
+
+.search-results li a {
+    text-decoration: none;
+    color: inherit;
+    display: block;
+}
+
+.searchBar {
+    position: relative; /* Add this to contain the absolute positioned results */
+    width: 250px; /* Adjust as needed */
+}

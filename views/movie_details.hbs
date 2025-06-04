@@ -31,9 +31,10 @@
                 <span style="font-family: 'Anton', sans-serif;">ĐẶT BẮP NƯỚC</span>
             </a>
         </div>
-        <div class="align_row topbar-group searchBar" style="color: white;">
-            <input type="text" placeholder="Tìm phim" style="padding: 10px 20px; border-radius: 50px; font-size: 15px;">
-            <i style="margin-left: -25px; color: black; font-size: 15px;" class="ph ph-magnifying-glass"></i>
+        <div class="align_row topbar-group searchBar" style="color: white; position: relative;">
+            <input id="movie-search" type="text" placeholder="Tìm phim" style="padding: 10px 20px; border-radius: 50px; font-size: 15px; width: 100%;">
+            <i style="position: absolute; right: 15px; top: 50%; transform: translateY(-50%); color: black; font-size: 15px;" class="ph ph-magnifying-glass"></i>
+            <ul id="search-results" class="search-results"></ul>
         </div>
         <div class="align_row topbar-group" style="color: white;">
             {{#if user}}
@@ -268,6 +269,92 @@
         });
 
         
+    </script>
+    <script>
+        // --- Smart Search ---
+            document.addEventListener('DOMContentLoaded', () => {
+            const searchInput = document.getElementById('movie-search');
+            const resultsBox = document.getElementById('search-results');
+
+            if (!searchInput || !resultsBox) return;
+
+            // Debounce function
+            const debounce = (func, delay) => {
+                let timeout;
+                return (...args) => {
+                    clearTimeout(timeout);
+                    timeout = setTimeout(() => func(...args), delay);
+                };
+            };
+
+            const handleSearch = async (query) => {
+            try {
+                const response = await fetch(`/movie_details/search?q=${encodeURIComponent(query)}`);
+                
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                
+                const data = await response.json();
+                console.log('Search results data:', data); // Add this for debugging
+                displayResults(data);
+            } catch (error) {
+                console.error('Search failed:', error);
+                resultsBox.innerHTML = '<li style="color: red;">Không thể tải kết quả</li>';
+                
+                // Try to load random movies as fallback
+                try {
+                    const fallbackResponse = await fetch('/movie_details/search');
+                    const fallbackData = await fallbackResponse.json();
+                    displayResults(fallbackData);
+                } catch (fallbackError) {
+                    console.error('Fallback also failed:', fallbackError);
+                }
+            }
+        };
+
+            const displayResults = (data) => {
+            resultsBox.innerHTML = '';
+            
+            if (!data || data.length === 0) {
+                resultsBox.innerHTML = '<li>Không tìm thấy phim phù hợp</li>';
+                return;
+            }
+
+            data.forEach(movie => {
+                const li = document.createElement('li');
+                li.innerHTML = `
+                    <a href="/movie_details/${movie.ID_P}">
+                        ${movie.TenPhim}
+                    </a>
+                `;
+                resultsBox.appendChild(li);
+            });
+        };
+
+            // Event listeners
+            searchInput.addEventListener('input', debounce((e) => {
+                const query = e.target.value.trim();
+                if (query) {
+                    handleSearch(query);
+                } else {
+                    // Show random movies when empty
+                    handleSearch('');
+                }
+            }, 300));
+
+            searchInput.addEventListener('focus', () => {
+                if (searchInput.value.trim() === '') {
+                    handleSearch('');
+                }
+            });
+
+            document.addEventListener('click', (e) => {
+                if (!e.target.closest('.searchBar')) {
+                    resultsBox.innerHTML = '';
+                }
+            });
+        });
     </script>
 </body>
 </html>
