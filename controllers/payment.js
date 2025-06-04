@@ -1,6 +1,5 @@
 const db = require('../db');
 const moment = require('moment');
-const config = require('config');
 const crypto = require('crypto');
 const qs = require('qs');
 const websocketController = require('./websocket');

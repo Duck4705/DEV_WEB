@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Hồ sơ</title>
+    <title>Lịch sử giao dịch</title>
     <link rel="icon" type="image/x-icon" href="/img/img_access/video-camera.png">
     <link rel="stylesheet" href="/style.css">
     <link rel="stylesheet" href="/profile.css">
@@ -13,6 +13,112 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Anton&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+    <style>
+        .transaction-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            color: #f8fafc;
+            background-color: #0f172a;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        .transaction-table th, .transaction-table td {
+            padding: 14px 15px;
+            text-align: left;
+            border-bottom: 1px solid #1e293b;
+        }
+        .transaction-table th {
+            background-color: #f3ea28;
+            color: #0f172a;
+            font-weight: bold;
+            text-transform: uppercase;
+            font-size: 14px;
+            letter-spacing: 0.5px;
+        }
+        .transaction-table tr:hover {
+            background-color: #1e293b;
+            cursor: pointer;
+        }
+        .transaction-table tr:nth-child(even) {
+            background-color: #0f172a;
+        }
+        .transaction-table tr:nth-child(odd) {
+            background-color: #121a2e;
+        }
+        .load-more-btn {
+            margin: 20px auto;
+            padding: 12px 80px;
+            background-color: transparent;
+            border-radius: 5px;
+            color: #f3ea28;
+            font-family: 'Anton', sans-serif;
+            font-size: 16px;
+            border: 1px #f3ea28 solid;
+            cursor: pointer;
+            display: block;
+            transition: all 0.3s ease;
+        }
+        .load-more-btn:hover {
+            background-color: rgba(243, 234, 40, 0.1);
+            transform: translateY(-2px);
+        }
+        .load-more-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: translateY(0);
+        }
+        .no-transactions {
+            text-align: center;
+            padding: 40px;
+            font-size: 18px;
+            color: #f8fafc;
+            background-color: #1e293b;
+            border-radius: 8px;
+            margin-top: 20px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        .error-message {
+            text-align: center;
+            padding: 15px;
+            margin-top: 20px;
+            background-color: rgba(220, 38, 38, 0.1);
+            border: 1px solid rgba(220, 38, 38, 0.5);
+            color: #f8fafc;
+            border-radius: 4px;
+        }
+        .create-table-btn {
+            margin: 20px auto;
+            padding: 10px 30px;
+            background-color: #f3ea28;
+            border-radius: 5px;
+            color: #0f172a;
+            font-family: 'Anton', sans-serif;
+            border: none;
+            cursor: pointer;
+            display: block;
+            transition: all 0.3s ease;
+        }
+        .create-table-btn:hover {
+            background-color: #e6dc00;
+            transform: translateY(-2px);
+        }
+        .success-message {
+            text-align: center;
+            padding: 15px;
+            margin-top: 20px;
+            background-color: rgba(34, 197, 94, 0.1);
+            border: 1px solid rgba(34, 197, 94, 0.5);
+            color: #f8fafc;
+            border-radius: 4px;
+        }
+        .table-container {
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+    </style>
 </head>
 <body>
    <div class="top_bar" style="border-bottom: 1px rgba(140, 140, 140, 0.5) solid;">
@@ -93,12 +199,82 @@
                 <a style="color: rgba(200, 200, 200, 0.5);" href="/logout">Đăng xuất</a>
             </div>
         </div>
+        
         <div class="user_right">
-            <h1 style="font-size: 40px; font-family: 'Anton', sans-serif; margin: 20px 0px;">LỊCH SỬ MUA HÀNG</h1>
-            <p>Không có dữ liệu!</p>
+            <h1 style="font-size: 40px; font-family: 'Anton', sans-serif; margin: 20px 0px;">LỊCH SỬ GIAO DỊCH</h1>
+            
+            {{#if tableError}}
+                <div class="error-message">
+                    <p>{{tableError}}</p>
+                    {{#if (eq user.VaiTro 'admin_role_1')}}
+                        <button id="create-table-btn" class="create-table-btn">TẠO BẢNG DỮ LIỆU</button>
+                    {{/if}}
+                </div>
+            {{/if}}
+            
+            {{#if queryError}}
+                <div class="error-message">
+                    <p>{{queryError}}</p>
+                </div>
+            {{/if}}
+            
+            {{#if countError}}
+                <div class="error-message">
+                    <p>{{countError}}</p>
+                </div>
+            {{/if}}
+            
+            {{#if tableCreated}}
+                <div class="success-message">
+                    <p>Bảng dữ liệu đã được tạo thành công! Hãy thêm dữ liệu để xem lịch sử giao dịch.</p>
+                </div>
+            {{/if}}
+            
+            {{#if transactions.length}}
+                <div id="transactions-container">
+                    <div class="table-container">
+                        <table class="transaction-table">
+                            <thead>
+                                <tr>
+                                    <th>Thời gian</th>
+                                    <th>Thể loại giao dịch</th>
+                                    <th>Phương thức</th>
+                                    {{#if (eq user.VaiTro 'admin_role_1')}}
+                                    <th>ID giao dịch</th>
+                                    <th>ID người dùng</th>
+                                    {{/if}}
+                                </tr>
+                            </thead>
+                            <tbody id="transactions-tbody">
+                                {{#each transactions}}
+                                <tr>
+                                    <td>{{this.formattedDate}}</td>
+                                    <td>{{this.TheLoaiGD}}</td>
+                                    <td>{{this.PhuongThucGD}}</td>
+                                    {{#if ../user.VaiTro}}
+                                        {{#if (eq ../user.VaiTro 'admin_role_1')}}
+                                        <td>{{this.ID_GD}}</td>
+                                        <td>{{this.ID_U}}</td>
+                                        {{/if}}
+                                    {{/if}}
+                                </tr>
+                                {{/each}}
+                            </tbody>
+                        </table>
+                    </div>
+                    
+                    {{#if hasMore}}
+                    <button id="load-more-btn" class="load-more-btn">XEM THÊM</button>
+                    {{/if}}
+                </div>
+            {{else}}
+                <div class="no-transactions">
+                    <p>Không có dữ liệu giao dịch!</p>
+                </div>
+            {{/if}}
         </div>
-
     </div>
+    
     <div class="bottom_bar" style="margin-top: 308px;">
         <div class="align_row_between" style="width: 1200px; margin: 30px 0px; ">
             <p>© 2023 Uitheater. All rights reserved.</p>
@@ -117,39 +293,158 @@
         </div>
     </div>
 
-
     <script>
-        // Gửi ảnh đại diện lên server
-    document.addEventListener('DOMContentLoaded', () => {
-        const avatarInput = document.getElementById('avatarInput');
-        const userAvatar = document.getElementById('userAvatar');
+        // Avatar upload handling
+        document.addEventListener('DOMContentLoaded', () => {
+            const avatarInput = document.getElementById('avatarInput');
+            const userAvatar = document.getElementById('userAvatar');
 
-        avatarInput.addEventListener('change', () => {
-            const file = avatarInput.files[0];
-            if (file) {
-                const formData = new FormData();
-                formData.append('avatar', file);
+            avatarInput.addEventListener('change', () => {
+                const file = avatarInput.files[0];
+                if (file) {
+                    const formData = new FormData();
+                    formData.append('avatar', file);
 
-                // Gửi ảnh lên server
-                fetch('/profile/upload-avatar', {
-                    method: 'POST',
-                    body: formData
+                    // Upload to server
+                    fetch('/profile/upload-avatar', {
+                        method: 'POST',
+                        body: formData
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.success) {
+                            // Reload page after successful upload
+                            location.reload();
+                        }
+                    })
+                    .catch(err => {
+                        console.error('Error uploading avatar:', err);
+                        // Reload page even on error
+                        location.reload();
+                    });
+                }
+            });
+            
+            // Create table button (admin only)
+            const createTableBtn = document.getElementById('create-table-btn');
+            if (createTableBtn) {
+                createTableBtn.addEventListener('click', createTransactionTable);
+            }
+            
+            function createTransactionTable() {
+                createTableBtn.textContent = 'ĐANG XỬ LÝ...';
+                createTableBtn.disabled = true;
+                
+                fetch('/profile/create-transaction-table', {
+                    method: 'POST'
                 })
                 .then(response => response.json())
                 .then(data => {
                     if (data.success) {
-                        // Tải lại trang sau khi ảnh được tải lên thành công
+                        alert('Đã tạo bảng dữ liệu thành công! Trang sẽ được làm mới.');
                         location.reload();
+                    } else {
+                        alert('Lỗi: ' + data.message);
+                        createTableBtn.textContent = 'THỬ LẠI';
+                        createTableBtn.disabled = false;
                     }
                 })
                 .catch(err => {
-                    console.error('Error uploading avatar:', err);
-                    // Tải lại trang ngay cả khi có lỗi
-                    location.reload();
+                    console.error('Error creating table:', err);
+                    alert('Đã xảy ra lỗi khi tạo bảng dữ liệu.');
+                    createTableBtn.textContent = 'THỬ LẠI';
+                    createTableBtn.disabled = false;
                 });
             }
+            
+            // Load more transactions
+            const loadMoreBtn = document.getElementById('load-more-btn');
+            if (loadMoreBtn) {
+                loadMoreBtn.addEventListener('click', loadMoreTransactions);
+            }
+            
+            function loadMoreTransactions() {
+                const tbody = document.getElementById('transactions-tbody');
+                const currentCount = tbody.querySelectorAll('tr').length;
+                const limit = 10; // Number of additional transactions to load
+                
+                loadMoreBtn.textContent = 'ĐANG TẢI...';
+                loadMoreBtn.disabled = true;
+                
+                fetch(`/profile/api/load-more-history?offset=${currentCount}&limit=${limit}`)
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.success) {
+                            if (data.transactions.length > 0) {
+                                // Add new transactions to the table
+                                data.transactions.forEach((transaction, index) => {
+                                    const row = document.createElement('tr');
+                                    
+                                    // Alternate row background
+                                    if ((currentCount + index) % 2 === 0) {
+                                        row.style.backgroundColor = '#121a2e';
+                                    } else {
+                                        row.style.backgroundColor = '#0f172a';
+                                    }
+                                    
+                                    // Date column
+                                    const dateCell = document.createElement('td');
+                                    dateCell.textContent = transaction.formattedDate;
+                                    row.appendChild(dateCell);
+                                    
+                                    // Transaction type column
+                                    const typeCell = document.createElement('td');
+                                    typeCell.textContent = transaction.TheLoaiGD;
+                                    row.appendChild(typeCell);
+                                    
+                                    // Payment method column
+                                    const methodCell = document.createElement('td');
+                                    methodCell.textContent = transaction.PhuongThucGD;
+                                    row.appendChild(methodCell);
+                                    
+                                    // Add admin-only columns if user is admin
+                                    const isAdmin = {{#if (eq user.VaiTro 'admin_role_1')}}true{{else}}false{{/if}};
+                                    
+                                    if (isAdmin) {
+                                        // ID_GD column
+                                        const idGdCell = document.createElement('td');
+                                        idGdCell.textContent = transaction.ID_GD;
+                                        row.appendChild(idGdCell);
+                                        
+                                        // ID_U column
+                                        const idUCell = document.createElement('td');
+                                        idUCell.textContent = transaction.ID_U;
+                                        row.appendChild(idUCell);
+                                    }
+                                    
+                                    tbody.appendChild(row);
+                                });
+                                
+                                // Update load more button
+                                loadMoreBtn.textContent = 'XEM THÊM';
+                                loadMoreBtn.disabled = false;
+                                
+                                // Hide button if no more transactions
+                                if (!data.hasMore) {
+                                    loadMoreBtn.style.display = 'none';
+                                }
+                            } else {
+                                // No more transactions
+                                loadMoreBtn.style.display = 'none';
+                            }
+                        } else {
+                            console.error('Error loading more transactions:', data.message);
+                            loadMoreBtn.textContent = 'THỬ LẠI';
+                            loadMoreBtn.disabled = false;
+                        }
+                    })
+                    .catch(err => {
+                        console.error('Error fetching transactions:', err);
+                        loadMoreBtn.textContent = 'THỬ LẠI';
+                        loadMoreBtn.disabled = false;
+                    });
+            }
         });
-    });
     </script>
 </body>
 </html>
