@@ -45,7 +45,7 @@
     background-color: #4CAF50; /* Green */
     color: white; /* Màu chữ cho ghế đang chọn */
 }
-.selected-by-other {
+.selected-by-others {
     background-color: #FFD700; /* Yellow */
     color: #333; /* Màu chữ cho ghế đang được người khác chọn */
 }

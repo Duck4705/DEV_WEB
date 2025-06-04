@@ -142,3 +142,47 @@ button:hover {
     -ms-transition: background-color 0.3s ease;
     -o-transition: background-color 0.3s ease;
 }
+
+.countdown-container {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    margin: 15px 0;
+}
+
+.countdown-timer {
+    background-color: #1f2937;
+    color: white;
+    padding: 10px 20px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.timer-icon {
+    margin-right: 10px;
+    font-size: 1.2rem;
+}
+
+.timer-text {
+    font-size: 1rem;
+}
+
+.countdown-display {
+    font-weight: bold;
+    color: #10b981;
+    font-size: 1.2rem;
+    margin-left: 5px;
+}
+
+.countdown-warning {
+    color: #ef4444;
+    animation: blink 1s infinite;
+}
+
+@keyframes blink {
+    0% { opacity: 1; }
+    50% { opacity: 0.5; }
+    100% { opacity: 1; }
+}

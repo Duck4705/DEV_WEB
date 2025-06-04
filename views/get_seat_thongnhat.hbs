@@ -429,7 +429,7 @@
                 // Remove from selected seats if it was previously selected
                 selectedSeats.delete(seat.id);
             } 
-            else if (seat.status === 'selected') {
+            else if (seat.status === 'selected' || seat.status === 'pending_payment') {
                 seatElement.classList.add('selected');
                 if (seat.selectedBy === userId) {
                     seatElement.style.backgroundColor = '#4CAF50'; // Green
@@ -488,10 +488,26 @@
                 });
         }
         
+        function updateControls() {
+            const hasSelectedSeats = selectedSeats.size > 0;
+            bookBtn.disabled = !hasSelectedSeats;
+            cancelBtn.disabled = !hasSelectedSeats;
+            
+            // Update price display
+            updatePriceDisplay();
+            
+            // Start timer if seats are selected
+            if (hasSelectedSeats && !timerInterval) {
+                startTimer();
+            } else if (!hasSelectedSeats) {
+                stopTimer();
+            }
+        }
+        
         function startTimer() {
             timerElement.style.display = 'inline-block';
             clearInterval(timerInterval);
-            remainingTime = 300;
+            remainingTime = 600;
             updateTimerDisplay();
             
             timerInterval = setInterval(() => {

@@ -51,6 +51,46 @@
             padding: 0;
             padding-top: 90px; /* Add padding equal to the height of the top bar */
         }
+
+        .countdown-container {
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+        
+        .countdown-timer {
+            background-color: #1f2937;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        
+        .timer-icon {
+            margin-right: 10px;
+            font-size: 1.2rem;
+        }
+        
+        .countdown-display {
+            font-weight: bold;
+            color: #10b981;
+            font-size: 1.2rem;
+            margin-left: 5px;
+        }
+        
+        .countdown-warning {
+            color: #ef4444;
+            animation: blink 1s infinite;
+        }
+        
+        @keyframes blink {
+            0% { opacity: 1; }
+            50% { opacity: 0.5; }
+            100% { opacity: 1; }
+        }
     </style>
 </head>
 <body>
@@ -66,6 +106,16 @@
         <span class="step">2. THANH TOÁN</span>
         <span class="step">3. HOÀN TẤT</span>
     </div>
+
+    <!-- Countdown Timer -->
+    {{#if remainingTime}}
+    <div class="countdown-container">
+        <div class="countdown-timer">
+            <div class="timer-icon"><i class="ph ph-timer"></i></div>
+            <div class="timer-text">Thời gian còn lại để đặt vé: <span id="countdown" class="countdown-display">{{remainingTime}}</span></div>
+        </div>
+    </div>
+    {{/if}}
 
     <!-- Jumbotron -->
     <div class="jumbotron">
@@ -93,7 +143,7 @@
                 </div>
                 <div>
                     <label>
-                        <input type="checkbox" required> Đồng ý với <a href="/payment/dieu-khoan-chung" style="color: yellow;">điều khoản</a> của UIT THEATER.
+                        <input type="checkbox" required> Đồng ý với <a href="/payment/DieuKhoanChung" style="color: yellow;">điều khoản</a> của UIT THEATER.
                     </label>
                 </div>
                 <button type="submit">Tiếp Tục</button>
@@ -112,6 +162,7 @@
             <div class="total">{{totalPrice}} VND</div>
         </div>
     </div>
+
     {{#if error}}
     <div id="toast" class="alert alert-danger" style="position: fixed; top: 20px; right: 20px; z-index: 9999;">
         {{error}}
@@ -120,6 +171,50 @@
         setTimeout(function() {
             document.getElementById('toast').style.display = 'none';
         }, 3000);
+    </script>
+    {{/if}}
+
+    {{#if remainingTime}}
+    <script>
+        // Countdown timer implementation
+        let timeLeft = {{remainingTime}};
+        const countdownElement = document.getElementById('countdown');
+        
+        function formatTime(seconds) {
+            const minutes = Math.floor(seconds / 60);
+            const remainingSeconds = seconds % 60;
+            return `${minutes.toString().padStart(2, '0')}:${remainingSeconds.toString().padStart(2, '0')}`;
+        }
+        
+        function updateCountdown() {
+            countdownElement.textContent = formatTime(timeLeft);
+            
+            if (timeLeft <= 60) {
+                countdownElement.classList.add('countdown-warning');
+            }
+            
+            if (timeLeft <= 0) {
+                clearInterval(countdownInterval);
+                alert('Thời gian đặt vé đã hết. Bạn sẽ được chuyển về trang chọn ghế.');
+                window.location.href = '/';
+                return;
+            }
+            
+            timeLeft--;
+        }
+        
+        // Update timer every second
+        updateCountdown();
+        const countdownInterval = setInterval(updateCountdown, 1000);
+        
+        // Add form validation to check time remaining when submitting
+        document.querySelector('form').addEventListener('submit', function(event) {
+            if (timeLeft <= 0) {
+                event.preventDefault();
+                alert('Thời gian đặt vé đã hết. Vui lòng chọn ghế lại.');
+                window.location.href = '/';
+            }
+        });
     </script>
     {{/if}}
 </body>

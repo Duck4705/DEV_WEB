@@ -7,6 +7,6 @@ router.get('/transaction_step2', transactionController.getTransactionStep2);
 router.post('/transaction_step2', transactionController.postTransactionStep2);
 router.get('/vnpay_return', transactionController.vnpayReturn);
 router.get('/transaction_step3', transactionController.getTransactionStep3);
-router.get('/dieu-khoan-chung', transactionController.getDieuKhoan);
+router.get('/DieuKhoanChung', transactionController.getDieuKhoan);
 
 module.exports = router;

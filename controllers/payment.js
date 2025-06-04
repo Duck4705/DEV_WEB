@@ -24,6 +24,18 @@ async function fetchBookingAndRender(bookingId, res, view, extra = {}) {
         const tempBooking = websocketController.temporaryBookings.get(bookingId);
         
         if (tempBooking) {
+            // Calculate remaining time in seconds
+            const remainingTime = Math.max(0, Math.floor((tempBooking.expiresAt - Date.now()) / 1000));
+            
+            // If time expired, cancel booking and show error
+            if (remainingTime <= 0) {
+                await websocketController.cancelBooking(bookingId);
+                return res.render('error', { 
+                    message: 'Thời gian đặt vé đã hết. Vui lòng chọn ghế lại.',
+                    returnUrl: '/'
+                });
+            }
+            
             // Get screening details
             const screeningDetails = await new Promise((resolve, reject) => {
                 db.query(`
@@ -52,6 +64,7 @@ async function fetchBookingAndRender(bookingId, res, view, extra = {}) {
                 suatchieu,
                 rap: screeningDetails.TenRap,
                 phongChieu: screeningDetails.TenPhong,
+                remainingTime: remainingTime, // Add remaining time
                 ...extra
             });
         }
@@ -125,6 +138,16 @@ exports.postTransactionStep2 = async (req, res) => {
         let amount = 0;
         
         if (tempBooking) {
+            // Check if booking has expired
+            const remainingTime = Math.max(0, Math.floor((tempBooking.expiresAt - Date.now()) / 1000));
+            if (remainingTime <= 0) {
+                await websocketController.cancelBooking(bookingId);
+                return res.render('error', {
+                    message: 'Thời gian đặt vé đã hết. Vui lòng chọn ghế lại.',
+                    returnUrl: '/'
+                });
+            }
+            
             amount = Math.round(tempBooking.totalPrice);
         } else {
             // Check if it exists in database
@@ -441,4 +464,4 @@ exports.getTransactionStep3 = async (req, res) => {
 
 exports.getDieuKhoan = (req, res) => {
     res.render('DieuKhoanChung');
-}; 
+};

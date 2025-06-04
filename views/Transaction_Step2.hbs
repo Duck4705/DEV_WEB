@@ -27,6 +27,15 @@
         <span class="step">3. HOÀN TẤT</span>
     </div>
 
+    {{#if remainingTime}}
+    <div class="countdown-container">
+        <div class="countdown-timer">
+            <div class="timer-icon"><i class="ph ph-timer"></i></div>
+            <div class="timer-text">Thời gian còn lại để đặt vé: <span id="countdown" class="countdown-display">{{remainingTime}}</span></div>
+        </div>
+    </div>
+    {{/if}}
+
     <!-- Jumbotron -->
     <div class="jumbotron">
         <!-- Left Form -->
@@ -107,6 +116,98 @@
         document.getElementById('btn-back').addEventListener('click', function () {
             window.location.href = '/payment/transaction_step1?bookingId={{bookingId}}';
         });
+
+        {{#if remainingTime}}
+        // Countdown timer implementation
+        let timeLeft = {{remainingTime}};
+        const countdownElement = document.getElementById('countdown');
+        
+        function formatTime(seconds) {
+            const minutes = Math.floor(seconds / 60);
+            const remainingSeconds = seconds % 60;
+            return `${minutes.toString().padStart(2, '0')}:${remainingSeconds.toString().padStart(2, '0')}`;
+        }
+        
+        function updateCountdown() {
+            countdownElement.textContent = formatTime(timeLeft);
+            
+            if (timeLeft <= 60) {
+                countdownElement.classList.add('countdown-warning');
+            }
+            
+            if (timeLeft <= 0) {
+                clearInterval(countdownInterval);
+                alert('Thời gian đặt vé đã hết. Bạn sẽ được chuyển về trang chọn ghế.');
+                window.location.href = '/';
+                return;
+            }
+            
+            timeLeft--;
+        }
+        
+        // Update timer every second
+        updateCountdown();
+        const countdownInterval = setInterval(updateCountdown, 1000);
+        
+        // Add form validation to check time remaining when submitting
+        document.getElementById('payment-form').addEventListener('submit', function(event) {
+            const selectedPaymentMethod = document.querySelector('input[name="payment_method"]:checked');
+            
+            if (!selectedPaymentMethod) {
+                event.preventDefault();
+                document.getElementById('message-box').classList.remove('hidden');
+                return;
+            }
+            
+            if (timeLeft <= 0) {
+                event.preventDefault();
+                alert('Thời gian đặt vé đã hết. Vui lòng chọn ghế lại.');
+                window.location.href = '/';
+            }
+        });
+        {{/if}}
     </script>
+
+    <style>
+        .countdown-container {
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+        
+        .countdown-timer {
+            background-color: #1f2937;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        
+        .timer-icon {
+            margin-right: 10px;
+            font-size: 1.2rem;
+        }
+        
+        .countdown-display {
+            font-weight: bold;
+            color: #10b981;
+            font-size: 1.2rem;
+            margin-left: 5px;
+        }
+        
+        .countdown-warning {
+            color: #ef4444;
+            animation: blink 1s infinite;
+        }
+        
+        @keyframes blink {
+            0% { opacity: 1; }
+            50% { opacity: 0.5; }
+            100% { opacity: 1; }
+        }
+    </style>
 </body>
 </html>
