@@ -1,33 +1,80 @@
 const db = require('../db'); // Kết nối cơ sở dữ liệu
 
+// Function để tạo slug từ tên phim
+function createSlug(text) {
+    if (!text) return '';
+    
+    return text
+        .toLowerCase()
+        .normalize('NFD') // Normalize Unicode
+        .replace(/[\u0300-\u036f]/g, '') // Remove diacritics
+        .replace(/đ/g, 'd') // Replace đ with d
+        .replace(/Đ/g, 'D') // Replace Đ with D
+        .replace(/:|\/|\?|#|\[|\]|@|!|\$|&|\(|\)|\*|\+|,|;|=|%|\.|"|'|>|<|\\|\{|\}|\||^|~|`/g, ' ') // Replace special chars with spaces
+        .replace(/\s+/g, '-') // Replace spaces with hyphens
+        .replace(/-+/g, '-') // Replace multiple hyphens with single
+        .trim() // Remove leading/trailing spaces
+        .replace(/^-+|-+$/g, ''); // Remove leading/trailing hyphens
+}
+
+// Function để tìm phim bằng slug hoặc ID
+function findMovieBySlugOrId(identifier, callback) {
+    // Trước tiên thử tìm phim bằng ID (backward compatibility)
+    const idQuery = 'SELECT * FROM Phim WHERE ID_P = ?';
+    db.query(idQuery, [identifier], (err, results) => {
+        if (err) {
+            return callback(err, null);
+        }
+        
+        if (results.length > 0) {
+            return callback(null, results[0]);
+        }
+        
+        // Nếu không tìm thấy bằng ID, lấy tất cả phim và so sánh slug
+        db.query('SELECT * FROM Phim', (err, allMovies) => {
+            if (err) {
+                return callback(err, null);
+            }
+            
+            // Tìm phim có slug khớp với identifier
+            for (const movie of allMovies) {
+                const movieSlug = createSlug(movie.TenPhim);
+                if (movieSlug === identifier) {
+                    return callback(null, movie);
+                }
+            }
+            
+            // Không tìm thấy phim nào
+            callback(null, null);
+        });
+    });
+}
 
 exports.getMovieDetails = (req, res) => {
     const user = req.session.user; // Lấy thông tin người dùng từ session
-    const ID_P = req.params.ID_P; // Lấy ID phim từ URL
+    const identifier = req.params.slug; // Lấy slug hoặc ID phim từ URL
 
-    const movieQuery = 'SELECT * FROM Phim WHERE ID_P = ?';
-    const showtimeQuery = `
-        SELECT sc.ID_SC, sc.NgayGioChieu, pc.TenPhong, rp.TenRap
-        FROM SuatChieu sc
-        JOIN PhongChieu pc ON sc.ID_PC = pc.ID_PC
-        JOIN RapPhim rp ON pc.ID_R = rp.ID_R
-        WHERE sc.ID_P = ?
-        ORDER BY sc.NgayGioChieu ASC
-    `;
-
-    db.query(movieQuery, [ID_P], (err, movieResults) => {
+    // Tìm phim bằng slug hoặc ID
+    findMovieBySlugOrId(identifier, (err, phim) => {
         if (err) {
             console.error('Database error (movie):', err);
             return res.status(500).send('Internal Server Error');
         }
 
-        if (movieResults.length === 0) {
+        if (!phim) {
             return res.status(404).send('Phim không tồn tại');
         }
 
-        const phim = movieResults[0]; // Lấy thông tin phim đầu tiên
+        const showtimeQuery = `
+            SELECT sc.ID_SC, sc.NgayGioChieu, pc.TenPhong, rp.TenRap
+            FROM SuatChieu sc
+            JOIN PhongChieu pc ON sc.ID_PC = pc.ID_PC
+            JOIN RapPhim rp ON pc.ID_R = rp.ID_R
+            WHERE sc.ID_P = ?
+            ORDER BY sc.NgayGioChieu ASC
+        `;
 
-        db.query(showtimeQuery, [ID_P], (err, showtimeResults) => {
+        db.query(showtimeQuery, [phim.ID_P], (err, showtimeResults) => {
             if (err) {
                 console.error('Database error (showtime):', err);
                 return res.status(500).send('Internal Server Error');
@@ -64,6 +111,9 @@ exports.getMovieDetails = (req, res) => {
             // Chuyển đổi object thành array để dễ render trong Handlebars
             const showtimes = Object.values(groupedShowtimes);
 
+            // Tạo slug cho phim hiện tại
+            phim.slug = createSlug(phim.TenPhim);
+
             // Truyền thông tin phim, suất chiếu và ID_SC vào view
             res.render('movie_details', { user, phim, showtimes });
         });
@@ -79,6 +129,11 @@ exports.getMovieShowing = (req, res) => {
             console.error('Database error:', err);
             return res.status(500).send('Internal Server Error');
         }
+
+        // Thêm slug cho từng phim
+        phim.forEach(movie => {
+            movie.slug = createSlug(movie.TenPhim);
+        });
 
         // Render trang index với danh sách phim và thông tin người dùng (nếu có)
         if (user) {
@@ -169,8 +224,7 @@ exports.searchMovies = (req, res) => {
             console.error('Search error:', err);
             return res.status(500).json({ error: 'Database error' });
         }
-        
-        if (results.length === 0) {
+          if (results.length === 0) {
             // Try without diacritics if no results
             const simpleSql = `
                 SELECT ID_P, TenPhim, LinkTrailer 
@@ -180,10 +234,21 @@ exports.searchMovies = (req, res) => {
             `;
             const simpleQuery = `%${q.replace(/ /g, '')}%`;
             
-            db.query(simpleSql, [simpleQuery], (err, simpleResults) => {
+            db.query(simpleSql, [simpleQuery], (err, simpleResults) => {            // Thêm slug cho từng kết quả phim
+                if (simpleResults && simpleResults.length > 0) {
+                    simpleResults.forEach(movie => {
+                        movie.slug = createSlug(movie.TenPhim);
+                        // Debug log để kiểm tra slug
+                        console.log(`Search result: "${movie.TenPhim}" -> Slug: "${movie.slug}"`);
+                    });
+                }
                 res.json(simpleResults || []);
             });
         } else {
+            // Thêm slug cho từng kết quả phim
+            results.forEach(movie => {
+                movie.slug = createSlug(movie.TenPhim);
+            });
             res.json(results);
         }
     });

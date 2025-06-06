@@ -150,9 +150,8 @@
             <div class="position_box">
                 <h4 style="font-weight: bold; font-size: 30px;">{{this.TenRap}}</h4> 
                 <p style="font-size: 15px; color: #f8fafc; margin: 20px 0px;">Phòng: {{this.TenPhong}}</p>
-                <ul class="position_time">
-                    {{#each this.screenings}}
-                    <li class="time_box"> <a href="/movie_details/get_seat/{{this.ID_SC}}" style="text-decoration: none; color: white; width: 100%">{{this.time}}</a></li>
+                <ul class="position_time">                    {{#each this.screenings}}
+                    <li class="time_box"> <a href="/movie_details/seats/{{this.ID_SC}}" style="text-decoration: none; color: white; width: 100%">{{this.time}}</a></li>
                     {{/each}}
                 </ul>
             </div>
@@ -324,7 +323,7 @@
             data.forEach(movie => {
                 const li = document.createElement('li');
                 li.innerHTML = `
-                    <a href="/movie_details/${movie.ID_P}">
+                    <a href="/movie_details/${movie.slug}">
                         ${movie.TenPhim}
                     </a>
                 `;

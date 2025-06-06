@@ -3,17 +3,39 @@ const router = express.Router();
 const refreshSession = require('../controllers/profile').refreshSession;
 const db = require('../db');
 
+// Function để tạo slug từ tên phim
+function createSlug(text) {
+    if (!text) return '';
+    
+    return text
+        .toLowerCase()
+        .normalize('NFD') // Normalize Unicode
+        .replace(/[\u0300-\u036f]/g, '') // Remove diacritics
+        .replace(/đ/g, 'd') // Replace đ with d
+        .replace(/Đ/g, 'D') // Replace Đ with D
+        .replace(/:|\/|\?|#|\[|\]|@|!|\$|&|\(|\)|\*|\+|,|;|=|%|\.|"|'|>|<|\\|\{|\}|\||^|~|`/g, ' ') // Replace special chars with spaces
+        .replace(/\s+/g, '-') // Replace spaces with hyphens
+        .replace(/-+/g, '-') // Replace multiple hyphens with single
+        .trim() // Remove leading/trailing spaces
+        .replace(/^-+|-+$/g, ''); // Remove leading/trailing hyphens
+}
+
 // Middleware để làm mới phiên khi có cập nhật trong cơ sở dữ liệu
 router.get('/', refreshSession, (req, res) => {
     const user = req.session.user;
-    const limit = 4; // Số phim hiển thị ban đầu
-
-    // Lấy danh sách phim từ cơ sở dữ liệu với giới hạn hiển thị ban đầu
+    const limit = 4; // Số phim hiển thị ban đầu    // Lấy danh sách phim từ cơ sở dữ liệu với giới hạn hiển thị ban đầu
     db.query('SELECT * FROM phim LIMIT ?', [limit], (err, phim) => {
         if (err) {
             console.error('Database error:', err);
             return res.status(500).send('Internal Server Error');
         }
+        
+        // Tạo slug cho mỗi phim
+        phim.forEach(movie => {
+            movie.slug = createSlug(movie.TenPhim);
+            // Debug log để kiểm tra slug
+            console.log(`Movie: "${movie.TenPhim}" -> Slug: "${movie.slug}"`);
+        });
 
         // Đếm tổng số phim để xác định xem có phim để tải thêm không
         db.query('SELECT COUNT(*) as total FROM phim', (err, result) => {
@@ -44,13 +66,16 @@ router.get('/', refreshSession, (req, res) => {
 // Thêm logging để kiểm tra dữ liệu trả về
 router.get('/api/load-more-movies', (req, res) => {
     const offset = parseInt(req.query.offset) || 0;
-    const limit = parseInt(req.query.limit) || 4;
-
-    db.query('SELECT * FROM phim LIMIT ? OFFSET ?', [limit, offset], (err, movies) => {
+    const limit = parseInt(req.query.limit) || 4;    db.query('SELECT * FROM phim LIMIT ? OFFSET ?', [limit, offset], (err, movies) => {
         if (err) {
             console.error('Database error:', err);
             return res.status(500).json({ error: 'Internal Server Error' });
         }
+        
+        // Tạo slug cho mỗi phim
+        movies.forEach(movie => {
+            movie.slug = createSlug(movie.TenPhim);
+        });
 
         db.query('SELECT COUNT(*) as total FROM phim', (err, result) => {
             if (err) {

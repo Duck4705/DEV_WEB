@@ -112,7 +112,7 @@
                                 </div>
                                 <a class="trailer-link" style="color: white; font-size: 14px; margin-left: -20px;" href="#" data-trailer="https://www.youtube.com/embed/{{this.LinkTrailer}}">Xem Trailer</a>
                             </a>
-                            <a style="padding: 10px 40px; background-color: #f3ea28; border-radius: 5px; color: black; font-family: 'Anton', sans-serif;" href="/movie_details/{{this.ID_P}}">ĐẶT VÉ</a>
+                            <a style="padding: 10px 40px; background-color: #f3ea28; border-radius: 5px; color: black; font-family: 'Anton', sans-serif;" href="/movie_details/{{this.slug}}">ĐẶT VÉ</a>
                         </div>
                     </div>
                 </div>
@@ -318,7 +318,7 @@
                                                     </div>
                                                     <a class="trailer-link" style="color: #f8fafc; font-size: 14px;" href="#" data-trailer="https://www.youtube.com/embed/${movie.LinkTrailer}">Xem Trailer</a>
                                                 </div>
-                                                <a style="padding: 10px 40px; background-color: #f3ea28; border-radius: 5px; color: black; font-family: 'Anton', sans-serif;" href="/movie_details/${movie.ID_P}">ĐẶT VÉ</a>
+                                                <a style="padding: 10px 40px; background-color: #f3ea28; border-radius: 5px; color: black; font-family: 'Anton', sans-serif;" href="/movie_details/${movie.slug}">ĐẶT VÉ</a>
                                             </div>
                                         </div>
                                     `;
@@ -420,7 +420,7 @@
             data.forEach(movie => {
                 const li = document.createElement('li');
                 li.innerHTML = `
-                    <a href="/movie_details/${movie.ID_P}">
+                    <a href="/movie_details/${movie.slug}">
                         ${movie.TenPhim}
                     </a>
                 `;
