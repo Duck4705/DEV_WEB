@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="/style.css">
     <link rel="stylesheet" href="/profile.css">
     <link rel="stylesheet" href="/login.css">
+    <link rel="stylesheet" href="/admin.css">
     <script src="https://unpkg.com/phosphor-icons"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com">
@@ -91,7 +92,44 @@
             {{#if error}}
                 <p style="color: red;">{{error}}</p>
             {{/if}}
-            <div class="align_column" style="color: #0f172a; background-color: #f8fafc; align-items: flex-start; width: 100%; padding: 10px;">
+            {{#if success}}
+                <p style="color: green;">{{success}}</p>
+            {{/if}}
+            
+            <!-- Thêm bảng hiển thị dữ liệu phim -->
+            <div class="data-table-container">
+                <h4 style="margin: 10px; font-size: 20px; font-family: 'Anton', sans-serif; color: #0f172a;">DANH SÁCH PHIM</h4>
+                <table class="admin-data-table">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Tên phim</th>
+                            <th>Thể loại</th>
+                            <th>Thời lượng</th>
+                            <th>Quốc gia</th>
+                            <th>Thao tác</th>
+                        </tr>
+                    </thead>
+                    <tbody id="movies-table-body">
+                        {{#each movies}}
+                        <tr id="movie-row-{{this.ID_P}}">
+                            <td>{{this.ID_P}}</td>
+                            <td>{{this.TenPhim}}</td>
+                            <td>{{this.TheLoai}}</td>
+                            <td>{{this.ThoiLuong}} phút</td>
+                            <td>{{this.QuocGia}}</td>
+                            <td>
+                                <button class="hide-row-btn" data-id="{{this.ID_P}}" data-type="movie">
+                                    <i class="ph ph-eye-slash"></i> Ẩn
+                                </button>
+                            </td>
+                        </tr>
+                        {{/each}}
+                    </tbody>
+                </table>
+            </div>
+            
+            <div class="align_column" style="color: #0f172a; background-color: #f8fafc; align-items: flex-start; width: 100%; padding: 10px; margin-top: 20px;">
                 <form action="/profile/admin/movies/add" method="POST" style="width: 100%;">
                     <h4 style="margin: 10px; font-size: 20px; font-family: 'Anton', sans-serif;">Thêm phim</h4>
 
@@ -176,68 +214,78 @@
         </div>
     </div>
     <script>
-    // Gửi ảnh đại diện lên server
     document.addEventListener('DOMContentLoaded', () => {
         const avatarInput = document.getElementById('avatarInput');
         const userAvatar = document.getElementById('userAvatar');
-        avatarInput.addEventListener('change', () => {
-            const file = avatarInput.files[0];
-            if (file) {
-                const formData = new FormData();
-                formData.append('avatar', file);
-                fetch('/profile/upload-avatar', {
-                    method: 'POST',
-                    body: formData
-                })
-                .then(response => response.json())
-                .then(data => {
-                    if (data.success) {
+        
+        if (avatarInput) {
+            avatarInput.addEventListener('change', () => {
+                const file = avatarInput.files[0];
+                if (file) {
+                    const formData = new FormData();
+                    formData.append('avatar', file);
+                    fetch('/profile/upload-avatar', {
+                        method: 'POST',
+                        body: formData
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.success) {
+                            location.reload();
+                        }
+                    })
+                    .catch(err => {
+                        console.error('Error uploading avatar:', err);
                         location.reload();
-                    }
-                })
-                .catch(err => {
-                    console.error('Error uploading avatar:', err);
-                    location.reload();
-                });
-            }
-        });
-
-        // Xử lý poster upload
-        const posterInput = document.getElementById('posterInput');
-        const posterBtn = document.getElementById('posterBtn');
-        const posterFileName = document.getElementById('posterFileName');
-        const linkPoster = document.getElementById('LinkPoster');
+                    });
+                }
+            });
+        }
         
-        posterBtn.addEventListener('click', () => {
-            posterInput.click();
-        });
-        
-        posterInput.addEventListener('change', () => {
-            const file = posterInput.files[0];
-            if (file) {
-                const formData = new FormData();
-                formData.append('poster', file);
+        // Add event listeners for hide buttons
+        document.querySelectorAll('.hide-row-btn').forEach(button => {
+            button.addEventListener('click', function() {
+                const id = this.getAttribute('data-id');
+                const type = this.getAttribute('data-type');
+                const row = document.getElementById(`movie-row-${id}`);
                 
-                fetch('/profile/upload-poster', {
+                if (!row) {
+                    console.error(`Row with ID movie-row-${id} not found`);
+                    return;
+                }
+                
+                console.log(`Hiding row with ID: movie-row-${id}`);
+                
+                // Hide the row with animation
+                row.style.opacity = '0';
+                setTimeout(() => {
+                    row.style.display = 'none';
+                }, 300);
+                
+                // Send AJAX request to hide the item
+                fetch(`/profile/admin/${type}s/hide`, {
                     method: 'POST',
-                    body: formData
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ id }),
                 })
                 .then(response => response.json())
                 .then(data => {
-                    if (data.success) {
-                        posterFileName.textContent = data.fileName;
-                        linkPoster.value = data.fileName;
-                    } else {
-                        posterFileName.textContent = 'Tải lên thất bại';
-                        linkPoster.value = '';
+                    if (!data.success) {
+                        console.error('Error hiding row:', data.message);
+                        // Restore the row if there was an error
+                        row.style.display = '';
+                        row.style.opacity = '1';
                     }
                 })
-                .catch(err => {
-                    console.error('Error uploading poster:', err);
-                    posterFileName.textContent = 'Tải lên thất bại';
-                    linkPoster.value = '';
+                .catch(error => {
+                    console.error('Error:', error);
+                    // Restore the row if there was an error
+                    row.style.display = '';
+                    row.style.opacity = '1';
                 });
-            }
+            });
         });
     });
     </script>

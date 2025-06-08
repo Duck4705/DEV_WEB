@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="/style.css">
     <link rel="stylesheet" href="/profile.css">
     <link rel="stylesheet" href="/login.css">
+    <link rel="stylesheet" href="/admin.css">
     <script src="https://unpkg.com/phosphor-icons"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -92,7 +93,40 @@
             {{#if error}}
                 <p style="color: red;">{{error}}</p>
             {{/if}}
-            <div class="align_column" style="color: #0f172a; background-color: #f8fafc; align-items: flex-start; width: 100%; padding: 10px;">
+            {{#if success}}
+                <p style="color: green;">{{success}}</p>
+            {{/if}}
+            
+            <!-- Thêm bảng hiển thị dữ liệu rạp chiếu -->
+            <div class="data-table-container">
+                <h4 style="margin: 10px; font-size: 20px; font-family: 'Anton', sans-serif; color: #0f172a;">DANH SÁCH RẠP CHIẾU</h4>
+                <table class="admin-data-table">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Tên rạp</th>
+                            <th>Địa điểm</th>
+                            <th>Thao tác</th>
+                        </tr>
+                    </thead>
+                    <tbody id="theaters-table-body">
+                        {{#each theaters}}
+                        <tr id="theater-row-{{this.ID_R}}">
+                            <td>{{this.ID_R}}</td>
+                            <td>{{this.TenRap}}</td>
+                            <td>{{this.DiaDiem}}</td>
+                            <td>
+                                <button class="hide-row-btn" data-id="{{this.ID_R}}" data-type="theater">
+                                    <i class="ph ph-eye-slash"></i> Ẩn
+                                </button>
+                            </td>
+                        </tr>
+                        {{/each}}
+                    </tbody>
+                </table>
+            </div>
+            
+            <div class="align_column" style="color: #0f172a; background-color: #f8fafc; align-items: flex-start; width: 100%; padding: 10px; margin-top: 20px;">
                 <h4 style="margin: 10px; font-size: 20px; font-family: 'Anton', sans-serif;">Thêm rạp chiếu</h4>
                 <form action="/profile/admin/theaters/add" method="POST" style="width: 100%;">
                     <div class="align_row_between" style="width: 100%;">
@@ -162,6 +196,45 @@
                     location.reload();
                 });
             }
+        });
+        
+        // Add event listeners for hide buttons
+        document.querySelectorAll('.hide-row-btn').forEach(button => {
+            button.addEventListener('click', function() {
+                const id = this.getAttribute('data-id');
+                const type = this.getAttribute('data-type');
+                const row = document.getElementById(`theater-row-${id}`);
+                
+                // Hide the row with animation
+                row.style.opacity = '0';
+                setTimeout(() => {
+                    row.style.display = 'none';
+                }, 300);
+                
+                // Send AJAX request to hide the item
+                fetch(`/profile/admin/${type}s/hide`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ id }),
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (!data.success) {
+                        console.error('Error hiding row:', data.message);
+                        // Restore the row if there was an error
+                        row.style.display = '';
+                        row.style.opacity = '1';
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    // Restore the row if there was an error
+                    row.style.display = '';
+                    row.style.opacity = '1';
+                });
+            });
         });
     });
     </script>

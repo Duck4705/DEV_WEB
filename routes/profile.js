@@ -39,15 +39,22 @@ router.post('/create-transaction-table', profileController.createTransactionTabl
 router.get('/admin/theaters', restrictToAdminRole1, profileController.getTheaters);
 router.post('/admin/theaters/add', restrictToAdminRole1, profileController.addTheater);
 router.post('/admin/theaters/delete', restrictToAdminRole1, profileController.deleteTheater);
+router.post('/admin/theaters/hide', restrictToAdminRole1, profileController.hideTheater);
+
 router.get('/admin/movies', restrictToAdminRole1, profileController.getMovies);
 router.post('/admin/movies/add', restrictToAdminRole1, profileController.addMovie);
 router.post('/admin/movies/edit/:id', restrictToAdminRole1, profileController.editMovie);
 router.post('/admin/movies/delete', restrictToAdminRole1, profileController.deleteMovie);
+router.post('/admin/movies/hide', restrictToAdminRole1, profileController.hideMovie);
+
 router.get('/admin/showtimes', restrictToAdminRole1, profileController.getShowtimes);
 router.post('/admin/showtimes/add', restrictToAdminRole1, profileController.addShowtime);
 router.post('/admin/showtimes/delete', restrictToAdminRole1, profileController.deleteShowtime);
+router.post('/admin/showtimes/hide', restrictToAdminRole1, profileController.hideShowtime);
+
 router.get('/admin/rooms', restrictToAdminRole1, profileController.getRooms);
 router.post('/admin/rooms/add', restrictToAdminRole1, profileController.addRoom);
 router.post('/admin/rooms/delete', restrictToAdminRole1, profileController.deleteRoom);
+router.post('/admin/rooms/hide', restrictToAdminRole1, profileController.hideRoom);
 
 module.exports = router;

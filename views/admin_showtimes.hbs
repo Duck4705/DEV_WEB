@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="/style.css">
     <link rel="stylesheet" href="/profile.css">
     <link rel="stylesheet" href="/login.css">
+    <link rel="stylesheet" href="/admin.css">
     <script src="https://unpkg.com/phosphor-icons"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com">
@@ -92,7 +93,46 @@
             {{#if error}}
                 <p style="color: red;">{{error}}</p>
             {{/if}}
-            <div class="align_column" style="color: #0f172a; background-color: #f8fafc; align-items: flex-start; width: 100%; padding: 10px;">
+            {{#if success}}
+                <p style="color: green;">{{success}}</p>
+            {{/if}}
+            
+            <!-- Thêm bảng hiển thị dữ liệu suất chiếu -->
+            <div class="data-table-container">
+                <h4 style="margin: 10px; font-size: 20px; font-family: 'Anton', sans-serif; color: #0f172a;">DANH SÁCH SUẤT CHIẾU</h4>
+                <table class="admin-data-table">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Phim</th>
+                            <th>Phòng</th>
+                            <th>Rạp</th>
+                            <th>Ngày giờ chiếu</th>
+                            <th>Giá vé</th>
+                            <th>Thao tác</th>
+                        </tr>
+                    </thead>
+                    <tbody id="showtimes-table-body">
+                        {{#each showtimes}}
+                        <tr id="showtime-row-{{this.ID_SC}}">
+                            <td>{{this.ID_SC}}</td>
+                            <td>{{this.TenPhim}}</td>
+                            <td>{{this.TenPhong}}</td>
+                            <td>{{this.TenRap}}</td>
+                            <td>{{formatDate this.NgayGioChieu}}</td>
+                            <td>{{formatNumber this.GiaVe}} VNĐ</td>
+                            <td>
+                                <button class="hide-row-btn" data-id="{{this.ID_SC}}" data-type="showtime">
+                                    <i class="ph ph-eye-slash"></i> Ẩn
+                                </button>
+                            </td>
+                        </tr>
+                        {{/each}}
+                    </tbody>
+                </table>
+            </div>
+            
+            <div class="align_column" style="color: #0f172a; background-color: #f8fafc; align-items: flex-start; width: 100%; padding: 10px; margin-top: 20px;">
                 <h4 style="margin: 10px; font-size: 20px; font-family: 'Anton', sans-serif;">Thêm suất chiếu</h4>
                 <form action="/profile/admin/showtimes/add" method="POST" style="width: 100%;">
                     <div class="align_row_between" style="width: 100%;">
@@ -180,6 +220,45 @@
                     location.reload();
                 });
             }
+        });
+        
+        // Add event listeners for hide buttons
+        document.querySelectorAll('.hide-row-btn').forEach(button => {
+            button.addEventListener('click', function() {
+                const id = this.getAttribute('data-id');
+                const type = this.getAttribute('data-type');
+                const row = document.getElementById(`showtime-row-${id}`);
+                
+                // Hide the row with animation
+                row.style.opacity = '0';
+                setTimeout(() => {
+                    row.style.display = 'none';
+                }, 300);
+                
+                // Send AJAX request to hide the item
+                fetch(`/profile/admin/${type}s/hide`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ id }),
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (!data.success) {
+                        console.error('Error hiding row:', data.message);
+                        // Restore the row if there was an error
+                        row.style.display = '';
+                        row.style.opacity = '1';
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    // Restore the row if there was an error
+                    row.style.display = '';
+                    row.style.opacity = '1';
+                });
+            });
         });
     });
     </script>

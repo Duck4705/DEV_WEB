@@ -563,6 +563,15 @@ exports.deleteTheater = (req, res) => {
     });
 };
 
+// Hide Theater (doesn't actually delete from DB, just hides in UI)
+exports.hideTheater = (req, res) => {
+    const { id } = req.body;
+    
+    // Since we're only hiding in the UI, we just return success
+    // In a real application, you might want to set a 'hidden' flag in the database
+    res.json({ success: true, message: `Theater ${id} hidden successfully` });
+};
+
 // Admin: Manage Movies
 exports.getMovies = (req, res) => {
     db.query('SELECT * FROM Phim', (err, movies) => {
@@ -633,6 +642,28 @@ exports.deleteMovie = (req, res) => {
     });
 };
 
+// Hide Movie (doesn't actually delete from DB, just hides in UI)
+exports.hideMovie = (req, res) => {
+    const { id } = req.body;
+    
+    if (!id) {
+        return res.status(400).json({ 
+            success: false, 
+            message: 'Missing movie ID' 
+        });
+    }
+    
+    // For debugging purposes, log the request
+    console.log('Received hide request for movie:', id);
+    
+    // Since we're only hiding in the UI, we just return success
+    // In a real application, you might want to set a 'hidden' flag in the database
+    res.json({ 
+        success: true, 
+        message: `Movie ${id} hidden successfully` 
+    });
+};
+
 // Admin: Manage Showtimes
 exports.getShowtimes = (req, res) => {
     db.query('SELECT sc.*, p.TenPhim, pc.TenPhong, r.TenRap FROM SuatChieu sc JOIN Phim p ON sc.ID_P = p.ID_P JOIN PhongChieu pc ON sc.ID_PC = pc.ID_PC JOIN RapPhim r ON pc.ID_R = r.ID_R', (err, showtimes) => {
@@ -640,6 +671,7 @@ exports.getShowtimes = (req, res) => {
             console.error('Database error:', err);
             return res.status(500).send('Internal Server Error');
         }
+        
         db.query('SELECT * FROM Phim', (err, movies) => {
             if (err) {
                 console.error('Database error:', err);
@@ -650,7 +682,12 @@ exports.getShowtimes = (req, res) => {
                     console.error('Database error:', err);
                     return res.status(500).send('Internal Server Error');
                 }
-                res.render('admin_showtimes', { user: req.session.user, showtimes, movies, rooms });
+                res.render('admin_showtimes', { 
+                    user: req.session.user, 
+                    showtimes, 
+                    movies, 
+                    rooms
+                });
             });
         });
     });
@@ -692,6 +729,14 @@ exports.deleteShowtime = (req, res) => {
         }
         res.redirect('/profile/admin/showtimes');
     });
+};
+
+// Hide Showtime
+exports.hideShowtime = (req, res) => {
+    const { id } = req.body;
+    
+    // Since we're only hiding in the UI, we just return success
+    res.json({ success: true, message: `Showtime ${id} hidden successfully` });
 };
 
 // Admin: Manage Rooms
@@ -748,4 +793,12 @@ exports.deleteRoom = (req, res) => {
         }
         res.redirect('/profile/admin/rooms');
     });
+};
+
+// Hide Room
+exports.hideRoom = (req, res) => {
+    const { id } = req.body;
+    
+    // Since we're only hiding in the UI, we just return success
+    res.json({ success: true, message: `Room ${id} hidden successfully` });
 };

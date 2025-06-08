@@ -1,0 +1,68 @@
+/* Admin data tables */
+.data-table-container {
+    margin: 20px 0;
+    background-color: #ffffff;
+    border-radius: 8px;
+    padding: 15px;
+    overflow-x: auto;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.admin-data-table {
+    width: 100%;
+    border-collapse: collapse;
+    color: #0f172a;
+    font-size: 14px;
+}
+
+.admin-data-table th {
+    background-color: #f8fafc;
+    padding: 12px 15px;
+    text-align: left;
+    font-weight: bold;
+    border-bottom: 2px solid #e2e8f0;
+}
+
+.admin-data-table td {
+    padding: 10px 15px;
+    border-bottom: 1px solid #e2e8f0;
+}
+
+.admin-data-table tr:last-child td {
+    border-bottom: none;
+}
+
+.admin-data-table tr:hover {
+    background-color: #f1f5f9;
+}
+
+/* Hide button */
+.hide-row-btn {
+    background-color: #f3ea28;
+    color: #0f172a;
+    border: none;
+    border-radius: 4px;
+    padding: 6px 10px;
+    font-size: 12px;
+    cursor: pointer;
+    transition: background-color 0.3s, opacity 0.3s;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.hide-row-btn:hover {
+    background-color: #e2d318;
+}
+
+.hide-row-btn i {
+    font-size: 14px;
+}
+
+/* Row transition */
+#theaters-table-body tr,
+#movies-table-body tr,
+#showtimes-table-body tr,
+#rooms-table-body tr {
+    transition: opacity 0.3s ease;
+}
