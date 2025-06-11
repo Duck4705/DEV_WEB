@@ -168,7 +168,7 @@ exports.getHistory = (req, res) => {
     if (!user) {
         return res.redirect('/login');
     }
-    
+
     // Format user data
     if (user.NgaySinh) {
         const ngaySinh = new Date(user.NgaySinh);
@@ -177,7 +177,6 @@ exports.getHistory = (req, res) => {
     }
     user.TongSoTien = user.TongSoTien.toLocaleString('vi-VN');
     
-    // Check if LichSuGiaoDich table exists
     db.query("SHOW TABLES LIKE 'LichSuGiaoDich'", (err, tables) => {
         if (err) {
             console.error('Database error when checking table:', err);
@@ -199,7 +198,6 @@ exports.getHistory = (req, res) => {
                     FOREIGN KEY (ID_U) REFERENCES Users(ID_U) 
                 )
             `;
-            
             db.query(createTableQuery, (err) => {
                 if (err) {
                     console.error('Database error when creating table:', err);
@@ -208,12 +206,32 @@ exports.getHistory = (req, res) => {
                         tableError: 'Không thể tạo bảng dữ liệu: ' + err.message 
                     });
                 }
-                
-                return res.render('profile_history', { 
-                    user, 
-                    transactions: [],
-                    hasMore: false,
-                    tableCreated: true
+                // Thêm dữ liệu mẫu cho nhiều user
+                db.query('SELECT ID_U FROM Users LIMIT 3', (err, users) => {
+                    if (err || !users.length) {
+                        return res.render('profile_history', { 
+                            user, 
+                            transactions: [],
+                            hasMore: false,
+                            tableCreated: true
+                        });
+                    }
+                    const now = new Date();
+                    const sampleData = [
+                        ['GD' + Date.now() + '1', users[0].ID_U, now, 'Nạp tiền', 'Chuyển khoản'],
+                        ['GD' + Date.now() + '2', users[0].ID_U, now, 'Mua vé', 'Thẻ tín dụng'],
+                        ['GD' + Date.now() + '3', users[1]?.ID_U || users[0].ID_U, now, 'Hoàn tiền', 'Ví điện tử'],
+                        ['GD' + Date.now() + '4', users[2]?.ID_U || users[0].ID_U, now, 'Mua vé', 'VNPay']
+                    ];
+                    const insertSql = 'INSERT INTO LichSuGiaoDich (ID_GD, ID_U, NgayGD, TheLoaiGD, PhuongThucGD) VALUES ?';
+                    db.query(insertSql, [sampleData], () => {
+                        return res.render('profile_history', { 
+                            user, 
+                            transactions: [],
+                            hasMore: false,
+                            tableCreated: true
+                        });
+                    });
                 });
             });
             return;
@@ -269,10 +287,62 @@ exports.getHistory = (req, res) => {
                 });
             }
             
-            // Count total records for pagination
-            let countQuery;
-            let countParams;
+            // Nếu là admin và không có dữ liệu, tự động thêm dữ liệu mẫu
+            if (user.VaiTro === 'admin_role_1' && (!transactions || transactions.length === 0)) {
+                db.query('SELECT ID_U FROM Users LIMIT 3', (err, users) => {
+                    if (err || !users.length) {
+                        return res.render('profile_history', { 
+                            user, 
+                            transactions: [],
+                            hasMore: false,
+                            tableCreated: false
+                        });
+                    }
+                    const now = new Date();
+                    const sampleData = [
+                        ['GD' + Date.now() + '5', users[0].ID_U, now, 'Nạp tiền', 'Chuyển khoản'],
+                        ['GD' + Date.now() + '6', users[0].ID_U, now, 'Mua vé', 'Thẻ tín dụng'],
+                        ['GD' + Date.now() + '7', users[1]?.ID_U || users[0].ID_U, now, 'Hoàn tiền', 'Ví điện tử'],
+                        ['GD' + Date.now() + '8', users[2]?.ID_U || users[0].ID_U, now, 'Mua vé', 'VNPay']
+                    ];
+                    const insertSql = 'INSERT INTO LichSuGiaoDich (ID_GD, ID_U, NgayGD, TheLoaiGD, PhuongThucGD) VALUES ?';
+                    db.query(insertSql, [sampleData], () => {
+                        // Sau khi thêm, truy vấn lại
+                        db.query(query, params, (err2, transactions2) => {
+                            if (err2) {
+                                return res.render('profile_history', { 
+                                    user, 
+                                    transactions: [],
+                                    hasMore: false,
+                                    tableCreated: false
+                                });
+                            }
+                            // Count total records for pagination
+                            let countQuery, countParams;
+                            countQuery = `
+                                SELECT COUNT(*) as total FROM LichSuGiaoDich
+                                WHERE NgayGD >= DATE_SUB(CURDATE(), INTERVAL 7 DAY)
+                            `;
+                            countParams = [];
+                            db.query(countQuery, countParams, (err, countResult) => {
+                                const totalRecords = countResult && countResult[0] ? countResult[0].total : 0;
+                                const hasMore = totalRecords > limit;
+                                res.render('profile_history', { 
+                                    user, 
+                                    transactions: transactions2,
+                                    hasMore,
+                                    totalRecords,
+                                    initialLimit: limit
+                                });
+                            });
+                        });
+                    });
+                });
+                return;
+            }
             
+            // Count total records for pagination
+            let countQuery, countParams;
             if (user.VaiTro === 'admin_role_1') {
                 countQuery = `
                     SELECT COUNT(*) as total FROM LichSuGiaoDich
@@ -286,24 +356,12 @@ exports.getHistory = (req, res) => {
                 `;
                 countParams = [user.ID_U];
             }
-            
             db.query(countQuery, countParams, (err, countResult) => {
-                if (err) {
-                    console.error('Database error when counting records:', err);
-                    return res.render('profile_history', { 
-                        user, 
-                        transactions,
-                        hasMore: false,
-                        countError: 'Không thể đếm tổng số bản ghi'
-                    });
-                }
-                
-                const totalRecords = countResult[0].total;
+                const totalRecords = countResult && countResult[0] ? countResult[0].total : 0;
                 const hasMore = totalRecords > limit;
-                
                 res.render('profile_history', { 
                     user, 
-                    transactions, 
+                    transactions,
                     hasMore,
                     totalRecords,
                     initialLimit: limit
