@@ -39,7 +39,7 @@
             {{#if user}}
                 <div class="user-menu align_row">
                     <div class="dropdown align_row">
-                        <img src="/profile/avatar/{{user.ID_U}}" class="img-user" alt="">
+                        <img src="/profile/avatar/{{user.ID_U}}" class="img-user" alt="" loading="lazy">
                         <div class="dropdown-menu" style="margin-top: 120px; margin-left: 150px;">
                             <a href="/profile"><i style="margin: 0px 8px 0px 0px;" class="ph ph-user"></i>Trang cá nhân</a>
                             <a href="/logout"><i style="margin: 0px 8px 0px 0px;" class="ph ph-sign-out"></i>Đăng xuất</a>
@@ -59,7 +59,7 @@
         </div>
     </div>
     <div class="img_ads">
-        <img src="/img/img_access/top-img.jpg" alt="" width="100%" style="border-radius: 5px;">
+        <img src="/img/img_access/top-img.jpg" alt="" width="100%" style="border-radius: 5px;" loading="lazy">
     </div>
     <div class="quickbook">
         <h1 style="font-size: 30px; color: #3d3c3c; font-family: 'Anton', sans-serif; margin-left: 80px;">ĐẶT VÉ NHANH</h1>
@@ -102,7 +102,7 @@
         <div class="align_movie">
             {{#each phim}}
                 <div class="moviebox">
-                    <img src="/img/img_poster/{{this.ID_P}}.webp" alt="{{this.TenPhim}}" width="100%" height="350px" style="object-fit: cover;">
+                    <img src="/img/img_poster/{{this.ID_P}}.webp" alt="{{this.TenPhim}}" width="100%" height="350px" style="object-fit: cover;" loading="lazy">
                     <div class="align_column_between" style="height: 100px;">
                         <p style="color: white; font-size: 18px; font-weight: bold;" href="">{{this.TenPhim}}</p>
                         <div class="align_row_between alignTrailer" style="width: 100%;">

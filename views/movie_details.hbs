@@ -40,7 +40,7 @@
             {{#if user}}
                 <div class="user-menu align_row">
                     <div class="dropdown align_row">
-                        <img src="/profile/avatar/{{user.ID_U}}" class="img-user" alt="">
+                        <img src="/profile/avatar/{{user.ID_U}}" class="img-user" alt="" loading="lazy">
                         <div class="dropdown-menu" style="margin-top: 120px; margin-left: 150px;">
                             <a href="/profile"><i style="margin: 0px 8px 0px 0px;" class="ph ph-user"></i>Trang cá nhân</a>
                             <a href="/logout"><i style="margin: 0px 8px 0px 0px;" class="ph ph-sign-out"></i>Đăng xuất</a>
@@ -62,7 +62,7 @@
 
     <div class="movie_details_1" style="margin-top: 100px; height: fit-content;">
         <div class="movie_img">
-            <img src="/img/img_poster/{{phim.ID_P}}.webp" alt="" width="100%">
+            <img src="/img/img_poster/{{phim.ID_P}}.webp" alt="" width="100%" loading="lazy">
         </div>
         <div class="movie_text">
             <h1 style="font-size: 40px; font-family: 'Anton', sans-serif;">{{phim.TenPhim}}</h1>
@@ -101,7 +101,7 @@
     </div>
     <div class="movie_details_2" style="margin-top: 70px; height: fit-content;">
         <div class="movie_img">
-            <img src="/img/img_poster/{{phim.ID_P}}.webp" alt="" width="100%">
+            <img src="/img/img_poster/{{phim.ID_P}}.webp" alt="" width="100%" loading="lazy">
         </div>
         <div class="movie_text">
             <h1 style="font-size: 40px; font-family: 'Anton', sans-serif;">{{phim.TenPhim}}</h1>
