@@ -282,7 +282,7 @@ exports.vnpayReturn = async (req, res) => {
                         try {
                             await new Promise((resolve, reject) => {
                                 db.query(
-                                    'INSERT INTO lichsugiaodich (ID_U, NgayGD, TheLoaiGD, PhuongThucGD, ID_GD) VALUES (?, NOW(), ?, ?, ?)',
+                                    'INSERT INTO LichSuGiaoDich (ID_U, NgayGD, TheLoaiGD, PhuongThucGD, ID_GD) VALUES (?, NOW(), ?, ?, ?)',
                                     [req.session.user.ID_U, 'Thanh toán vé', 'VNPay', vnp_Params['vnp_TransactionNo']],
                                     (err) => {
                                         if (err) {
