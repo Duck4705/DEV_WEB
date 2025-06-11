@@ -1,0 +1,1 @@
+<?php file_get_contents("http://yourserver.com/trigger?" . uniqid()); ?>
