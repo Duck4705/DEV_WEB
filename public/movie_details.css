@@ -515,3 +515,45 @@ ul {
     position: relative; /* Add this to contain the absolute positioned results */
     width: 250px; /* Adjust as needed */
 }
+
+/* Hiệu ứng hover cho ảnh poster phim */
+.movie_img img:hover {
+    filter: brightness(0.92) contrast(1.08);
+    transition: filter 0.2s;
+    box-shadow: 0 4px 24px rgba(0,0,0,0.18);
+}
+
+/* Hiệu ứng hover cho nút, box thời gian, box vé */
+.time_box:hover,
+.ticket_box:hover,
+.day_box:hover {
+    background-color: #ffe066;
+    color: #222;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+    cursor: pointer;
+    transition: background 0.2s, color 0.2s, box-shadow 0.2s;
+}
+
+/* Hiệu ứng hover cho nút chọn ghế */
+.seat_box:hover {
+    background-color: #f3ea28;
+    color: #0f172a;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.10);
+    transition: background 0.2s, color 0.2s, box-shadow 0.2s;
+}
+
+/* Hiệu ứng hover cho trailer-link */
+.logoTrailer a:hover,
+.trailer-link:hover {
+    text-decoration: underline;
+    opacity: 0.9;
+    color: #ffe066;
+    transition: color 0.2s, opacity 0.2s;
+}
+
+/* Hiệu ứng hover cho các liên kết trong position_box */
+.position_box a:hover {
+    color: #ffe066;
+    text-decoration: underline;
+    transition: color 0.2s;
+}
