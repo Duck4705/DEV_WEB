@@ -40,10 +40,12 @@ hbs.registerHelper('eq', function (a, b) {
     return a === b;
 });
 
-// Đăng ký hàm trợ giúp formatDate cho Handlebars
+// Đăng ký hàm trợ giúp formatDate cho Handlebars - adjusted for Vietnam timezone
 hbs.registerHelper('formatDate', function (date) {
     if (!date) return '';
     const d = new Date(date);
+    // Add 7 hours to match Vietnam timezone
+    d.setHours(d.getHours() + 7);
     return d.toLocaleDateString('vi-VN', {
         year: 'numeric',
         month: '2-digit',

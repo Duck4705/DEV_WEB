@@ -54,6 +54,8 @@ async function fetchBookingAndRender(bookingId, res, view, extra = {}) {
 
             const seatList = screeningDetails.seatDetails || tempBooking.seatInfos.map(seat => seat.seatId_G).join(', ');
             const dateObj = new Date(screeningDetails.NgayGioChieu);
+            // Adjust for Vietnam timezone
+            dateObj.setHours(dateObj.getHours() + 7);
             const suatchieu = `${dateObj.toLocaleTimeString('vi-VN', { hour: '2-digit', minute: '2-digit' })} ${dateObj.toLocaleDateString('vi-VN')}`;
 
             return res.render(view, {
@@ -93,6 +95,8 @@ async function fetchBookingAndRender(bookingId, res, view, extra = {}) {
 
         const rawDate = results[0].NgayGioChieu;
         const dateObj = new Date(rawDate);
+        // Adjust for Vietnam timezone
+        dateObj.setHours(dateObj.getHours() + 7);
         const suatchieu = `${dateObj.toLocaleTimeString('vi-VN', { hour: '2-digit', minute: '2-digit' })} ${dateObj.toLocaleDateString('vi-VN')}`;
 
         res.render(view, {
@@ -164,6 +168,7 @@ exports.postTransactionStep2 = async (req, res) => {
         }
 
         if (payment_method === 'vnpay') {
+            // Set timezone to Vietnam Standard Time
             process.env.TZ = 'Asia/Ho_Chi_Minh';
             
             let date = new Date();
@@ -402,6 +407,8 @@ exports.getTransactionStep3 = async (req, res) => {
 
             // Format date for display
             const dateObj = new Date(bookingDetails.NgayGioChieu);
+            // Adjust for Vietnam timezone
+            dateObj.setHours(dateObj.getHours() + 7);
             const suatchieu = `${dateObj.toLocaleTimeString('vi-VN', { hour: '2-digit', minute: '2-digit' })} ${dateObj.toLocaleDateString('vi-VN')}`;
 
             return res.render('Transaction_Step3', {

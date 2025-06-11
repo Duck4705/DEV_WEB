@@ -139,6 +139,12 @@
                 <form action="/profile/admin/showtimes/add" method="POST" style="width: 100%;">
                     <div class="align_row_between" style="width: 100%;">
                         <div class="input_info">
+                            <label for="ID_SC">ID Suất chiếu (tùy chọn):</label>
+                            <input type="text" id="ID_SC" name="ID_SC" placeholder="Để trống để tự động tạo">
+                        </div>
+                    </div>
+                    <div class="align_row_between" style="width: 100%;">
+                        <div class="input_info">
                             <label for="ID_P">Phim:</label>
                             <select id="ID_P" name="ID_P" required>
                                 {{#each movies}}

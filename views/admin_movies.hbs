@@ -130,66 +130,73 @@
             </div>
             
             <div class="align_column" style="color: #0f172a; background-color: #f8fafc; align-items: flex-start; width: 100%; padding: 10px; margin-top: 20px;">
-                <div id="add-movie-response" style="margin: 10px 0; display: none;"></div>
+    <div id="add-movie-response" style="margin: 10px 0; display: none;"></div>
 
-                <form id="add-movie-form" action="/profile/admin/movies/add" method="POST" style="width: 100%;" enctype="multipart/form-data">
-                    <h4 style="margin: 10px; font-size: 20px; font-family: 'Anton', sans-serif;">Thêm phim</h4>
+    <form id="add-movie-form" action="/profile/admin/movies/add" method="POST" style="width: 100%;" enctype="multipart/form-data">
+        <h4 style="margin: 10px; font-size: 20px; font-family: 'Anton', sans-serif;">Thêm phim</h4>
 
-                    <div class="align_row_between" style="width: 100%;">
-                        <div class="input_info">
-                            <label for="TenPhim">Tên phim:</label>
-                            <input type="text" id="TenPhim" name="TenPhim" required>
-                        </div>
-                        <div class="input_info">
-                            <label for="TheLoai">Thể loại:</label>
-                            <input type="text" id="TheLoai" name="TheLoai" required>
-                        </div>
-                    </div>
-                    <div class="align_row_between" style="width: 100%;">
-                        <div class="input_info">
-                            <label for="LinkTrailer">Link trailer:</label>
-                            <input type="text" id="LinkTrailer" name="LinkTrailer">
-                        </div>
-                        <div class="input_info">
-                            <label for="poster">Hình ảnh poster:</label>
-                            <input type="file" id="poster" name="poster" accept="image/*" style="padding: 10px 0;">
-                            <div id="poster-preview" style="margin-top: 10px; display: none;">
-                                <img id="poster-image" src="" alt="Poster Preview" style="max-width: 100px; max-height: 150px;">
-                                <button type="button" id="remove-poster" style="background-color: #ff4d4d; color: white; border: none; padding: 5px 10px; margin-left: 10px; cursor: pointer;">Xóa</button>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="input_info" style="width: 100%;">
-                        <label for="MoTaPhim">Mô tả phim:</label>
-                        <textarea id="MoTaPhim" name="MoTaPhim"></textarea>
-                    </div>
-                    <div class="align_row_between" style="width: 100%;">
-                        <div class="input_info">
-                            <label for="QuocGia">Quốc gia:</label>
-                            <input type="text" id="QuocGia" name="QuocGia">
-                        </div>
-                        <div class="input_info">
-                            <label for="ThoiLuong">Thời lượng (phút):</label>
-                            <input type="number" id="ThoiLuong" name="ThoiLuong">
-                        </div>
-                    </div>
-                    <div class="align_row_between" style="width: 100%;">
-                        <div class="input_info">
-                            <label for="NgonNgu">Ngôn ngữ:</label>
-                            <input type="text" id="NgonNgu" name="NgonNgu">
-                        </div>
-                        <div class="input_info">
-                            <label for="DoTuoi">Độ tuổi:</label>
-                            <input type="number" id="DoTuoi" name="DoTuoi">
-                        </div>
-                    </div>
-                    <div class="input_info" style="width: 100%; margin-bottom: 15px;">
-                        <label for="NoiDung">Nội dung:</label>
-                        <textarea id="NoiDung" name="NoiDung"></textarea>
-                    </div>
-                    <button type="submit" style="background-color: #f3ea28; border: none; margin: 10px; padding: 10px 20px; font-size: 15px; font-family: 'Anton', sans-serif;">THÊM PHIM</button>
-                </form>
+        <div class="align_row_between" style="width: 100%;">
+            <div class="input_info">
+                <label for="ID_P">ID Phim (tùy chọn):</label>
+                <input type="text" id="ID_P" name="ID_P" placeholder="Để trống để tự động tạo">
             </div>
+        </div>
+
+        <div class="align_row_between" style="width: 100%;">
+            <div class="input_info">
+                <label for="TenPhim">Tên phim:</label>
+                <input type="text" id="TenPhim" name="TenPhim" required>
+            </div>
+            <div class="input_info">
+                <label for="TheLoai">Thể loại:</label>
+                <input type="text" id="TheLoai" name="TheLoai" required>
+            </div>
+        </div>
+        <div class="align_row_between" style="width: 100%;">
+            <div class="input_info">
+                <label for="LinkTrailer">Link trailer:</label>
+                <input type="text" id="LinkTrailer" name="LinkTrailer">
+            </div>
+            <div class="input_info">
+                <label for="poster">Hình ảnh poster:</label>
+                <input type="file" id="poster" name="poster" accept="image/*" style="padding: 10px 0;">
+                <div id="poster-preview" style="margin-top: 10px; display: none;">
+                    <img id="poster-image" src="" alt="Poster Preview" style="max-width: 100px; max-height: 150px;">
+                    <button type="button" id="remove-poster" style="background-color: #ff4d4d; color: white; border: none; padding: 5px 10px; margin-left: 10px; cursor: pointer;">Xóa</button>
+                </div>
+            </div>
+        </div>
+        <div class="input_info" style="width: 100%;">
+            <label for="MoTaPhim">Mô tả phim:</label>
+            <textarea id="MoTaPhim" name="MoTaPhim"></textarea>
+        </div>
+        <div class="align_row_between" style="width: 100%;">
+            <div class="input_info">
+                <label for="QuocGia">Quốc gia:</label>
+                <input type="text" id="QuocGia" name="QuocGia">
+            </div>
+            <div class="input_info">
+                <label for="ThoiLuong">Thời lượng (phút):</label>
+                <input type="number" id="ThoiLuong" name="ThoiLuong">
+            </div>
+        </div>
+        <div class="align_row_between" style="width: 100%;">
+            <div class="input_info">
+                <label for="NgonNgu">Ngôn ngữ:</label>
+                <input type="text" id="NgonNgu" name="NgonNgu">
+            </div>
+            <div class="input_info">
+                <label for="DoTuoi">Độ tuổi:</label>
+                <input type="number" id="DoTuoi" name="DoTuoi">
+            </div>
+        </div>
+        <div class="input_info" style="width: 100%; margin-bottom: 15px;">
+            <label for="NoiDung">Nội dung:</label>
+            <textarea id="NoiDung" name="NoiDung"></textarea>
+        </div>
+        <button type="submit" style="background-color: #f3ea28; border: none; margin: 10px; padding: 10px 20px; font-size: 15px; font-family: 'Anton', sans-serif;">THÊM PHIM</button>
+    </form>
+</div>
             <div class="align_column" style="color: #0f172a; background-color: #f8fafc; align-items: flex-start; width: 100%; padding: 10px; margin-top: 20px;">
                 <h4 style="margin: 10px; font-size: 20px; font-family: 'Anton', sans-serif;">Xóa phim</h4>
                 <form action="/profile/admin/movies/delete" method="POST" style="width: 100%;">

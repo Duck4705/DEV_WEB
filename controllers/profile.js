@@ -253,10 +253,13 @@ exports.getHistory = (req, res) => {
                 });
             }
             
-            // Format dates for display
+            // Format dates for display - adjust to Vietnam timezone (UTC+7)
             if (transactions && transactions.length > 0) {
                 transactions.forEach(transaction => {
+                    // Add 7 hours to match Vietnam timezone
                     const date = new Date(transaction.NgayGD);
+                    date.setHours(date.getHours() + 7);
+                    
                     transaction.formattedDate = date.toLocaleDateString('vi-VN', { 
                         year: 'numeric', 
                         month: '2-digit', 
@@ -361,10 +364,13 @@ exports.loadMoreHistory = (req, res) => {
             return res.status(500).json({ success: false, message: 'Database error when fetching transactions' });
         }
         
-        // Format dates for display
+        // Format dates for display - adjust to Vietnam timezone (UTC+7)
         if (transactions && transactions.length > 0) {
             transactions.forEach(transaction => {
+                // Add 7 hours to match Vietnam timezone
                 const date = new Date(transaction.NgayGD);
+                date.setHours(date.getHours() + 7);
+                
                 transaction.formattedDate = date.toLocaleDateString('vi-VN', { 
                     year: 'numeric', 
                     month: '2-digit', 
@@ -436,7 +442,7 @@ exports.getTheaters = (req, res) => {
 };
 
 exports.addTheater = (req, res) => {
-    const { TenRap, DiaDiem } = req.body;
+    const { ID_R, TenRap, DiaDiem } = req.body;
     db.query('SELECT * FROM RapPhim WHERE TenRap = ? AND DiaDiem = ?', [TenRap, DiaDiem], (err, results) => {
         if (err) {
             console.error('Database error:', err);
@@ -445,20 +451,50 @@ exports.addTheater = (req, res) => {
         if (results.length > 0) {
             return res.render('admin_theaters', { user: req.session.user, theaters: results, error: 'Rạp đã tồn tại.' });
         }
-        db.query('SELECT COUNT(*) AS count FROM RapPhim', (err, countResult) => {
-            if (err) {
-                console.error('Database error:', err);
-                return res.status(500).send('Internal Server Error');
-            }
-            const ID_R = `R${countResult[0].count + 1}`;
-            db.query('INSERT INTO RapPhim (ID_R, TenRap, DiaDiem) VALUES (?, ?, ?)', [ID_R, TenRap, DiaDiem], (err) => {
+        
+        // Check if custom ID is provided
+        if (ID_R && ID_R.trim() !== '') {
+            // Check if the custom ID already exists
+            db.query('SELECT * FROM RapPhim WHERE ID_R = ?', [ID_R], (err, idResults) => {
                 if (err) {
                     console.error('Database error:', err);
                     return res.status(500).send('Internal Server Error');
                 }
-                res.redirect('/profile/admin/theaters');
+                
+                if (idResults.length > 0) {
+                    return res.render('admin_theaters', { 
+                        user: req.session.user, 
+                        theaters: results, 
+                        error: `ID ${ID_R} đã tồn tại. Vui lòng chọn ID khác.` 
+                    });
+                }
+                
+                // Use the custom ID
+                db.query('INSERT INTO RapPhim (ID_R, TenRap, DiaDiem) VALUES (?, ?, ?)', [ID_R, TenRap, DiaDiem], (err) => {
+                    if (err) {
+                        console.error('Database error:', err);
+                        return res.status(500).send('Internal Server Error');
+                    }
+                    res.redirect('/profile/admin/theaters');
+                });
             });
-        });
+        } else {
+            // Auto-generate ID as before
+            db.query('SELECT COUNT(*) AS count FROM RapPhim', (err, countResult) => {
+                if (err) {
+                    console.error('Database error:', err);
+                    return res.status(500).send('Internal Server Error');
+                }
+                const newID_R = `R${countResult[0].count + 1}`;
+                db.query('INSERT INTO RapPhim (ID_R, TenRap, DiaDiem) VALUES (?, ?, ?)', [newID_R, TenRap, DiaDiem], (err) => {
+                    if (err) {
+                        console.error('Database error:', err);
+                        return res.status(500).send('Internal Server Error');
+                    }
+                    res.redirect('/profile/admin/theaters');
+                });
+            });
+        }
     });
 };
 
@@ -542,7 +578,7 @@ exports.getMovies = (req, res) => {
 };
 
 exports.addMovie = (req, res) => {
-    const { TenPhim, TheLoai, LinkTrailer, MoTaPhim, QuocGia, ThoiLuong, NgonNgu, NoiDung, DoTuoi } = req.body;
+    const { ID_P, TenPhim, TheLoai, LinkTrailer, MoTaPhim, QuocGia, ThoiLuong, NgonNgu, NoiDung, DoTuoi } = req.body;
     const posterFile = req.file;
     
     // Validate required fields
@@ -570,22 +606,11 @@ exports.addMovie = (req, res) => {
             });
         }
         
-        // Generate new movie ID
-        db.query('SELECT COUNT(*) AS count FROM Phim', (err, countResult) => {
-            if (err) {
-                console.error('Database error:', err);
-                return res.status(500).json({ 
-                    success: false, 
-                    message: 'Lỗi khi tạo ID phim: ' + err.message
-                });
-            }
-            
-            const ID_P = `P${countResult[0].count + 1}`;
-            
+        const processMovie = (movieId) => {
             // Insert movie into database first
             db.query(
                 'INSERT INTO Phim (ID_P, TenPhim, TheLoai, LinkTrailer, MoTaPhim, QuocGia, ThoiLuong, NgonNgu, NoiDung, DoTuoi) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)',
-                [ID_P, TenPhim, TheLoai, LinkTrailer, MoTaPhim, QuocGia, ThoiLuong, NgonNgu, NoiDung, DoTuoi],
+                [movieId, TenPhim, TheLoai, LinkTrailer, MoTaPhim, QuocGia, ThoiLuong, NgonNgu, NoiDung, DoTuoi],
                 (err) => {
                     if (err) {
                         console.error('Database error:', err);
@@ -605,7 +630,7 @@ exports.addMovie = (req, res) => {
                                 fs.mkdirSync(posterDir, { recursive: true });
                             }
                             
-                            const posterFileName = `${ID_P}.webp`;
+                            const posterFileName = `${movieId}.webp`;
                             const posterPath = path.join(posterDir, posterFileName);
                             
                             // Use sharp if available, otherwise use simple file saving
@@ -622,12 +647,10 @@ exports.addMovie = (req, res) => {
                             } catch (sharpError) {
                                 // Fallback if sharp is not available
                                 console.error('Error using sharp, falling back to fs:', sharpError);
-                                const fs = require('fs');
                                 fs.writeFileSync(posterPath, posterFile.buffer);
                             }
                         } catch (fileError) {
                             console.error('Error saving poster file:', fileError);
-                            // Continue even if poster saving fails
                         }
                     }
                     
@@ -635,11 +658,49 @@ exports.addMovie = (req, res) => {
                     return res.json({ 
                         success: true, 
                         message: 'Thêm phim thành công',
-                        movieId: ID_P
+                        movieId: movieId
                     });
                 }
             );
-        });
+        };
+        
+        // Check if custom ID is provided
+        if (ID_P && ID_P.trim() !== '') {
+            // Check if the custom ID already exists
+            db.query('SELECT * FROM Phim WHERE ID_P = ?', [ID_P], (err, idResults) => {
+                if (err) {
+                    console.error('Database error:', err);
+                    return res.status(500).json({ 
+                        success: false, 
+                        message: 'Lỗi khi kiểm tra ID phim: ' + err.message
+                    });
+                }
+                
+                if (idResults.length > 0) {
+                    return res.status(400).json({ 
+                        success: false, 
+                        message: `ID ${ID_P} đã tồn tại. Vui lòng chọn ID khác.`
+                    });
+                }
+                
+                // Use the custom ID
+                processMovie(ID_P);
+            });
+        } else {
+            // Auto-generate ID as before
+            db.query('SELECT COUNT(*) AS count FROM Phim', (err, countResult) => {
+                if (err) {
+                    console.error('Database error:', err);
+                    return res.status(500).json({ 
+                        success: false, 
+                        message: 'Lỗi khi tạo ID phim: ' + err.message
+                    });
+                }
+                
+                const newID_P = `P${countResult[0].count + 1}`;
+                processMovie(newID_P);
+            });
+        }
     });
 };
 
@@ -723,29 +784,60 @@ exports.getShowtimes = (req, res) => {
 };
 
 exports.addShowtime = (req, res) => {
-    const { ID_P, ID_PC, NgayGioChieu, GiaVe } = req.body;
+    const { ID_SC, ID_P, ID_PC, NgayGioChieu, GiaVe } = req.body;
     db.query('SELECT * FROM SuatChieu WHERE ID_PC = ? AND NgayGioChieu = ?', [ID_PC, NgayGioChieu], (err, results) => {
         if (err) {
             console.error('Database error:', err);
             return res.status(500).send('Internal Server Error');
         }
         if (results.length > 0) {
-            return res.render('admin_showtimes', { user: req.session.user, error: 'Suất chiếu đã tồn tại cho phòng và thời gian này.' });
+            return res.render('admin_showtimes', { 
+                user: req.session.user, 
+                error: 'Suất chiếu đã tồn tại cho phòng và thời gian này.' 
+            });
         }
-        db.query('SELECT COUNT(*) AS count FROM SuatChieu', (err, countResult) => {
-            if (err) {
-                console.error('Database error:', err);
-                return res.status(500).send('Internal Server Error');
-            }
-            const ID_SC = `SC${countResult[0].count + 1}`;
-            db.query('INSERT INTO SuatChieu (ID_SC, ID_P, ID_PC, NgayGioChieu, GiaVe) VALUES (?, ?, ?, ?, ?)', [ID_SC, ID_P, ID_PC, NgayGioChieu, GiaVe], (err) => {
+        
+        const insertShowtime = (showtimeId) => {
+            db.query('INSERT INTO SuatChieu (ID_SC, ID_P, ID_PC, NgayGioChieu, GiaVe) VALUES (?, ?, ?, ?, ?)', 
+                [showtimeId, ID_P, ID_PC, NgayGioChieu, GiaVe], (err) => {
                 if (err) {
                     console.error('Database error:', err);
                     return res.status(500).send('Internal Server Error');
                 }
                 res.redirect('/profile/admin/showtimes');
             });
-        });
+        };
+        
+        // Check if custom ID is provided
+        if (ID_SC && ID_SC.trim() !== '') {
+            // Check if the custom ID already exists
+            db.query('SELECT * FROM SuatChieu WHERE ID_SC = ?', [ID_SC], (err, idResults) => {
+                if (err) {
+                    console.error('Database error:', err);
+                    return res.status(500).send('Internal Server Error');
+                }
+                
+                if (idResults.length > 0) {
+                    return res.render('admin_showtimes', { 
+                        user: req.session.user, 
+                        error: `ID ${ID_SC} đã tồn tại. Vui lòng chọn ID khác.` 
+                    });
+                }
+                
+                // Use the custom ID
+                insertShowtime(ID_SC);
+            });
+        } else {
+            // Auto-generate ID as before
+            db.query('SELECT COUNT(*) AS count FROM SuatChieu', (err, countResult) => {
+                if (err) {
+                    console.error('Database error:', err);
+                    return res.status(500).send('Internal Server Error');
+                }
+                const newID_SC = `SC${countResult[0].count + 1}`;
+                insertShowtime(newID_SC);
+            });
+        }
     });
 };
 
@@ -786,29 +878,60 @@ exports.getRooms = (req, res) => {
 };
 
 exports.addRoom = (req, res) => {
-    const { ID_R, TenPhong, LoaiPhong } = req.body;
+    const { ID_PC, ID_R, TenPhong, LoaiPhong } = req.body;
     db.query('SELECT * FROM PhongChieu WHERE TenPhong = ? AND ID_R = ?', [TenPhong, ID_R], (err, results) => {
         if (err) {
             console.error('Database error:', err);
             return res.status(500).send('Internal Server Error');
         }
         if (results.length > 0) {
-            return res.render('admin_rooms', { user: req.session.user, error: 'Phòng chiếu đã tồn tại cho rạp này.' });
+            return res.render('admin_rooms', { 
+                user: req.session.user, 
+                error: 'Phòng chiếu đã tồn tại cho rạp này.' 
+            });
         }
-        db.query('SELECT COUNT(*) AS count FROM PhongChieu', (err, countResult) => {
-            if (err) {
-                console.error('Database error:', err);
-                return res.status(500).send('Internal Server Error');
-            }
-            const ID_PC = `PC${countResult[0].count + 1}`;
-            db.query('INSERT INTO PhongChieu (ID_PC, ID_R, TenPhong, LoaiPhong) VALUES (?, ?, ?, ?)', [ID_PC, ID_R, TenPhong, LoaiPhong], (err) => {
+        
+        const insertRoom = (roomId) => {
+            db.query('INSERT INTO PhongChieu (ID_PC, ID_R, TenPhong, LoaiPhong) VALUES (?, ?, ?, ?)', 
+                [roomId, ID_R, TenPhong, LoaiPhong], (err) => {
                 if (err) {
                     console.error('Database error:', err);
                     return res.status(500).send('Internal Server Error');
                 }
                 res.redirect('/profile/admin/rooms');
             });
-        });
+        };
+        
+        // Check if custom ID is provided
+        if (ID_PC && ID_PC.trim() !== '') {
+            // Check if the custom ID already exists
+            db.query('SELECT * FROM PhongChieu WHERE ID_PC = ?', [ID_PC], (err, idResults) => {
+                if (err) {
+                    console.error('Database error:', err);
+                    return res.status(500).send('Internal Server Error');
+                }
+                
+                if (idResults.length > 0) {
+                    return res.render('admin_rooms', { 
+                        user: req.session.user, 
+                        error: `ID ${ID_PC} đã tồn tại. Vui lòng chọn ID khác.` 
+                    });
+                }
+                
+                // Use the custom ID
+                insertRoom(ID_PC);
+            });
+        } else {
+            // Auto-generate ID as before
+            db.query('SELECT COUNT(*) AS count FROM PhongChieu', (err, countResult) => {
+                if (err) {
+                    console.error('Database error:', err);
+                    return res.status(500).send('Internal Server Error');
+                }
+                const newID_PC = `PC${countResult[0].count + 1}`;
+                insertRoom(newID_PC);
+            });
+        }
     });
 };
 

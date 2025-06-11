@@ -134,6 +134,12 @@
                     <h4 style="margin: 10px; font-size: 20px; font-family: 'Anton', sans-serif;">Thêm phòng chiếu</h4>
                     <div class="align_row_between" style="width: 100%;">
                         <div class="input_info">
+                            <label for="ID_PC">ID Phòng chiếu (tùy chọn):</label>
+                            <input type="text" id="ID_PC" name="ID_PC" placeholder="Để trống để tự động tạo">
+                        </div>
+                    </div>
+                    <div class="align_row_between" style="width: 100%;">
+                        <div class="input_info">
                             <label for="ID_R">Rạp:</label>
                             <select id="ID_R" name="ID_R" required>
                                 {{#each theaters}}
