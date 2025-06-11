@@ -40,18 +40,18 @@ hbs.registerHelper('eq', function (a, b) {
     return a === b;
 });
 
-// Đăng ký hàm trợ giúp formatDate cho Handlebars - adjusted for Vietnam timezone
+// Đăng ký hàm trợ giúp formatDate cho Handlebars - consistently use Vietnam timezone
 hbs.registerHelper('formatDate', function (date) {
     if (!date) return '';
-    const d = new Date(date);
-    // Add 7 hours to match Vietnam timezone
-    d.setHours(d.getHours() + 7);
-    return d.toLocaleDateString('vi-VN', {
+    
+    // Use explicit timezone conversion for consistent display
+    return new Date(date).toLocaleString('vi-VN', {
         year: 'numeric',
         month: '2-digit',
         day: '2-digit',
         hour: '2-digit',
-        minute: '2-digit'
+        minute: '2-digit',
+        timeZone: 'Asia/Ho_Chi_Minh' // Always use Vietnam timezone for display
     });
 });
 

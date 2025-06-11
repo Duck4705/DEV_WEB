@@ -54,9 +54,14 @@ async function fetchBookingAndRender(bookingId, res, view, extra = {}) {
 
             const seatList = screeningDetails.seatDetails || tempBooking.seatInfos.map(seat => seat.seatId_G).join(', ');
             const dateObj = new Date(screeningDetails.NgayGioChieu);
-            // Adjust for Vietnam timezone
-            dateObj.setHours(dateObj.getHours() + 7);
-            const suatchieu = `${dateObj.toLocaleTimeString('vi-VN', { hour: '2-digit', minute: '2-digit' })} ${dateObj.toLocaleDateString('vi-VN')}`;
+            const suatchieu = dateObj.toLocaleString('vi-VN', { 
+                hour: '2-digit', 
+                minute: '2-digit',
+                year: 'numeric', 
+                month: '2-digit', 
+                day: '2-digit',
+                timeZone: 'Asia/Ho_Chi_Minh' // Always use Vietnam timezone for display
+            });
 
             return res.render(view, {
                 bookingId,
@@ -95,9 +100,14 @@ async function fetchBookingAndRender(bookingId, res, view, extra = {}) {
 
         const rawDate = results[0].NgayGioChieu;
         const dateObj = new Date(rawDate);
-        // Adjust for Vietnam timezone
-        dateObj.setHours(dateObj.getHours() + 7);
-        const suatchieu = `${dateObj.toLocaleTimeString('vi-VN', { hour: '2-digit', minute: '2-digit' })} ${dateObj.toLocaleDateString('vi-VN')}`;
+        const suatchieu = dateObj.toLocaleString('vi-VN', { 
+            hour: '2-digit', 
+            minute: '2-digit',
+            year: 'numeric', 
+            month: '2-digit', 
+            day: '2-digit',
+            timeZone: 'Asia/Ho_Chi_Minh' // Always use Vietnam timezone for display
+        });
 
         res.render(view, {
             bookingId,
@@ -407,9 +417,14 @@ exports.getTransactionStep3 = async (req, res) => {
 
             // Format date for display
             const dateObj = new Date(bookingDetails.NgayGioChieu);
-            // Adjust for Vietnam timezone
-            dateObj.setHours(dateObj.getHours() + 7);
-            const suatchieu = `${dateObj.toLocaleTimeString('vi-VN', { hour: '2-digit', minute: '2-digit' })} ${dateObj.toLocaleDateString('vi-VN')}`;
+            const suatchieu = dateObj.toLocaleString('vi-VN', { 
+                hour: '2-digit', 
+                minute: '2-digit',
+                year: 'numeric', 
+                month: '2-digit', 
+                day: '2-digit',
+                timeZone: 'Asia/Ho_Chi_Minh' // Always use Vietnam timezone for display
+            });
 
             return res.render('Transaction_Step3', {
                 code: '00',

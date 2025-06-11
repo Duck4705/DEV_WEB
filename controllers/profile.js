@@ -256,20 +256,20 @@ exports.getHistory = (req, res) => {
                 });
             }
             
-            // Format dates for display - using proper Vietnam timezone
+            // Format dates for display - apply Vietnam timezone for display only
             if (transactions && transactions.length > 0) {
                 transactions.forEach(transaction => {
-                    // Create a date object - it will now respect the TZ environment variable
-                    const date = new Date(transaction.NgayGD);
+                    // Create a date object in UTC
+                    const utcDate = new Date(transaction.NgayGD);
                     
-                    // Format with Vietnamese locale
-                    transaction.formattedDate = date.toLocaleDateString('vi-VN', { 
+                    // Format with Vietnam timezone for display only
+                    transaction.formattedDate = utcDate.toLocaleString('vi-VN', { 
                         year: 'numeric', 
                         month: '2-digit', 
                         day: '2-digit',
                         hour: '2-digit',
                         minute: '2-digit',
-                        timeZone: 'Asia/Ho_Chi_Minh' // Explicitly set timezone here too
+                        timeZone: 'Asia/Ho_Chi_Minh' // Always use Vietnam timezone for display
                     });
                 });
             }
@@ -368,20 +368,20 @@ exports.loadMoreHistory = (req, res) => {
             return res.status(500).json({ success: false, message: 'Database error when fetching transactions' });
         }
         
-        // Format dates for display - using proper Vietnam timezone
+        // Format dates for display - apply Vietnam timezone for display only
         if (transactions && transactions.length > 0) {
             transactions.forEach(transaction => {
-                // Create a date object with Vietnam timezone
-                const date = new Date(transaction.NgayGD);
+                // Create a date object in UTC
+                const utcDate = new Date(transaction.NgayGD);
                 
-                // Format with Vietnamese locale
-                transaction.formattedDate = date.toLocaleDateString('vi-VN', { 
+                // Format with Vietnam timezone for display only
+                transaction.formattedDate = utcDate.toLocaleString('vi-VN', { 
                     year: 'numeric', 
                     month: '2-digit', 
                     day: '2-digit',
                     hour: '2-digit',
                     minute: '2-digit',
-                    timeZone: 'Asia/Ho_Chi_Minh' // Explicitly set timezone
+                    timeZone: 'Asia/Ho_Chi_Minh' // Always use Vietnam timezone for display
                 });
             });
         }

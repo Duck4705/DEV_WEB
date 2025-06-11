@@ -14,7 +14,8 @@ const db = mysql.createConnection({
     database: process.env.DATABASE,
     //port: 3000,
     charset: 'utf8mb4',
-    //timezone: '+07:00' // Add this line to set timezone for MySQL
+    // Remove timezone setting to store dates in UTC
+    // timezone: '+07:00'
 });
 
 // Kết nối đến cơ sở dữ liệu
