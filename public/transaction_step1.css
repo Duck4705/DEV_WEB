@@ -12,6 +12,7 @@ body {
     justify-content: center; /* Center the step indicator horizontally */
     align-items: center; /* Vertically align the step indicator */
     margin: 20px 0;
+    margin-top: 120px;
 }
 
 .step {
@@ -49,15 +50,15 @@ body {
     justify-content: space-between;
     padding: 40px;
     margin: 20px auto;
-    width: 80%;
     background-color: #1a2b5c; /* Blue background for the box */
     border-radius: 10px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    width: 1200px;
 }
 
 /* Form container styling */
 .form-container {
-    width: 50%;
+    width: 100%;
 }
 
 .form-container form {
@@ -107,11 +108,12 @@ body {
 
 /* Summary container styling */
 .summary-container {
-    width: 40%;
+    width: 100%;
     background-color: #1a2b5c;
     padding: 20px;
     border-radius: 10px;
     color: white;
+    margin-left: 20px; /* Add space between form and summary */
 }
 
 .summary-container h2 {
@@ -163,10 +165,12 @@ button:hover {
 .timer-icon {
     margin-right: 10px;
     font-size: 1.2rem;
+    margin-top: 5px;
 }
 
 .timer-text {
     font-size: 1rem;
+    margin-top: -5px;
 }
 
 .countdown-display {
@@ -185,4 +189,72 @@ button:hover {
     0% { opacity: 1; }
     50% { opacity: 0.5; }
     100% { opacity: 1; }
+}
+
+/* Responsive for mobile devices */
+@media (max-width: 600px) {
+    .jumbotron {
+        flex-direction: column;
+        width: 90%;
+        padding: 15px;
+        margin: 20px;
+    }
+    .form-container {
+        width: 100%;
+        margin: 0;
+    }
+    .summary-container {
+        width: 100%;
+        margin-left: 0;
+        margin-top: 20px;
+        padding: 15px;
+    }
+    .step-indicator {
+        flex-direction: column;
+        gap: 10px;
+    }
+    .step:not(:last-child)::after {
+        display: none;
+    }
+    .step {
+        font-size: 15px;
+        margin: 0 10px;
+    }
+    .step:not(:last-child)::after {
+        width: 30px;
+        margin-left: 5px;
+    }
+    .form-container input,
+    .form-container button {
+        font-size: 15px;
+        padding: 10px;
+    }
+    .form-container label {
+        font-size: 14px;
+        gap: 6px;
+    }
+    .summary-container h2 {
+        font-size: 18px;
+    }
+    .summary-container p {
+        font-size: 14px;
+    }
+    .summary-container .total {
+        font-size: 18px;
+        margin-top: 10px;
+    }
+    .countdown-container {
+        margin: 10px 0;
+    }
+    .countdown-timer {
+        padding: 8px 10px;
+        font-size: 0.95rem;
+    }
+    .timer-icon {
+        font-size: 1rem;
+        margin-right: 6px;
+    }
+    .timer-text, .countdown-display {
+        font-size: 0.95rem;
+    }
 }

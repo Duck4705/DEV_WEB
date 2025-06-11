@@ -14,10 +14,16 @@
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
 </head>
 <body>
-    <div class="top_bar" style="border-bottom: 1px rgba(140, 140, 140, 0.5) solid; justify-content: flex-start;">
+    <div class="top_bar" style="border-bottom: 1px rgba(140, 140, 140, 0.5) solid; z-index: 1000;">
         <div class="align_row" style="color: white;">
             <i style="font-size: 40px;" class="ph ph-video-camera"></i>
             <h1 style="font-size: 20px; margin: 0px 20px; font-weight: 600;">UIT THEATER</h1>
+        </div>
+        <div class="align_row">
+            <a href="/" class="booking">
+                <i style="margin-right: 10px; font-size: 25px;" class="ph ph-house"></i>
+                <span style="font-family: 'Anton', sans-serif;">VỀ TRANG CHỦ</span>
+            </a>
         </div>
     </div>
     <!-- Step Indicator -->
@@ -39,10 +45,10 @@
     <!-- Jumbotron -->
     <div class="jumbotron">
         <!-- Left Form -->
-        <div class="selection-box" style="width: 572.787px;">
+        <div class="selection-box">
             <h2>Chọn phương thức thanh toán</h2>
             <div class="payment-options">
-                <form id="payment-form" action="/payment/transaction_step2" method="POST">
+                <form id="payment-form" action="/payment/transaction_step2" method="POST" style="width: 100%;">
                     <input type="hidden" name="bookingId" value="{{bookingId}}">
                     <div class="payment-inner">
                         <div class="payment-option">
@@ -68,7 +74,7 @@
             </div>
         </div>
         <!-- Right Summary -->
-        <div class="summary-container" style="width: 489.113px;">
+        <div class="summary-container">
             <h2>{{rap}}</h2>
             <p><strong>Suất chiếu:</strong> {{suatchieu}}</p>
             <p><strong>Ghế:</strong> {{seatList}}</p>
@@ -87,8 +93,25 @@
         </div>
     </div>
 
+    <div class="bottom_bar" style="margin-top: 220px;">
+        <div class="align_row_between" style="width: 1200px; margin: 30px 0px; ">
+            <p>© 2023 Uitheater. All rights reserved.</p>
+            <div class="align_row hide-mobile">
+                <a style="color: #f8fafc; padding: 0px 10px;" href="">Toàn diện</a>
+                <a style="color: #f8fafc; padding: 0px 10px;" href="">Sáng tạo</a>
+                <a style="color: #f8fafc; padding: 0px 10px;" href="">Phụng sự</a>
+            </div>
+        </div>
+        <div class="align_row">
+            <i style="font-size: 50px;" class="ph ph-video-camera"></i>
+            <h1 style="font-size: 30px; margin-left: 20px; margin-top: 8px; font-weight: bold;">UIT THEATER</h1>
+        </div>
+        <div class="align_row">
+            <h4 style="font-size: 25px; margin: 10px 0px;">[NT208.P24] - Nhóm 3</h4>
+        </div>
+    </div>
     {{#if error}}
-    <div id="toast" class="alert alert-danger" style="position: fixed; top: 20px; right: 20px; z-index: 9999;">
+    <div id="toast" class="alert alert-danger" style="position: absolute; top: 20px; right: 20px; z-index: 9999;">
         {{error}}
     </div>
     <script>

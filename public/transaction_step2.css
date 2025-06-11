@@ -1,49 +1,18 @@
-/* Top bar styling */
-        .top_bar {
-            position: fixed; /* Make the top bar fixed at the top */
-            top: 0; /* Align it to the top of the page */
-            left: 0; /* Align it to the left of the page */
-            width: 100%; /* Make it span the full width of the page */
-            background-color: #0f172a; /* Dark background color */
-            color: white; /* White text color */
-            display: flex; /* Use flexbox for alignment */
-            align-items: center; /* Vertically align items */
-            padding: 10px 20px; /* Add padding for spacing */
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); /* Add a subtle shadow */
-            z-index: 1000; /* Ensure it stays on top of other elements */
-        }
-
-        .top_bar .align_row {
-            display: flex; /* Use flexbox for alignment */
-            align-items: center; /* Vertically align items */
-            justify-content: flex-start; /* Align content to the left */
-        }
-
-        .top_bar i {
-            font-size: 40px; /* Icon size */
-            margin-right: 10px; /* Add spacing between the icon and text */
-        }
-
-        .top_bar h1 {
-            font-size: 20px; /* Font size for the title */
-            font-weight: 600; /* Bold font */
-            margin: 0; /* Remove default margin */
-        }
-
-        /* Add spacing below the top bar */
-        body {
-            margin: 0;
-            padding: 0;
-            padding-top: 90px; /* Add padding equal to the height of the top bar */
-        }
 /* Step indicator styling */
 .step-indicator {
     display: flex;
     justify-content: center; /* Center the step indicator horizontally */
     align-items: center; /* Vertically align the step indicator */
     margin: 20px 0;
-}
+    margin-top: 120px;
 
+}
+body {
+    font-family: 'Montserrat', sans-serif;
+    color: white;
+    margin: 0;
+    padding: 0;
+}
 .step {
     font-size: 18px;
     font-weight: bold;
@@ -79,15 +48,15 @@
     justify-content: space-between;
     padding: 40px;
     margin: 20px auto;
-    width: 80%;
     background-color: #1a2b5c; /* Blue background for the box */
     border-radius: 10px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    width: 1200px;
 }
 
 /* Form container styling */
 .form-container {
-    width: 50%;
+    width: 100%;
 }
 
 .form-container form {
@@ -137,11 +106,12 @@
 
 /* Summary container styling */
 .summary-container {
-    width: 40%;
+    width: 50%;
     background-color: #1a2b5c;
     padding: 20px;
     border-radius: 10px;
     color: white;
+    margin-left: 50px;
 }
 
 .summary-container h2 {
@@ -183,7 +153,7 @@
 .payment-options {
     display: flex;
     flex-direction: column;
-    width: 400px;
+    width: 500px;
 }
 
 .payment_method {
@@ -216,6 +186,29 @@ input[type="radio"]:checked + label {
 
 .payment-inner {
     margin-bottom: 20px;
+}
+
+.payment-options label {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    text-align: center;
+    width: 100%;
+    gap: 10px;
+    padding: 10px 20px;
+    margin: 10px 0;
+    border-radius: 5px;
+    border: 1px solid rgba(140, 140, 140, 0.5);
+    transition: all 0.3s ease;
+    font-size: 16px;
+    background: none;
+}
+
+.payment-options label img {
+    margin-right: 10px;
+    height: 30px;
+    width: auto;
+    display: block;
 }
 
 /* Button styling */
@@ -346,4 +339,127 @@ input[type="radio"]:checked + label {
     0% { opacity: 1; }
     50% { opacity: 0.5; }
     100% { opacity: 1; }
+}
+
+/* Responsive for mobile devices */
+@media (max-width: 600px) {
+    .step:not(:last-child)::after {
+    display: none; /* Hide the line between steps on mobile */
+    }
+    .top_bar {
+        margin-top: -60px !important;
+    }
+    .jumbotron {
+        flex-direction: column;
+        width: 90%;
+        padding: 15px;
+        margin: 10px 0;
+    }
+    .form-container, .summary-container {
+        width: 100%;
+        margin: 0;
+        padding: 12px;
+    }
+    .summary-container {
+        margin-top: 20px;
+    }
+    .step-indicator {
+        flex-direction: column;
+        gap: 10px;
+        margin: 10px 0;
+        margin-top: 50px;
+    }
+    .step {
+        font-size: 15px;
+        margin: 0 10px;
+    }
+    .step:not(:last-child)::after {
+        width: 30px;
+        margin-left: 5px;
+    }
+    .form-container input,
+    .form-container button,
+    .btn {
+        font-size: 15px;
+        padding: 10px;
+    }
+    .form-container label {
+        font-size: 14px;
+        gap: 6px;
+    }
+    .summary-container h2 {
+        font-size: 18px;
+    }
+    .summary-container p {
+        font-size: 14px;
+    }
+    .summary-container .total {
+        font-size: 18px;
+        margin-top: 10px;
+    }
+    .selection-box {
+        padding: 12px;
+        margin: 12px 0;
+    }
+    .payment-options {
+        width: 100%;
+    }
+    label {
+        width: 100%;
+        padding: 8px 10px;
+        font-size: 14px;
+        margin: 10px 0;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+    }
+    .btn-group {
+        gap: 10px;
+        margin-top: 10px;
+    }
+    .top_bar {
+        padding: 8px 10px;
+    }
+    .top_bar i {
+        font-size: 28px;
+        margin-right: 6px;
+    }
+    .top_bar h1 {
+        font-size: 16px;
+    }
+    body {
+        padding-top: 60px;
+    }
+    .countdown-container {
+        margin: 10px 0;
+    }
+    .countdown-timer {
+        padding: 8px 10px;
+        font-size: 0.95rem;
+    }
+    .timer-icon {
+        font-size: 1rem;
+        margin-right: 6px;
+    }
+    .timer-text, .countdown-display {
+        font-size: 0.95rem;
+    }
+    .message-content {
+        padding: 12px 10px;
+        font-size: 13px;
+    }
+    .message-content .btn {
+        font-size: 12px;
+        padding: 8px 12px;
+    }
+    .payment-option {
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-between;
+    }
+    .alert
+    {
+        margin-top: 55px !important;
+        margin-right: 40px !important;
+    }
 }
