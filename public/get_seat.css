@@ -174,3 +174,94 @@ button:disabled {
     position: relative; /* Add this to contain the absolute positioned results */
     width: 250px; /* Adjust as needed */
 }
+.ticket-style {
+    background: #fff;
+    box-shadow: 0 4px 32px rgba(0,0,0,0.12);
+    width: 500px;
+    margin: 0 auto 40px auto;
+    padding: 0 0 18px 0;
+    position: relative;
+    overflow: hidden;
+    font-family: 'Montserrat', sans-serif;
+    z-index: -1;
+}
+.ticket-header {
+    padding: 18px 18px 0 18px;
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+}
+.ticket-img {
+    width: 100%;
+    padding: 0 18px;
+    margin-top: 10px;
+}
+.ticket-info-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 18px 0 18px;
+}
+.ticket-barcode-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 18px 18px 0 18px;
+    border-top: 1px dashed #686868;
+    margin-top: 12px;
+}
+.barcode {
+  height: 2em;
+  width: 0;
+  box-shadow: 1px 0 0 1px black,
+  5px 0 0 1px black,
+  10px 0 0 1px black,
+  11px 0 0 1px black,
+  15px 0 0 1px black,
+  18px 0 0 1px black,
+  22px 0 0 1px black,
+  23px 0 0 1px black,
+  26px 0 0 1px black,
+  30px 0 0 1px black,
+  35px 0 0 1px black,
+  37px 0 0 1px black,
+  41px 0 0 1px black,
+  44px 0 0 1px black,
+  47px 0 0 1px black,
+  51px 0 0 1px black,
+  56px 0 0 1px black,
+  59px 0 0 1px black,
+  64px 0 0 1px black,
+  68px 0 0 1px black,
+  72px 0 0 1px black,
+  74px 0 0 1px black,
+  77px 0 0 1px black,
+  81px 0 0 1px black;
+}
+.ticket-btn {
+    background: #4285f4;
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    padding: 10px 22px;
+    font-size: 1rem;
+    font-weight: bold;
+    cursor: pointer;
+    box-shadow: 0 2px 8px rgba(66,133,244,0.08);
+    transition: background 0.2s, color 0.2s;
+}
+.ticket-btn:disabled {
+    background: #0f172a;
+    color: #fff;
+    cursor: not-allowed;
+}
+@media (max-width: 600px) {
+    .ticket-style {
+        width: 90%;
+        padding: 0 0 10px 0;
+    }
+    .ticket-header, .ticket-img, .ticket-info-row, .ticket-barcode-row {
+        padding-left: 8px;
+        padding-right: 8px;
+    }
+}
