@@ -93,6 +93,6 @@ app.use('/payment', require('./routes/payment'));
 websocketController.initWebSocketHandlers(wss);
 
 // Start server. Lưu ý khi làm việc thì có thể đổi port khác 3000 nhưng push lên phải để port 3000
-server.listen(3000, () => {
+server.listen(3000, '0.0.0.0', () => {
     console.log('Server is running on http://localhost:3000');
 });
