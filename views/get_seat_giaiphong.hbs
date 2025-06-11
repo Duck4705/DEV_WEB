@@ -64,34 +64,32 @@
     <div style="padding: 50px"></div>
     <h1 class="fontH1" style="font-size: 40px; font-family: 'Anton', sans-serif; margin: 40px; color: #f8fafc">ĐẶT VÉ XEM PHIM</h1>
     <div class="cinema-ticket">
-      <div class="ticket-top">
-        <span class="ticket-cinema">UIT THEATER</span>
-        <span class="ticket-icon"><i class="ph ph-eye"></i></span>
-      </div>
-      <div class="ticket-cut"></div>
-      <div class="ticket-bottom">
-        <div class="ticket-info-main">
-          <div class="ticket-movie">{{phim}}</div>
-          <div class="ticket-label">MOVIE</div>
-          <div class="ticket-name">{{#if user}}{{user.HoTen}}{{else}}Khách lẻ{{/if}}</div>
-          <div class="ticket-label">NAME</div>
+        <div class="ticket-top">
+            <span class="ticket-cinema">UIT THEATER</span>
+            <span class="ticket-icon"><i style="font-size: 40px; margin-right: 40px;" class="ph ph-video-camera"></i></span>
         </div>
-        <div class="ticket-info-side">
-          <div class="ticket-seat-number">{{selectedSeat}}</div>
-          <div class="ticket-label">SEAT</div>
+        <div class="ticket-cut"></div>
+        <div class="ticket-bottom">
+            <div >
+                <div class="ticket-info-main">
+                    <div class="ticket-movie">{{phim}}</div>
+                    <div class="ticket-label">{{rapPhim}} - {{phongChieu}}</div>
+                </div>
+                <div class="ticket-info-side"></div>
+                <div class="ticket-details-row">
+                    <div>
+                        <div class="ticket-label">Ngày: {{ngayChieu}}</div>
+                        <div class="ticket-label">Vé đơn: <span style="font-weight: bold; color: #e67e22;">{{giaVeDon}} VNĐ</span></div>
+                    </div>
+                    <div>
+                        <div class="ticket-label"></div>
+                        <div class="ticket-label">Vé đôi: <span style="font-weight: bold; color: #663399;">{{giaVeDoi}} VNĐ</span></div>
+                    </div>
+                </div>
+
+            </div>
+            <div class="ticket-barcode"></div>
         </div>
-        <div class="ticket-details-row">
-          <div>
-            <span class="ticket-detail-bold">{{selectedSeat}}</span>
-            <span class="ticket-label">SEAT</span>
-          </div>
-          <div>
-            <span class="ticket-detail-bold">{{gioChieu}}</span>
-            <span class="ticket-label">TIME</span>
-          </div>
-          <div class="ticket-barcode"></div>
-        </div>
-      </div>
     </div>
     
     {{!-- <div class="screen">MÀN HÌNH</div> --}}
