@@ -23,7 +23,7 @@ passport.use(new GoogleStrategy({
             return done(null, user);
         } else {
             // Generate new user ID
-            db.query('SELECT COUNT(*) AS userCount FROM users', (err, countResult) => {
+            db.query('SELECT COUNT(*) AS userCount FROM Users', (err, countResult) => {
                 if (err) {
                     console.error('Database error:', err);
                     return done(err);

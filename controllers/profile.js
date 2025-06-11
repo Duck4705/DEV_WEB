@@ -8,7 +8,7 @@ exports.refreshSession = (req, res, next) => {
     if (!user) {
         return next();
     }
-    db.query('SELECT * FROM users WHERE TenTaiKhoan = ?', [user.TenTaiKhoan], (err, results) => {
+    db.query('SELECT * FROM Users WHERE TenTaiKhoan = ?', [user.TenTaiKhoan], (err, results) => {
         if (err) {
             console.error('Database error:', err);
             return res.status(500).send('Internal Server Error');
@@ -53,7 +53,7 @@ exports.editProfile = (req, res) => {
         return res.redirect('/login');
     }
     db.query(
-        'UPDATE users SET HoTen = ?, NgaySinh = ?, SDT = ?, Email = ? WHERE TenTaiKhoan = ?',
+        'UPDATE Users SET HoTen = ?, NgaySinh = ?, SDT = ?, Email = ? WHERE TenTaiKhoan = ?',
         [HoTen, NgaySinh, SDT, Email, user.TenTaiKhoan],
         (err) => {
             if (err) {
