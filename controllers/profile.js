@@ -542,30 +542,101 @@ exports.getMovies = (req, res) => {
 };
 
 exports.addMovie = (req, res) => {
-    const { TenPhim, TheLoai, LinkTrailer, LinkPoster, MoTaPhim, QuocGia, ThoiLuong, NgonNgu, NoiDung, DoTuoi } = req.body;
+    const { TenPhim, TheLoai, LinkTrailer, MoTaPhim, QuocGia, ThoiLuong, NgonNgu, NoiDung, DoTuoi } = req.body;
+    const posterFile = req.file;
+    
+    // Validate required fields
+    if (!TenPhim || !TheLoai) {
+        return res.status(400).json({ 
+            success: false, 
+            message: 'Tên phim và thể loại là bắt buộc'
+        });
+    }
+    
+    // Check if movie already exists
     db.query('SELECT * FROM Phim WHERE TenPhim = ?', [TenPhim], (err, results) => {
         if (err) {
             console.error('Database error:', err);
-            return res.status(500).send('Internal Server Error');
+            return res.status(500).json({ 
+                success: false, 
+                message: 'Lỗi khi kiểm tra tên phim: ' + err.message
+            });
         }
+        
         if (results.length > 0) {
-            return res.render('admin_movies', { user: req.session.user, movies: results, error: 'Phim đã tồn tại.' });
+            return res.status(400).json({ 
+                success: false, 
+                message: 'Phim đã tồn tại trong hệ thống'
+            });
         }
+        
+        // Generate new movie ID
         db.query('SELECT COUNT(*) AS count FROM Phim', (err, countResult) => {
             if (err) {
                 console.error('Database error:', err);
-                return res.status(500).send('Internal Server Error');
+                return res.status(500).json({ 
+                    success: false, 
+                    message: 'Lỗi khi tạo ID phim: ' + err.message
+                });
             }
+            
             const ID_P = `P${countResult[0].count + 1}`;
+            
+            // Insert movie into database first
             db.query(
                 'INSERT INTO Phim (ID_P, TenPhim, TheLoai, LinkTrailer, MoTaPhim, QuocGia, ThoiLuong, NgonNgu, NoiDung, DoTuoi) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)',
                 [ID_P, TenPhim, TheLoai, LinkTrailer, MoTaPhim, QuocGia, ThoiLuong, NgonNgu, NoiDung, DoTuoi],
                 (err) => {
                     if (err) {
                         console.error('Database error:', err);
-                        return res.status(500).send('Internal Server Error');
+                        return res.status(500).json({ 
+                            success: false, 
+                            message: 'Lỗi khi thêm phim vào cơ sở dữ liệu: ' + err.message
+                        });
                     }
-                    res.redirect('/profile/admin/movies');
+                    
+                    // If there's a poster file, save it after the database insertion is successful
+                    if (posterFile) {
+                        try {
+                            const posterDir = path.join(__dirname, '../public/img/img_poster');
+                            
+                            // Create directory if it doesn't exist
+                            if (!fs.existsSync(posterDir)) {
+                                fs.mkdirSync(posterDir, { recursive: true });
+                            }
+                            
+                            const posterFileName = `${ID_P}.webp`;
+                            const posterPath = path.join(posterDir, posterFileName);
+                            
+                            // Use sharp if available, otherwise use simple file saving
+                            try {
+                                const sharp = require('sharp');
+                                sharp(posterFile.buffer)
+                                    .webp({ quality: 80 })
+                                    .resize(300, 450, { fit: 'cover' })
+                                    .toFile(posterPath, (err) => {
+                                        if (err) {
+                                            console.error('Error saving poster with sharp:', err);
+                                        }
+                                    });
+                            } catch (sharpError) {
+                                // Fallback if sharp is not available
+                                console.error('Error using sharp, falling back to fs:', sharpError);
+                                const fs = require('fs');
+                                fs.writeFileSync(posterPath, posterFile.buffer);
+                            }
+                        } catch (fileError) {
+                            console.error('Error saving poster file:', fileError);
+                            // Continue even if poster saving fails
+                        }
+                    }
+                    
+                    // Respond with success message
+                    return res.json({ 
+                        success: true, 
+                        message: 'Thêm phim thành công',
+                        movieId: ID_P
+                    });
                 }
             );
         });
@@ -573,11 +644,11 @@ exports.addMovie = (req, res) => {
 };
 
 exports.editMovie = (req, res) => {
-    const { TenPhim, TheLoai, LinkTrailer, LinkPoster, MoTaPhim, QuocGia, ThoiLuong, NgonNgu, NoiDung, DoTuoi } = req.body;
+    const { TenPhim, TheLoai, LinkTrailer, MoTaPhim, QuocGia, ThoiLuong, NgonNgu, NoiDung, DoTuoi } = req.body;
     const { id } = req.params;
     db.query(
-        'UPDATE Phim SET TenPhim = ?, TheLoai = ?, LinkTrailer = ?, LinkPoster = ?, MoTaPhim = ?, QuocGia = ?, ThoiLuong = ?, NgonNgu = ?, NoiDung = ?, DoTuoi = ? WHERE ID_P = ?',
-        [TenPhim, TheLoai, LinkTrailer, LinkPoster, MoTaPhim, QuocGia, ThoiLuong, NgonNgu, NoiDung, DoTuoi, id],
+        'UPDATE Phim SET TenPhim = ?, TheLoai = ?, LinkTrailer = ?, MoTaPhim = ?, QuocGia = ?, ThoiLuong = ?, NgonNgu = ?, NoiDung = ?, DoTuoi = ? WHERE ID_P = ?',
+        [TenPhim, TheLoai, LinkTrailer, MoTaPhim, QuocGia, ThoiLuong, NgonNgu, NoiDung, DoTuoi, id],
         (err) => {
             if (err) {
                 console.error('Database error:', err);

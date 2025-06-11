@@ -130,7 +130,9 @@
             </div>
             
             <div class="align_column" style="color: #0f172a; background-color: #f8fafc; align-items: flex-start; width: 100%; padding: 10px; margin-top: 20px;">
-                <form action="/profile/admin/movies/add" method="POST" style="width: 100%;">
+                <div id="add-movie-response" style="margin: 10px 0; display: none;"></div>
+
+                <form id="add-movie-form" action="/profile/admin/movies/add" method="POST" style="width: 100%;" enctype="multipart/form-data">
                     <h4 style="margin: 10px; font-size: 20px; font-family: 'Anton', sans-serif;">Thêm phim</h4>
 
                     <div class="align_row_between" style="width: 100%;">
@@ -146,11 +148,15 @@
                     <div class="align_row_between" style="width: 100%;">
                         <div class="input_info">
                             <label for="LinkTrailer">Link trailer:</label>
-                            <input type="url" id="LinkTrailer" name="LinkTrailer">
+                            <input type="text" id="LinkTrailer" name="LinkTrailer">
                         </div>
                         <div class="input_info">
-                            <label for="LinkPoster">Link poster:</label>
-                            <input type="url" id="LinkPoster" name="LinkPoster">
+                            <label for="poster">Hình ảnh poster:</label>
+                            <input type="file" id="poster" name="poster" accept="image/*" style="padding: 10px 0;">
+                            <div id="poster-preview" style="margin-top: 10px; display: none;">
+                                <img id="poster-image" src="" alt="Poster Preview" style="max-width: 100px; max-height: 150px;">
+                                <button type="button" id="remove-poster" style="background-color: #ff4d4d; color: white; border: none; padding: 5px 10px; margin-left: 10px; cursor: pointer;">Xóa</button>
+                            </div>
                         </div>
                     </div>
                     <div class="input_info" style="width: 100%;">
@@ -287,6 +293,102 @@
                 });
             });
         });
+        
+        // Poster preview functionality
+        const posterInput = document.getElementById('poster');
+        const posterPreview = document.getElementById('poster-preview');
+        const posterImage = document.getElementById('poster-image');
+        const removeButton = document.getElementById('remove-poster');
+        
+        if (posterInput) {
+            posterInput.addEventListener('change', function() {
+                const file = this.files[0];
+                if (file) {
+                    const reader = new FileReader();
+                    reader.onload = function(e) {
+                        posterImage.src = e.target.result;
+                        posterPreview.style.display = 'flex';
+                    }
+                    reader.readAsDataURL(file);
+                }
+            });
+        }
+        
+        if (removeButton) {
+            removeButton.addEventListener('click', function() {
+                posterInput.value = '';
+                posterPreview.style.display = 'none';
+            });
+        }
+        
+        // Form submission handling with error display
+        const form = document.getElementById('add-movie-form');
+        const responseDiv = document.getElementById('add-movie-response');
+        
+        if (form) {
+            form.addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                // Show loading state
+                const submitBtn = form.querySelector('button[type="submit"]');
+                const originalBtnText = submitBtn.textContent;
+                submitBtn.textContent = 'ĐANG XỬ LÝ...';
+                submitBtn.disabled = true;
+                
+                const formData = new FormData(this);
+                
+                // Log form data to console for debugging
+                console.log('Submitting form with data:');
+                for (const [key, value] of formData.entries()) {
+                    console.log(`${key}: ${value instanceof File ? value.name : value}`);
+                }
+                
+                fetch('/profile/admin/movies/add', {
+                    method: 'POST',
+                    body: formData
+                })
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error(`HTTP error! Status: ${response.status}`);
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    responseDiv.style.display = 'block';
+                    
+                    if (data.success) {
+                        responseDiv.style.color = 'green';
+                        responseDiv.textContent = data.message || 'Thêm phim thành công!';
+                        form.reset();
+                        
+                        // Clear poster preview if it exists
+                        const posterPreview = document.getElementById('poster-preview');
+                        if (posterPreview) {
+                            posterPreview.style.display = 'none';
+                        }
+                        
+                        // Reload the page after a delay to show updated list
+                        setTimeout(() => {
+                            location.reload();
+                        }, 1500);
+                    } else {
+                        responseDiv.style.color = 'red';
+                        responseDiv.textContent = data.message || 'Lỗi không xác định khi thêm phim.';
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    responseDiv.style.display = 'block';
+                    responseDiv.style.color = 'red';
+                    responseDiv.textContent = `Lỗi: ${error.message}`;
+                })
+                .finally(() => {
+                    // Restore button state
+                    submitBtn.textContent = originalBtnText;
+                    submitBtn.disabled = false;
+                });
+            });
+        }
     });
     </script>
 </body>

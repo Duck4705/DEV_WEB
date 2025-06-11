@@ -2,10 +2,11 @@ const express = require('express');
 const profileController = require('../controllers/profile');
 const multer = require('multer');
 const path = require('path');
+const fs = require('fs');
 const router = express.Router();
 
-// Cấu hình multer để lưu trữ ảnh đại diện, anh sẽ được lưu trong thư mục public/img/img_user
-const storage = multer.diskStorage({
+// Cấu hình multer để lưu trữ ảnh đại diện và poster phim
+const avatarStorage = multer.diskStorage({
     destination: (req, file, cb) => {
         cb(null, path.join(__dirname, '../public/img/img_user'));
     },
@@ -14,7 +15,26 @@ const storage = multer.diskStorage({
         cb(null, `${userId}.png`);
     }
 });
-const upload = multer({ storage });
+const avatarUpload = multer({ storage: avatarStorage });
+
+// For movie poster uploads, set up multer properly
+const posterStorage = multer.diskStorage({
+    destination: (req, file, cb) => {
+        const dir = path.join(__dirname, '../public/img/img_poster');
+        // Ensure directory exists
+        fs.mkdirSync(dir, { recursive: true });
+        cb(null, dir);
+    },
+    filename: (req, file, cb) => {
+        // Generate filename based on timestamp to avoid conflicts
+        cb(null, Date.now() + path.extname(file.originalname));
+    }
+});
+
+const posterUpload = multer({ 
+    storage: multer.memoryStorage(),  // Use memory storage for processing with sharp
+    limits: { fileSize: 5 * 1024 * 1024 } // 5MB limit
+});
 
 // Middleware để kiểm tra quyền truy cập cho admin_role_1, muốn chuyển sang admin_role_1 thì dưới bảng user thuộc tính vai trò sẽ là admin_role_1
 const restrictToAdminRole1 = (req, res, next) => {
@@ -27,7 +47,7 @@ const restrictToAdminRole1 = (req, res, next) => {
 // Các route dành cho người dùng truy cập vào trang profile có vai trò là KhachHang
 router.get('/', profileController.refreshSession, profileController.getProfile);
 router.post('/edit', profileController.editProfile);
-router.post('/upload-avatar', upload.single('avatar'), profileController.uploadAvatar);
+router.post('/upload-avatar', avatarUpload.single('avatar'), profileController.uploadAvatar);
 router.get('/avatar/:id', profileController.getAvatar);
 router.get('/poster/:id', profileController.getPoster);
 router.post('/upload-poster', profileController.uploadPoster);
@@ -42,7 +62,7 @@ router.post('/admin/theaters/delete', restrictToAdminRole1, profileController.de
 router.post('/admin/theaters/hide', restrictToAdminRole1, profileController.hideTheater);
 
 router.get('/admin/movies', restrictToAdminRole1, profileController.getMovies);
-router.post('/admin/movies/add', restrictToAdminRole1, profileController.addMovie);
+router.post('/admin/movies/add', restrictToAdminRole1, posterUpload.single('poster'), profileController.addMovie);
 router.post('/admin/movies/edit/:id', restrictToAdminRole1, profileController.editMovie);
 router.post('/admin/movies/delete', restrictToAdminRole1, profileController.deleteMovie);
 router.post('/admin/movies/hide', restrictToAdminRole1, profileController.hideMovie);
