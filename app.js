@@ -40,6 +40,25 @@ hbs.registerHelper('eq', function (a, b) {
     return a === b;
 });
 
+// Đăng ký hàm trợ giúp formatDate cho Handlebars
+hbs.registerHelper('formatDate', function (date) {
+    if (!date) return '';
+    const d = new Date(date);
+    return d.toLocaleDateString('vi-VN', {
+        year: 'numeric',
+        month: '2-digit',
+        day: '2-digit',
+        hour: '2-digit',
+        minute: '2-digit'
+    });
+});
+
+// Đăng ký hàm trợ giúp formatNumber cho Handlebars
+hbs.registerHelper('formatNumber', function (num) {
+    if (!num) return '0';
+    return num.toLocaleString('vi-VN');
+});
+
 // Cấu hình phiên làm việc
 app.use(session({
     secret: 'your_secret_key',
@@ -74,6 +93,6 @@ app.use('/payment', require('./routes/payment'));
 websocketController.initWebSocketHandlers(wss);
 
 // Start server. Lưu ý khi làm việc thì có thể đổi port khác 3000 nhưng push lên phải để port 3000
-server.listen(3000, () => {
+server.listen(3000, '0.0.0.0', () => {
     console.log('Server is running on http://localhost:3000');
 });

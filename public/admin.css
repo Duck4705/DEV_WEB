@@ -1,0 +1,77 @@
+/* Admin data tables */
+.data-table-container {
+    margin: 20px 0;
+    background-color: #ffffff;
+    padding: 10px;
+    overflow-x: auto;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.admin-data-table {
+    width: 100%;
+    border-collapse: collapse;
+    color: #0f172a;
+    font-size: 14px;
+}
+
+.admin-data-table th {
+    background-color: #f8fafc;
+    padding: 12px 15px;
+    text-align: left;
+    font-weight: bold;
+    border-bottom: 2px solid #e2e8f0;
+}
+
+.admin-data-table td {
+    padding: 10px 15px;
+    border-bottom: 1px solid #e2e8f0;
+}
+
+.hide-row-btn {
+    background-color: #f8fafc;
+    color: #222;
+    border: none;
+    padding: 10px;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-around;
+    width: 60px;
+
+}
+
+.admin-data-table tr:last-child td {
+    border-bottom: none;
+}
+
+/* Hiệu ứng hover cho dòng bảng */
+.admin-data-table tr:hover {
+    background-color: #f1f5f9;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+/* Hiệu ứng hover cho nút ẩn dòng */
+.hide-row-btn:hover {
+    background-color: #ffe066;
+    color: #222;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.10);
+    opacity: 0.92;
+    transition: background 0.2s, color 0.2s, box-shadow 0.2s, opacity 0.2s;
+}
+
+/* Hiệu ứng hover cho các thẻ a trong bảng (nếu có) */
+.admin-data-table a:hover {
+    color: #e2d318;
+    text-decoration: underline;
+    transition: color 0.2s;
+}
+
+/* Row transition */
+#theaters-table-body tr,
+#movies-table-body tr,
+#showtimes-table-body tr,
+#rooms-table-body tr {
+    transition: opacity 0.3s ease;
+}

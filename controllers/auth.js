@@ -1,3 +1,4 @@
+
 const mysql = require('mysql2');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
@@ -29,7 +30,7 @@ exports.register = (req, res) => {
     console.log("Tên tài khoản:", TenTaiKhoan);
     console.log("Mật khẩu:", MatKhau[0]);
     console.log("Mật khẩu xác thực:", MatKhau2[0]);
-    db.query('SELECT * FROM users WHERE Email = ? OR TenTaiKhoan = ?', [Email, TenTaiKhoan], async (err, result) => {
+    db.query('SELECT * FROM Users WHERE Email = ? OR TenTaiKhoan = ?', [Email, TenTaiKhoan], async (err, result) => {
         if (err) {
             console.log(err);
         }
@@ -47,7 +48,7 @@ exports.register = (req, res) => {
         console.log(hashedPassword);
         // Tạo ID_U tự động tăng dần
         // Lấy số lượng người dùng hiện tại trong cơ sở dữ liệu
-        db.query('SELECT COUNT(*) AS userCount FROM users', (err, countResult) => {
+        db.query('SELECT COUNT(*) AS userCount FROM Users', (err, countResult) => {
             if (err) {
                 console.log(err);
                 return res.status(500).send('Internal Server Error');
@@ -56,7 +57,7 @@ exports.register = (req, res) => {
             const userCount = countResult[0].userCount; // Lấy số lượng người dùng
             const ID_U = 'U' + (userCount + 1); // Tạo ID_U là U + số thứ tự
         
-            db.query('INSERT INTO users SET ?', {
+            db.query('INSERT INTO Users SET ?', {
                 ID_U: ID_U,
                 HoTen: HoTen,
                 NgaySinh: NgaySinh,
@@ -101,7 +102,7 @@ exports.login = async (req, res) => {
     console.log("Tài khoản:",TenTaiKhoan);
     console.log("Mật khẩu:", MatKhau[0]);
     // Kiểm tra xem tài khoản có tồn tại trong cơ sở dữ liệu không
-    db.query('SELECT * FROM users WHERE TenTaiKhoan = ?', [TenTaiKhoan], async (err, results) => {
+    db.query('SELECT * FROM Users WHERE TenTaiKhoan = ?', [TenTaiKhoan], async (err, results) => {
         if (err) {
             console.error('Database error:', err);
             return res.status(500).send('Internal Server Error');
@@ -165,7 +166,7 @@ exports.forgot_pass = (req, res) => {
         });
     }
 
-    db.query('SELECT * FROM users WHERE Email = ?', [Email], (err, results) => {
+    db.query('SELECT * FROM Users WHERE Email = ?', [Email], (err, results) => {
         if (err) {
             console.error('Database error:', err);
             return res.status(500).send('Internal Server Error');
@@ -182,7 +183,7 @@ exports.forgot_pass = (req, res) => {
         const token = jwt.sign({ email: Email }, process.env.JWT_SECRET, { expiresIn: '15m' }); // Token hết hạn sau 15 phút
 
         // Thêm token vào link trong email
-        const resetLink = `http://localhost:3000/auth/verify_code?token=${token}`;
+        const resetLink = `https://uitheater.id.vn/auth/verify_code?token=${token}`;
         var transporter = nodemailer.createTransport({
             
             host: process.env.GMAIL_HOST,
@@ -279,13 +280,13 @@ exports.reset_pass = async (req, res) => {
     const hashedPassword = await bcrypt.hash(MatKhau, 8);
 
     // Cập nhật mật khẩu trong cơ sở dữ liệu
-    db.query('SELECT * FROM users WHERE Email = ?', [Email], (err, results) => {
+    db.query('SELECT * FROM Users WHERE Email = ?', [Email], (err, results) => {
         if (err) {
             console.error('Database error:', err);
             return res.status(500).send('Internal Server Error');
         }
 
-        db.query('UPDATE users SET MatKhau = ? WHERE Email = ?', [hashedPassword, Email], (err, results) => {
+        db.query('UPDATE Users SET MatKhau = ? WHERE Email = ?', [hashedPassword, Email], (err, results) => {
             if (err) {
                 console.error('Database error:', err);
                 return res.status(500).send('Internal Server Error');
@@ -327,7 +328,7 @@ exports.sendOtp = (email, otp) => {
 exports.loginWithOtp = (req, res) => {
     const { TenTaiKhoan, MatKhau } = req.body;
 
-    db.query('SELECT * FROM users WHERE TenTaiKhoan = ?', [TenTaiKhoan], async (err, results) => {
+    db.query('SELECT * FROM Users WHERE TenTaiKhoan = ?', [TenTaiKhoan], async (err, results) => {
         if (err) {
             console.error('Database error:', err);
             return res.status(500).send('Internal Server Error');

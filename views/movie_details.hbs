@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{{phim.TenPhim}}</title>
+    <link rel="icon" type="image/x-icon" href="/img/img_access/video-camera.png">
     <link rel="stylesheet" href="/style.css">
     <link rel="stylesheet" href="/login.css">
     <link rel="stylesheet" href="/movie_details.css">
@@ -16,11 +17,11 @@
 </head>
 <body>
     
-    <div class="top_bar top_bar-row" style="border-bottom: 1px rgba(140, 140, 140, 0.5) solid;">
-        <div class="align_row topbar-group" style="color: white;">
+    <div class="top_bar top_bar-row" style="border-bottom: 1px rgba(140, 140, 140, 0.5) solid; z-index: 1000;">
+        <a href="/" class="align_row topbar-group" style="color: white; text-decoration: none;">
             <i style="font-size: 40px;" class="ph ph-video-camera"></i>
             <h1 class="logoFont" style="font-size: 20px; margin: 0px 10px; font-weight: 600;">UIT THEATER</h1>
-        </div>
+        </a>
         <div class="align_row topbar-group hide-mobile">
             <a href="" class="booking hide-mobile">
                 <i style="margin-right: 8px; font-size: 22px;" class="ph ph-ticket"></i>
@@ -34,13 +35,13 @@
         <div class="align_row topbar-group searchBar" style="color: white; position: relative;">
             <input id="movie-search" type="text" placeholder="Tìm phim" style="padding: 10px 20px; border-radius: 50px; font-size: 15px; width: 100%;">
             <i style="position: absolute; right: 15px; top: 50%; transform: translateY(-50%); color: black; font-size: 15px;" class="ph ph-magnifying-glass"></i>
-            <ul id="search-results" class="search-results"></ul>
+            <ul style="border: none;" id="search-results" class="search-results"></ul>
         </div>
         <div class="align_row topbar-group" style="color: white;">
             {{#if user}}
                 <div class="user-menu align_row">
                     <div class="dropdown align_row">
-                        <img src="/profile/avatar/{{user.ID_U}}" class="img-user" alt="">
+                        <img src="/profile/avatar/{{user.ID_U}}" class="img-user" alt="" loading="lazy">
                         <div class="dropdown-menu" style="margin-top: 120px; margin-left: 150px;">
                             <a href="/profile"><i style="margin: 0px 8px 0px 0px;" class="ph ph-user"></i>Trang cá nhân</a>
                             <a href="/logout"><i style="margin: 0px 8px 0px 0px;" class="ph ph-sign-out"></i>Đăng xuất</a>
@@ -62,7 +63,7 @@
 
     <div class="movie_details_1" style="margin-top: 100px; height: fit-content;">
         <div class="movie_img">
-            <img src="/img/img_poster/{{phim.ID_P}}.webp" alt="" width="100%">
+            <img src="/img/img_poster/{{phim.ID_P}}.webp" alt="" width="100%" loading="lazy">
         </div>
         <div class="movie_text">
             <h1 style="font-size: 40px; font-family: 'Anton', sans-serif;">{{phim.TenPhim}}</h1>
@@ -101,7 +102,7 @@
     </div>
     <div class="movie_details_2" style="margin-top: 70px; height: fit-content;">
         <div class="movie_img">
-            <img src="/img/img_poster/{{phim.ID_P}}.webp" alt="" width="100%">
+            <img src="/img/img_poster/{{phim.ID_P}}.webp" alt="" width="100%" loading="lazy">
         </div>
         <div class="movie_text">
             <h1 style="font-size: 40px; font-family: 'Anton', sans-serif;">{{phim.TenPhim}}</h1>

@@ -682,3 +682,42 @@ input
         text-align: center !important;
     }
 }
+
+
+/* Hiệu ứng hover cho moviebox */
+.moviebox {
+    transition: transform 0.2s, box-shadow 0.2s;
+    cursor: pointer;
+}
+.moviebox:hover {
+    transform: translateY(-8px) scale(1.03);
+    box-shadow: 0 8px 32px rgba(0,0,0,0.18);
+    z-index: 2;
+}
+
+/* Hiệu ứng hover cho ảnh poster phim */
+.moviebox img:hover {
+    filter: brightness(0.92) contrast(1.08);
+    transition: filter 0.2s;
+}
+
+/* Hiệu ứng hover cho nút trailer và đặt vé */
+.trailer-link:hover,
+a[style*="background-color: #f3ea28"]:hover {
+    text-decoration: underline;
+    opacity: 0.9;
+}
+
+/* Hiệu ứng hover cho bottom bar link */
+.bottom_bar a:hover {
+    color: #ffe066 !important;
+    text-decoration: underline;
+    transition: color 0.2s;
+}
+
+/* Hiệu ứng hover cho quickbook select */
+.selectbook select:hover {
+    border-color: #ffe066;
+    box-shadow: 0 0 0 2px #ffe06633;
+    transition: border-color 0.2s, box-shadow 0.2s;
+}

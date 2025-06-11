@@ -19,10 +19,10 @@
 </head>
 <body>
     <div class="top_bar top_bar-row" style="border-bottom: 1px rgba(140, 140, 140, 0.5) solid;">
-        <div class="align_row topbar-group" style="color: white;">
+        <a href="/" class="align_row topbar-group" style="color: white; text-decoration: none;">
             <i style="font-size: 40px;" class="ph ph-video-camera"></i>
             <h1 class="logoFont" style="font-size: 20px; margin: 0px 10px; font-weight: 600;">UIT THEATER</h1>
-        </div>
+        </a>
         <div class="align_row topbar-group hide-mobile">
             <a href="" class="booking hide-mobile">
                 <i style="margin-right: 8px; font-size: 22px;" class="ph ph-ticket"></i>
@@ -36,7 +36,7 @@
         <div class="align_row topbar-group searchBar" style="color: white; position: relative;">
             <input id="movie-search" type="text" placeholder="Tìm phim" style="padding: 10px 20px; border-radius: 50px; font-size: 15px; width: 100%;">
             <i style="position: absolute; right: 15px; top: 50%; transform: translateY(-50%); color: black; font-size: 15px;" class="ph ph-magnifying-glass"></i>
-            <ul id="search-results" class="search-results"></ul>
+            <ul style="border: none;" id="search-results" class="search-results"></ul>
         </div>
         <div class="align_row topbar-group" style="color: white;">
             {{#if user}}
@@ -63,12 +63,35 @@
     </div>
     <div style="padding: 50px"></div>
     <h1 class="fontH1" style="font-size: 40px; font-family: 'Anton', sans-serif; margin: 40px; color: #f8fafc">ĐẶT VÉ XEM PHIM</h1>
-    <div class="movie-info">
-        <h2>{{phim}}</h2>
-        <p><strong>Rạp:</strong> {{rapPhim}} - <strong>Phòng:</strong> {{phongChieu}}</p>
-        <p><strong>Suất chiếu:</strong> {{ngayChieu}}</p>
-        <p><strong>Giá vé đơn:</strong> {{giaVeDon}} </p>
-        <p><strong>Giá vé đôi:</strong> {{giaVeDoi}}</p>
+    <div class="cinema-ticket">
+      <div class="ticket-top">
+        <span class="ticket-cinema">UIT THEATER</span>
+        <span class="ticket-icon"><i class="ph ph-eye"></i></span>
+      </div>
+      <div class="ticket-cut"></div>
+      <div class="ticket-bottom">
+        <div class="ticket-info-main">
+          <div class="ticket-movie">{{phim}}</div>
+          <div class="ticket-label">MOVIE</div>
+          <div class="ticket-name">{{#if user}}{{user.HoTen}}{{else}}Khách lẻ{{/if}}</div>
+          <div class="ticket-label">NAME</div>
+        </div>
+        <div class="ticket-info-side">
+          <div class="ticket-seat-number">{{selectedSeat}}</div>
+          <div class="ticket-label">SEAT</div>
+        </div>
+        <div class="ticket-details-row">
+          <div>
+            <span class="ticket-detail-bold">{{selectedSeat}}</span>
+            <span class="ticket-label">SEAT</span>
+          </div>
+          <div>
+            <span class="ticket-detail-bold">{{gioChieu}}</span>
+            <span class="ticket-label">TIME</span>
+          </div>
+          <div class="ticket-barcode"></div>
+        </div>
+      </div>
     </div>
     
     {{!-- <div class="screen">MÀN HÌNH</div> --}}
@@ -141,7 +164,9 @@
         const seatsContainer = document.getElementById('seats-container');
         
         // Connect to WebSocket
-        const ws = new WebSocket(`ws://${window.location.host}`);
+        const protocol = window.location.protocol === 'https:' ? 'wss:' : 'ws:';
+	const host = window.location.host;
+	const ws = new WebSocket(`${protocol}//${host}`);
         
         ws.onopen = () => {
             console.log('WebSocket connection established');

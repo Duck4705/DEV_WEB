@@ -23,7 +23,7 @@ passport.use(new GoogleStrategy({
             return done(null, user);
         } else {
             // Generate new user ID
-            db.query('SELECT COUNT(*) AS userCount FROM users', (err, countResult) => {
+            db.query('SELECT COUNT(*) AS userCount FROM Users', (err, countResult) => {
                 if (err) {
                     console.error('Database error:', err);
                     return done(err);
@@ -43,12 +43,13 @@ passport.use(new GoogleStrategy({
                     NgayTaoTaiKhoan: new Date(),
                     VaiTro: 'KhachHang',
                     GoogleID: googleId,
+		    MatKhau: null,
                     TongSoTien: 0
                 };
                 
                 db.query(
-                    'INSERT INTO Users (ID_U, Email, HoTen, TenTaiKhoan, NgayTaoTaiKhoan, VaiTro, GoogleID, TongSoTien) VALUES (?, ?, ?, ?, ?, ?, ?, ?)',
-                    [newUser.ID_U, newUser.Email, newUser.HoTen, newUser.TenTaiKhoan, newUser.NgayTaoTaiKhoan, newUser.VaiTro, newUser.GoogleID, newUser.TongSoTien],
+                    'INSERT INTO Users (ID_U, Email, HoTen, TenTaiKhoan, NgayTaoTaiKhoan, VaiTro, GoogleID, MatKhau, TongSoTien) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)',
+                    [newUser.ID_U, newUser.Email, newUser.HoTen, newUser.TenTaiKhoan, newUser.NgayTaoTaiKhoan, newUser.VaiTro, newUser.GoogleID, newUser.MatKhau, newUser.TongSoTien],
                     (err) => {
                         if (err) {
                             console.error('Lỗi khi tạo user mới:', err);

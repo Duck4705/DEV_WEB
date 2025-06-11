@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="/style.css">
     <link rel="stylesheet" href="/profile.css">
     <link rel="stylesheet" href="/login.css">
+    <link rel="stylesheet" href="/admin.css">
     <script src="https://unpkg.com/phosphor-icons"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com">
@@ -15,10 +16,12 @@
     <link href="https://fonts.googleapis.com/css2?family=Anton&display=swap" rel="stylesheet">
 </head>
 <body style="background-color: #0f172a;">
-    <div class="top_bar" style="border-bottom: 1px rgba(140, 140, 140, 0.5) solid;">
+    <div class="top_bar" style="border-bottom: 1px rgba(140, 140, 140, 0.5) solid; z-index: 1000;">
         <div class="align_row" style="color: white;">
-            <i style="font-size: 40px;" class="ph ph-video-camera"></i>
-            <h1 style="font-size: 20px; margin: 0px 20px; font-weight: 600;">UIT THEATER</h1>
+            <a href="/" style="display: flex; align-items: center; color: inherit; text-decoration: none;">
+                <i style="font-size: 40px;" class="ph ph-video-camera"></i>
+                <h1 style="font-size: 20px; margin: 0px 20px; font-weight: 600;">UIT THEATER</h1>
+            </a>
         </div>
         <div class="align_row" style="color: white;">
             <div class="align_row" style="margin-left: 50px;">
@@ -91,7 +94,42 @@
             {{#if error}}
                 <p style="color: red;">{{error}}</p>
             {{/if}}
-            <div class="align_column" style="color: #0f172a; background-color: #f8fafc; align-items: flex-start; width: 100%; padding: 10px;">
+            {{#if success}}
+                <p style="color: green;">{{success}}</p>
+            {{/if}}
+            
+            <!-- Thêm bảng hiển thị dữ liệu phòng chiếu -->
+            <div class="data-table-container">
+                <h4 style="margin: 10px; font-size: 20px; font-family: 'Anton', sans-serif; color: #0f172a;">DANH SÁCH PHÒNG CHIẾU</h4>
+                <table class="admin-data-table">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Tên phòng</th>
+                            <th>Loại phòng</th>
+                            <th>Rạp</th>
+                            <th>Thao tác</th>
+                        </tr>
+                    </thead>
+                    <tbody id="rooms-table-body">
+                        {{#each rooms}}
+                        <tr id="room-row-{{this.ID_PC}}">
+                            <td>{{this.ID_PC}}</td>
+                            <td>{{this.TenPhong}}</td>
+                            <td>{{this.LoaiPhong}}</td>
+                            <td>{{this.TenRap}}</td>
+                            <td>
+                                <button class="hide-row-btn" data-id="{{this.ID_PC}}" data-type="room">
+                                    <i class="ph ph-eye-slash"></i> Ẩn
+                                </button>
+                            </td>
+                        </tr>
+                        {{/each}}
+                    </tbody>
+                </table>
+            </div>
+            
+            <div class="align_column" style="color: #0f172a; background-color: #f8fafc; align-items: flex-start; width: 100%; padding: 10px; margin-top: 20px;">
                 <form action="/profile/admin/rooms/add" method="POST" style="width: 100%;">
                     <h4 style="margin: 10px; font-size: 20px; font-family: 'Anton', sans-serif;">Thêm phòng chiếu</h4>
                     <div class="align_row_between" style="width: 100%;">
@@ -170,6 +208,45 @@
                     location.reload();
                 });
             }
+        });
+        
+        // Add event listeners for hide buttons
+        document.querySelectorAll('.hide-row-btn').forEach(button => {
+            button.addEventListener('click', function() {
+                const id = this.getAttribute('data-id');
+                const type = this.getAttribute('data-type');
+                const row = document.getElementById(`room-row-${id}`);
+                
+                // Hide the row with animation
+                row.style.opacity = '0';
+                setTimeout(() => {
+                    row.style.display = 'none';
+                }, 300);
+                
+                // Send AJAX request to hide the item
+                fetch(`/profile/admin/${type}s/hide`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ id }),
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (!data.success) {
+                        console.error('Error hiding row:', data.message);
+                        // Restore the row if there was an error
+                        row.style.display = '';
+                        row.style.opacity = '1';
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    // Restore the row if there was an error
+                    row.style.display = '';
+                    row.style.opacity = '1';
+                });
+            });
         });
     });
     </script>

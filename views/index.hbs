@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Trang đặt vé phim online nhanh chóng, dễ dàng với nhiều ưu đãi hấp dẫn. Xem lịch chiếu và đặt vé ngay tại UITheater.">
     <title>UIT THEATER</title>
     <link rel="icon" type="image/x-icon" href="/img/img_access/video-camera.png">
     <link rel="stylesheet" href="/style.css">
@@ -14,10 +15,12 @@
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
 </head>
 <body>
-    <div class="top_bar top_bar-row" style="border-bottom: 1px rgba(140, 140, 140, 0.5) solid;">
+    <div class="top_bar top_bar-row" style="border-bottom: 1px rgba(140, 140, 140, 0.5) solid; z-index: 1000;">
         <div class="align_row topbar-group" style="color: white;">
-            <i style="font-size: 40px;" class="ph ph-video-camera"></i>
-            <h1 class="logoFont" style="font-size: 20px; margin: 0px 10px; font-weight: 600;">UIT THEATER</h1>
+            <a href="/" style="display: flex; align-items: center; color: inherit; text-decoration: none;">
+                <i style="font-size: 40px;" class="ph ph-video-camera"></i>
+                <h1 class="logoFont" style="font-size: 20px; margin: 0px 10px; font-weight: 600;">UIT THEATER</h1>
+            </a>
         </div>
         <div class="align_row topbar-group hide-mobile">
             <a href="" class="booking hide-mobile">
@@ -32,14 +35,14 @@
         <div class="align_row topbar-group searchBar" style="color: white; position: relative;">
             <input id="movie-search" type="text" placeholder="Tìm phim" style="padding: 10px 20px; border-radius: 50px; font-size: 15px; width: 100%;">
             <i style="position: absolute; right: 15px; top: 50%; transform: translateY(-50%); color: black; font-size: 15px;" class="ph ph-magnifying-glass"></i>
-            <ul id="search-results" class="search-results"></ul>
+            <ul style="border: none;" id="search-results" class="search-results"></ul>
         </div>
 
         <div class="align_row topbar-group" style="color: white;">
             {{#if user}}
                 <div class="user-menu align_row">
                     <div class="dropdown align_row">
-                        <img src="/profile/avatar/{{user.ID_U}}" class="img-user" alt="">
+                        <img src="/profile/avatar/{{user.ID_U}}" class="img-user" alt="" loading="lazy">
                         <div class="dropdown-menu" style="margin-top: 120px; margin-left: 150px;">
                             <a href="/profile"><i style="margin: 0px 8px 0px 0px;" class="ph ph-user"></i>Trang cá nhân</a>
                             <a href="/logout"><i style="margin: 0px 8px 0px 0px;" class="ph ph-sign-out"></i>Đăng xuất</a>
@@ -59,7 +62,7 @@
         </div>
     </div>
     <div class="img_ads">
-        <img src="/img/img_access/top-img.jpg" alt="" width="100%" style="border-radius: 5px;">
+        <img src="/img/img_access/top-img.jpg" alt="" width="100%" style="border-radius: 5px;" loading="lazy">
     </div>
     <div class="quickbook">
         <h1 style="font-size: 30px; color: #3d3c3c; font-family: 'Anton', sans-serif; margin-left: 80px;">ĐẶT VÉ NHANH</h1>
@@ -101,18 +104,18 @@
         <h1 style="font-size: 40px; font-family: 'Anton', sans-serif;">PHIM ĐANG CHIẾU</h1>
         <div class="align_movie">
             {{#each phim}}
-                <div class="moviebox">
-                    <img src="/img/img_poster/{{this.ID_P}}.webp" alt="{{this.TenPhim}}" width="100%" height="350px" style="object-fit: cover;">
+                <div class="moviebox" style="cursor: pointer;" onclick="window.location.href='/movie_details/{{this.slug}}'">
+                    <img src="/img/img_poster/{{this.ID_P}}.webp" alt="{{this.TenPhim}}" width="100%" height="350px" style="object-fit: cover;" loading="lazy">
                     <div class="align_column_between" style="height: 100px;">
                         <p style="color: white; font-size: 18px; font-weight: bold;" href="">{{this.TenPhim}}</p>
                         <div class="align_row_between alignTrailer" style="width: 100%;">
-                            <a class="trailer-link" style="color: white; font-size: 14px;" href="#" data-trailer="https://www.youtube.com/embed/{{this.LinkTrailer}}" class="align_row LogoTrailer">
+                            <a class="trailer-link" style="color: white; font-size: 14px;" href="#" data-trailer="https://www.youtube.com/embed/{{this.LinkTrailer}}" class="align_row LogoTrailer" onclick="event.stopPropagation();">
                                 <div class="align_row BorderLogoTrailer" style="padding: 3px; border: 1px white solid; border-radius: 50%; margin: 5px;">
                                     <i style="color: black; font-size: 20px; background-color: white; padding: 3px; border-radius: 50%;" class="ph ph-monitor-play"></i>
                                 </div>
-                                <a class="trailer-link" style="color: white; font-size: 14px; margin-left: -20px;" href="#" data-trailer="https://www.youtube.com/embed/{{this.LinkTrailer}}">Xem Trailer</a>
+                                <a class="trailer-link" style="color: white; font-size: 14px; margin-left: -20px;" href="#" data-trailer="https://www.youtube.com/embed/{{this.LinkTrailer}}" onclick="event.stopPropagation();">Xem Trailer</a>
                             </a>
-                            <a style="padding: 10px 40px; background-color: #f3ea28; border-radius: 5px; color: black; font-family: 'Anton', sans-serif;" href="/movie_details/{{this.slug}}">ĐẶT VÉ</a>
+                            <a style="padding: 10px 40px; background-color: #f3ea28; border-radius: 5px; color: black; font-family: 'Anton', sans-serif;" href="/movie_details/{{this.slug}}" onclick="event.stopPropagation();">ĐẶT VÉ</a>
                         </div>
                     </div>
                 </div>

@@ -39,7 +39,7 @@ async function fetchBookingAndRender(bookingId, res, view, extra = {}) {
             const screeningDetails = await new Promise((resolve, reject) => {
                 db.query(`
                     SELECT sc.NgayGioChieu, rp.TenRap, pc.TenPhong,
-                           GROUP_CONCAT(CONCAT(g.SoGhe, ' (', g.LoaiGhe, ')')) as seatDetails
+                           GROUP_CONCAT(CONCAT(g.SoGhe, ' (', g.LoaiGhe, ')') SEPARATOR ', ') as seatDetails
                     FROM SuatChieu sc 
                     JOIN PhongChieu pc ON sc.ID_PC = pc.ID_PC
                     JOIN RapPhim rp ON pc.ID_R = rp.ID_R
@@ -52,7 +52,7 @@ async function fetchBookingAndRender(bookingId, res, view, extra = {}) {
                 });
             });
 
-            const seatList = screeningDetails.seatDetails || tempBooking.seatInfos.map(seat => seat.seatId_G).join(',');
+            const seatList = screeningDetails.seatDetails || tempBooking.seatInfos.map(seat => seat.seatId_G).join(', ');
             const dateObj = new Date(screeningDetails.NgayGioChieu);
             const suatchieu = `${dateObj.toLocaleTimeString('vi-VN', { hour: '2-digit', minute: '2-digit' })} ${dateObj.toLocaleDateString('vi-VN')}`;
 
@@ -72,7 +72,7 @@ async function fetchBookingAndRender(bookingId, res, view, extra = {}) {
         const results = await new Promise((resolve, reject) => {
             db.query(`
                 SELECT dv.TongTien, 
-                       GROUP_CONCAT(CONCAT(g.SoGhe, ' (', g.LoaiGhe, ')')) as seats,
+                       GROUP_CONCAT(CONCAT(g.SoGhe, ' (', g.LoaiGhe, ')')SEPARATOR ', ') as seats,
                        sc.NgayGioChieu, rp.TenRap, pc.TenPhong
                 FROM DatVe dv
                 JOIN ChiTietDatVe ct ON dv.ID_DV = ct.ID_DV

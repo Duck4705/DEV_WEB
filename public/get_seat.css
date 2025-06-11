@@ -174,3 +174,237 @@ button:disabled {
     position: relative; /* Add this to contain the absolute positioned results */
     width: 250px; /* Adjust as needed */
 }
+/* .ticket-style {
+    background: #fff;
+    box-shadow: 0 4px 32px rgba(0,0,0,0.12);
+    width: 500px;
+    margin: 0 auto 40px auto;
+    padding: 0 0 18px 0;
+    position: relative;
+    overflow: hidden;
+    font-family: 'Montserrat', sans-serif;
+    z-index: -1;
+}
+.ticket-header {
+    padding: 18px 18px 0 18px;
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+}
+.ticket-img {
+    width: 100%;
+    padding: 0 18px;
+    margin-top: 10px;
+}
+.ticket-info-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 18px 0 18px;
+}
+.ticket-barcode-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 18px 18px 0 18px;
+    border-top: 1px dashed #686868;
+    margin-top: 12px;
+}
+.barcode {
+  height: 2em;
+  width: 0;
+  box-shadow: 1px 0 0 1px black,
+  5px 0 0 1px black,
+  10px 0 0 1px black,
+  11px 0 0 1px black,
+  15px 0 0 1px black,
+  18px 0 0 1px black,
+  22px 0 0 1px black,
+  23px 0 0 1px black,
+  26px 0 0 1px black,
+  30px 0 0 1px black,
+  35px 0 0 1px black,
+  37px 0 0 1px black,
+  41px 0 0 1px black,
+  44px 0 0 1px black,
+  47px 0 0 1px black,
+  51px 0 0 1px black,
+  56px 0 0 1px black,
+  59px 0 0 1px black,
+  64px 0 0 1px black,
+  68px 0 0 1px black,
+  72px 0 0 1px black,
+  74px 0 0 1px black,
+  77px 0 0 1px black,
+  81px 0 0 1px black;
+}
+.ticket-btn {
+    background: #4285f4;
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    padding: 10px 22px;
+    font-size: 1rem;
+    font-weight: bold;
+    cursor: pointer;
+    box-shadow: 0 2px 8px rgba(66,133,244,0.08);
+    transition: background 0.2s, color 0.2s;
+}
+.ticket-btn:disabled {
+    background: #0f172a;
+    color: #fff;
+    cursor: not-allowed;
+}
+@media (max-width: 600px) {
+    .ticket-style {
+        width: 90%;
+        padding: 0 0 10px 0;
+    }
+    .ticket-header, .ticket-img, .ticket-info-row, .ticket-barcode-row {
+        padding-left: 8px;
+        padding-right: 8px;
+    }
+} */
+
+
+.cinema-ticket {
+    width: 500px;
+    background: #f3f4f6;
+    border-radius: 12px;
+    box-shadow: 0 4px 24px rgba(0,0,0,0.10);
+    overflow: hidden;
+    font-family: 'Montserrat', sans-serif;
+    margin: 0 auto 40px auto;
+    position: relative;
+    z-index: -1;
+}
+.ticket-top {
+    background: #e74c3c;
+    color: #fff;
+    padding: 18px 24px 12px 24px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-size: 1.3rem;
+    font-weight: bold;
+    position: relative;
+}
+.ticket-cinema {
+    font-family: 'Anton', sans-serif;
+    font-size: 1.3rem;
+    letter-spacing: 1px;
+}
+.ticket-icon {
+    font-size: 2rem;
+}
+.ticket-cut {
+    width: 100%;
+    height: 18px;
+    background: repeating-linear-gradient(90deg, #f3f4f6 0 8px, #e74c3c 8px 16px);
+    position: relative;
+    margin-bottom: -8px;
+}
+.ticket-bottom {
+    background: #f3f4f6;
+    padding: 24px 24px 18px 24px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    position: relative;
+}
+.ticket-info-main {
+    flex: 2;
+}
+.ticket-movie {
+    font-size: 1.1rem;
+    font-weight: bold;
+    color: #222;
+    margin-bottom: 2px;
+}
+.ticket-label {
+    font-size: 14px;
+    color: #1f1f1f;
+    margin-bottom: 8px;
+    display: block;
+
+}
+.ticket-name {
+    font-size: 1rem;
+    color: #222;
+    margin-bottom: 2px;
+}
+.ticket-info-side {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    margin-left: 18px;
+}
+.ticket-seat-number {
+    font-size: 2.8rem;
+    color: #e74c3c;
+    font-weight: bold;
+    line-height: 1;
+}
+.ticket-details-row {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 18px;
+}
+.ticket-detail-bold {
+    font-size: 1.1rem;
+    font-weight: bold;
+    color: #222;
+    margin-right: 4px;
+}
+.ticket-barcode {
+    height: 2em;
+    width: 0;
+    box-shadow: 1px 0 0 1px black,
+    5px 0 0 1px black,
+    10px 0 0 1px black,
+    11px 0 0 1px black,
+    15px 0 0 1px black,
+    18px 0 0 1px black,
+    22px 0 0 1px black,
+    23px 0 0 1px black,
+    26px 0 0 1px black,
+    30px 0 0 1px black,
+    35px 0 0 1px black,
+    37px 0 0 1px black,
+    41px 0 0 1px black,
+    44px 0 0 1px black,
+    47px 0 0 1px black,
+    51px 0 0 1px black,
+    56px 0 0 1px black,
+    59px 0 0 1px black,
+    64px 0 0 1px black,
+    68px 0 0 1px black,
+    72px 0 0 1px black,
+    74px 0 0 1px black,
+    77px 0 0 1px black,
+    81px 0 0 1px black;
+    margin-right: 80px;
+}
+@media (max-width: 600px) {
+    .cinema-ticket {
+    width: 90%;
+    padding: 0;
+    }
+    .ticket-top, .ticket-bottom {
+    padding-left: 10px;
+    padding-right: 10px;
+    }
+    .ticket-details-row {
+    left: 10px;
+    right: 10px;
+    }
+    .ticket-label
+    {
+        font-size: 12px; /* Giảm kích thước chữ cho nhãn */
+    }
+}

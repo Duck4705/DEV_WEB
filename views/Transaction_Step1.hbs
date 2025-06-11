@@ -12,92 +12,18 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Anton&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
-    <style>
-        /* Top bar styling */
-        .top_bar {
-            position: fixed; /* Make the top bar fixed at the top */
-            top: 0; /* Align it to the top of the page */
-            left: 0; /* Align it to the left of the page */
-            width: 100%; /* Make it span the full width of the page */
-            background-color: #0f172a; /* Dark background color */
-            color: white; /* White text color */
-            display: flex; /* Use flexbox for alignment */
-            align-items: center; /* Vertically align items */
-            padding: 10px 20px; /* Add padding for spacing */
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); /* Add a subtle shadow */
-            z-index: 1000; /* Ensure it stays on top of other elements */
-        }
-
-        .top_bar .align_row {
-            display: flex; /* Use flexbox for alignment */
-            align-items: center; /* Vertically align items */
-            justify-content: flex-start; /* Align content to the left */
-        }
-
-        .top_bar i {
-            font-size: 40px; /* Icon size */
-            margin-right: 10px; /* Add spacing between the icon and text */
-        }
-
-        .top_bar h1 {
-            font-size: 20px; /* Font size for the title */
-            font-weight: 600; /* Bold font */
-            margin: 0; /* Remove default margin */
-        }
-
-        /* Add spacing below the top bar */
-        body {
-            margin: 0;
-            padding: 0;
-            padding-top: 90px; /* Add padding equal to the height of the top bar */
-        }
-
-        .countdown-container {
-            width: 100%;
-            display: flex;
-            justify-content: center;
-            margin-bottom: 20px;
-        }
-        
-        .countdown-timer {
-            background-color: #1f2937;
-            color: white;
-            padding: 10px 20px;
-            border-radius: 8px;
-            display: flex;
-            align-items: center;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-        }
-        
-        .timer-icon {
-            margin-right: 10px;
-            font-size: 1.2rem;
-        }
-        
-        .countdown-display {
-            font-weight: bold;
-            color: #10b981;
-            font-size: 1.2rem;
-            margin-left: 5px;
-        }
-        
-        .countdown-warning {
-            color: #ef4444;
-            animation: blink 1s infinite;
-        }
-        
-        @keyframes blink {
-            0% { opacity: 1; }
-            50% { opacity: 0.5; }
-            100% { opacity: 1; }
-        }
-    </style>
 </head>
 <body>
-    <div class="top_bar" style="border-bottom: 1px rgba(140, 140, 140, 0.5) solid; justify-content: flex-start;">
-        <div class="align_row" style="color: white;">
+    <div class="top_bar" style="border-bottom: 1px rgba(140, 140, 140, 0.5) solid;">
+        <a href="/" class="align_row topbar-group" style="color: white; text-decoration: none;">
             <i style="font-size: 40px;" class="ph ph-video-camera"></i>
-            <h1 style="font-size: 20px; margin: 0px 20px; font-weight: 600;">UIT THEATER</h1>
+            <h1 class="logoFont" style="font-size: 20px; margin: 0px 10px; font-weight: 600;">UIT THEATER</h1>
+        </a>
+        <div class="align_row">
+            <a href="/" class="booking">
+                <i style="margin-right: 10px; font-size: 25px;" class="ph ph-house"></i>
+                <span style="font-family: 'Anton', sans-serif;">VỀ TRANG CHỦ</span>
+            </a>
         </div>
     </div>
     <!-- Step Indicator -->
@@ -162,7 +88,23 @@
             <div class="total">{{totalPrice}} VND</div>
         </div>
     </div>
-
+    <div class="bottom_bar" style="margin-top: 150px;">
+        <div class="align_row_between" style="width: 1200px; margin: 30px 0px; ">
+            <p>© 2023 Uitheater. All rights reserved.</p>
+            <div class="align_row hide-mobile">
+                <a style="color: #f8fafc; padding: 0px 10px;" href="">Toàn diện</a>
+                <a style="color: #f8fafc; padding: 0px 10px;" href="">Sáng tạo</a>
+                <a style="color: #f8fafc; padding: 0px 10px;" href="">Phụng sự</a>
+            </div>
+        </div>
+        <div class="align_row">
+            <i style="font-size: 50px;" class="ph ph-video-camera"></i>
+            <h1 style="font-size: 30px; margin-left: 20px; margin-top: 8px; font-weight: bold;">UIT THEATER</h1>
+        </div>
+        <div class="align_row">
+            <h4 style="font-size: 25px; margin: 10px 0px;">[NT208.P24] - Nhóm 3</h4>
+        </div>
+    </div>
     {{#if error}}
     <div id="toast" class="alert alert-danger" style="position: fixed; top: 20px; right: 20px; z-index: 9999;">
         {{error}}
