@@ -124,7 +124,7 @@ exports.getMovieShowing = (req, res) => {
     const user = req.session.user;
 
     // Lấy danh sách phim từ cơ sở dữ liệu
-    db.query('SELECT * FROM phim', (err, phim) => {
+    db.query('SELECT * FROM Phim', (err, phim) => {
         if (err) {
             console.error('Database error:', err);
             return res.status(500).send('Internal Server Error');

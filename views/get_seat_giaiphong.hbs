@@ -141,7 +141,9 @@
         const seatsContainer = document.getElementById('seats-container');
         
         // Connect to WebSocket
-        const ws = new WebSocket(`ws://${window.location.host}`);
+        const protocol = window.location.protocol === 'https:' ? 'wss:' : 'ws:';
+	const host = window.location.host;
+	const ws = new WebSocket(`${protocol}//${host}`);
         
         ws.onopen = () => {
             console.log('WebSocket connection established');
