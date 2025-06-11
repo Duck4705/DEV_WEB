@@ -206,32 +206,12 @@ exports.getHistory = (req, res) => {
                         tableError: 'Không thể tạo bảng dữ liệu: ' + err.message 
                     });
                 }
-                // Thêm dữ liệu mẫu cho nhiều user
-                db.query('SELECT ID_U FROM Users LIMIT 3', (err, users) => {
-                    if (err || !users.length) {
-                        return res.render('profile_history', { 
-                            user, 
-                            transactions: [],
-                            hasMore: false,
-                            tableCreated: true
-                        });
-                    }
-                    const now = new Date();
-                    const sampleData = [
-                        ['GD' + Date.now() + '1', users[0].ID_U, now, 'Nạp tiền', 'Chuyển khoản'],
-                        ['GD' + Date.now() + '2', users[0].ID_U, now, 'Mua vé', 'Thẻ tín dụng'],
-                        ['GD' + Date.now() + '3', users[1]?.ID_U || users[0].ID_U, now, 'Hoàn tiền', 'Ví điện tử'],
-                        ['GD' + Date.now() + '4', users[2]?.ID_U || users[0].ID_U, now, 'Mua vé', 'VNPay']
-                    ];
-                    const insertSql = 'INSERT INTO LichSuGiaoDich (ID_GD, ID_U, NgayGD, TheLoaiGD, PhuongThucGD) VALUES ?';
-                    db.query(insertSql, [sampleData], () => {
-                        return res.render('profile_history', { 
-                            user, 
-                            transactions: [],
-                            hasMore: false,
-                            tableCreated: true
-                        });
-                    });
+                // No sample data, just render empty transactions
+                return res.render('profile_history', { 
+                    user, 
+                    transactions: [],
+                    hasMore: false,
+                    tableCreated: true
                 });
             });
             return;
@@ -287,58 +267,14 @@ exports.getHistory = (req, res) => {
                 });
             }
             
-            // Nếu là admin và không có dữ liệu, tự động thêm dữ liệu mẫu
+            // For admin with no data, don't add sample data
             if (user.VaiTro === 'admin_role_1' && (!transactions || transactions.length === 0)) {
-                db.query('SELECT ID_U FROM Users LIMIT 3', (err, users) => {
-                    if (err || !users.length) {
-                        return res.render('profile_history', { 
-                            user, 
-                            transactions: [],
-                            hasMore: false,
-                            tableCreated: false
-                        });
-                    }
-                    const now = new Date();
-                    const sampleData = [
-                        ['GD' + Date.now() + '5', users[0].ID_U, now, 'Nạp tiền', 'Chuyển khoản'],
-                        ['GD' + Date.now() + '6', users[0].ID_U, now, 'Mua vé', 'Thẻ tín dụng'],
-                        ['GD' + Date.now() + '7', users[1]?.ID_U || users[0].ID_U, now, 'Hoàn tiền', 'Ví điện tử'],
-                        ['GD' + Date.now() + '8', users[2]?.ID_U || users[0].ID_U, now, 'Mua vé', 'VNPay']
-                    ];
-                    const insertSql = 'INSERT INTO LichSuGiaoDich (ID_GD, ID_U, NgayGD, TheLoaiGD, PhuongThucGD) VALUES ?';
-                    db.query(insertSql, [sampleData], () => {
-                        // Sau khi thêm, truy vấn lại
-                        db.query(query, params, (err2, transactions2) => {
-                            if (err2) {
-                                return res.render('profile_history', { 
-                                    user, 
-                                    transactions: [],
-                                    hasMore: false,
-                                    tableCreated: false
-                                });
-                            }
-                            // Count total records for pagination
-                            let countQuery, countParams;
-                            countQuery = `
-                                SELECT COUNT(*) as total FROM LichSuGiaoDich
-                                WHERE NgayGD >= DATE_SUB(CURDATE(), INTERVAL 7 DAY)
-                            `;
-                            countParams = [];
-                            db.query(countQuery, countParams, (err, countResult) => {
-                                const totalRecords = countResult && countResult[0] ? countResult[0].total : 0;
-                                const hasMore = totalRecords > limit;
-                                res.render('profile_history', { 
-                                    user, 
-                                    transactions: transactions2,
-                                    hasMore,
-                                    totalRecords,
-                                    initialLimit: limit
-                                });
-                            });
-                        });
-                    });
+                return res.render('profile_history', { 
+                    user, 
+                    transactions: [],
+                    hasMore: false,
+                    tableCreated: false
                 });
-                return;
             }
             
             // Count total records for pagination
@@ -483,44 +419,8 @@ exports.createTransactionTable = (req, res) => {
             return res.status(500).json({ success: false, message: 'Database error: ' + err.message });
         }
         
-        // Add sample data for testing
-        const generateUniqueId = () => {
-            return 'GD' + Date.now() + Math.floor(Math.random() * 1000);
-        };
-        
-        const sampleData = [
-            [generateUniqueId(), user.ID_U, new Date(), 'Nạp tiền', 'Chuyển khoản'],
-            [generateUniqueId(), user.ID_U, new Date(), 'Mua vé', 'Thẻ tín dụng'],
-            [generateUniqueId(), user.ID_U, new Date(), 'Hoàn tiền', 'Ví điện tử']
-        ];
-        
-        const insertSampleData = sampleData.map(data => {
-            return new Promise((resolve, reject) => {
-                db.query(
-                    'INSERT INTO LichSuGiaoDich (ID_GD, ID_U, NgayGD, TheLoaiGD, PhuongThucGD) VALUES (?, ?, ?, ?, ?)',
-                    data,
-                    (err) => {
-                        if (err) {
-                            console.error('Error inserting sample data:', err);
-                            reject(err);
-                        } else {
-                            resolve();
-                        }
-                    }
-                );
-            });
-        });
-        
-        Promise.all(insertSampleData)
-            .then(() => {
-                res.json({ success: true, message: 'Đã tạo bảng dữ liệu và thêm dữ liệu mẫu thành công' });
-            })
-            .catch(err => {
-                res.json({ 
-                    success: true, 
-                    message: 'Đã tạo bảng dữ liệu nhưng không thể thêm dữ liệu mẫu: ' + err.message 
-                });
-            });
+        // No sample data, just return success
+        res.json({ success: true, message: 'Đã tạo bảng dữ liệu thành công' });
     });
 };
 
