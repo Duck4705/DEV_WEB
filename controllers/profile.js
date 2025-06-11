@@ -22,7 +22,7 @@ exports.refreshSession = (req, res, next) => {
                 NgaySinh: updatedUser.NgaySinh,
                 SDT: updatedUser.SDT,
                 Email: updatedUser.Email,
-                TongSoTien: updatedUser.TongSoTien.toLocaleString('vi-VN'),
+                TongSoTien: updatedUser?.TongSoTien != null ? updatedUser.TongSoTien.toLocaleString('vi-VN') : '0',
                 VaiTro: updatedUser.VaiTro,
             };
         }
@@ -111,7 +111,7 @@ exports.uploadPoster = (req, res) => {
             
             // Initialize upload
             const upload = multer({ storage: storage }).single('poster');
-            
+	            
             // Process the upload
             upload(req, res, function(err) {
                 if (err) {
