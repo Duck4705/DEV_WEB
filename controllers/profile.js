@@ -2,6 +2,9 @@ const path = require('path');
 const fs = require('fs');
 const db = require('../db');
 
+// Set the timezone to Vietnam
+process.env.TZ = 'Asia/Ho_Chi_Minh';
+
 // Middleware to refresh session
 exports.refreshSession = (req, res, next) => {
     const user = req.session.user;
@@ -253,19 +256,20 @@ exports.getHistory = (req, res) => {
                 });
             }
             
-            // Format dates for display - adjust to Vietnam timezone (UTC+7)
+            // Format dates for display - using proper Vietnam timezone
             if (transactions && transactions.length > 0) {
                 transactions.forEach(transaction => {
-                    // Add 7 hours to match Vietnam timezone
+                    // Create a date object - it will now respect the TZ environment variable
                     const date = new Date(transaction.NgayGD);
-                    date.setHours(date.getHours() + 7);
                     
+                    // Format with Vietnamese locale
                     transaction.formattedDate = date.toLocaleDateString('vi-VN', { 
                         year: 'numeric', 
                         month: '2-digit', 
                         day: '2-digit',
                         hour: '2-digit',
-                        minute: '2-digit'
+                        minute: '2-digit',
+                        timeZone: 'Asia/Ho_Chi_Minh' // Explicitly set timezone here too
                     });
                 });
             }
@@ -364,19 +368,20 @@ exports.loadMoreHistory = (req, res) => {
             return res.status(500).json({ success: false, message: 'Database error when fetching transactions' });
         }
         
-        // Format dates for display - adjust to Vietnam timezone (UTC+7)
+        // Format dates for display - using proper Vietnam timezone
         if (transactions && transactions.length > 0) {
             transactions.forEach(transaction => {
-                // Add 7 hours to match Vietnam timezone
+                // Create a date object with Vietnam timezone
                 const date = new Date(transaction.NgayGD);
-                date.setHours(date.getHours() + 7);
                 
+                // Format with Vietnamese locale
                 transaction.formattedDate = date.toLocaleDateString('vi-VN', { 
                     year: 'numeric', 
                     month: '2-digit', 
                     day: '2-digit',
                     hour: '2-digit',
-                    minute: '2-digit'
+                    minute: '2-digit',
+                    timeZone: 'Asia/Ho_Chi_Minh' // Explicitly set timezone
                 });
             });
         }
