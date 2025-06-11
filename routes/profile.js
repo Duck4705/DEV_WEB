@@ -11,7 +11,7 @@ const storage = multer.diskStorage({
     },
     filename: (req, file, cb) => {
         const userId = req.session.user.ID_U;
-        cb(null, `${userId}.webp`);
+        cb(null, `${userId}.png`);
     }
 });
 const upload = multer({ storage });
