@@ -102,17 +102,16 @@
                     <div class="align_row_between" style="width: 100%;">
                         <div class="input_info">
                             <label for="HoTen">Họ và Tên:</label>
-                            <input type="text" id="HoTen" name="HoTen" value="{{user.HoTen}}" readonly>
+                            <input type="text" id="HoTen" name="HoTen" value="{{user.HoTen}}" pattern="^[^0-9]+$" title="Họ tên không được chứa ký tự số và không được bỏ trống" readonly>
                         </div>
                         <div class="input_info">
                             <label for="NgaySinh">Ngày Sinh:</label>
                             <input type="date" id="NgaySinh" name="NgaySinh" value="{{user.NgaySinh}}" readonly>
                         </div>
                     </div>
-                    <div class="align_row_between" style="width: 100%;">
-                        <div class="input_info">
+                    <div class="align_row_between" style="width: 100%;">                        <div class="input_info">
                             <label for="SDT">Số Điện Thoại:</label>
-                            <input type="text" id="SDT" name="SDT" value="{{user.SDT}}" readonly>
+                            <input type="tel" id="SDT" name="SDT" pattern="0[0-9]{9}" title="Số điện thoại phải bắt đầu bằng số 0 và có 10 chữ số" value="{{user.SDT}}" required readonly>
                         </div>
                         <div class="input_info">
                             <label for="Email">Email:</label>

@@ -12,6 +12,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Anton&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+
 </head>
 <body>
     <div class="top_bar" style="border-bottom: 1px rgba(140, 140, 140, 0.5) solid;">
@@ -37,25 +38,22 @@
             <h4 style="font-size: 15px; font-weight: 600; color: red; margin: 0px 0px 20px 0px; align-self: center">{{message}}</h4>
             {{/if}}
             <label for="name">Họ và tên</label>
-            <input placeholder="Họ và tên" type="text" id="name" name="HoTen">
+            <input placeholder="Họ và tên" type="text" id="name" name="HoTen" required>
 
             <label for="dateborn">Ngày sinh</label>
-            <input type="date" id="dateborn" name="NgaySinh">
-
+            <input type="date" id="dateborn" name="NgaySinh" required>           
             <label for="phonenumber">Số điện thoại</label>
-            <input placeholder="Số điện thoại" type="text" id="phonenumber" name="SDT">
+            <input placeholder="Số điện thoại" type="tel" id="phonenumber" name="SDT" pattern="0[0-9]{9}" title="Số điện thoại phải bắt đầu bằng số 0 và có 10 chữ số" required>
 
             <label for="Email">Email</label>
-            <input placeholder="Email" type="email" id="Email" name="Email">
+            <input placeholder="Email" type="email" id="Email" name="Email" required pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}" title="Vui lòng nhập đúng định dạng email">
 
             <label for="username">Tên đăng nhập</label>
-            <input placeholder="Tên đăng nhập" type="text" id="username" name="TenTaiKhoan">
-
-            <label for="password">Mật khẩu</label>
-            <input placeholder="Mật khẩu" type="password" id="password" name="MatKhau">
+            <input placeholder="Tên đăng nhập" type="text" id="username" name="TenTaiKhoan" required>            <label for="password">Mật khẩu</label>
+            <input placeholder="Mật khẩu" type="password" id="password" name="MatKhau" required minlength="6" title="Mật khẩu phải có ít nhất 6 ký tự">
 
             <label for="password2">Xác thực mật khẩu</label>
-            <input placeholder="Xác thực mật khẩu" type="password" id="password2" name="MatKhau2">
+            <input placeholder="Xác thực mật khẩu" type="password" id="password2" name="MatKhau2" required>
             
             <button type="submit" class="submit">Đăng ký</button>
   
