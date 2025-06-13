@@ -92,36 +92,30 @@ function initializeSeatMap(screeningId) {
     });
 }
 
-// Helper function to convert ID_G to seat format like A01, B02, etc.
+// Hàm format lại ID ghế A01, B02, etc.
 function convertIDGToSeatId(idG) {
-    // Extract row and number from the ID_G format
-    // Assuming ID_G format is something like G1, G2, etc.
     if (!idG || typeof idG !== 'string') {
         console.error('Invalid ID_G:', idG);
         return null;
     }
     
-    // Handle different possible formats:
-    // 1. If ID_G is already in the format like "A01" or "B02"
     if (/^[A-Z]\d{2}$/.test(idG)) {
         return idG;
     }
     
-    // 2. If ID_G is in format "G1", "G2", etc.
     const match = idG.match(/^G(\d+)$/);
     if (match) {
         const seatNumber = parseInt(match[1]);
         const rowIndex = Math.floor((seatNumber - 1) / 12); // 12 seats per row
         const seatPos = ((seatNumber - 1) % 12) + 1;
         
-        // Map row index to letter (0 -> A, 1 -> B, etc.)
+        // Map dòng theo chữ (0 -> A, 1 -> B, etc.)
         const row = String.fromCharCode(65 + rowIndex); // 65 is ASCII for 'A'
         
-        // Format seatId as "A01", "B02", etc.
+        // Format seatId như "A01", "B02"
         return `${row}${seatPos.toString().padStart(2, '0')}`;
     }
     
-    // If we can't parse it, return a default
     console.error('Could not parse ID_G format:', idG);
     return null;
 }
@@ -278,7 +272,7 @@ function handleSeatSelection(ws, screeningId, seatId, userId) {
                 
                 broadcastSeatUpdate(screeningId, seatId);
 
-                // Notify the user that their selection has expired
+                // Thông báo thời gian giữ ghế đã hết
                 ws.send(JSON.stringify({
                     type: 'selectionExpired',
                     seatId: seatId,
@@ -287,7 +281,7 @@ function handleSeatSelection(ws, screeningId, seatId, userId) {
             }
         }, 10 * 60 * 1000); // 10 phút
         
-        // Broadcast to all clients immediately
+        // Broadcast đến clients
         broadcastSeatUpdate(screeningId, seatId);
         
         ws.send(JSON.stringify({
@@ -298,12 +292,12 @@ function handleSeatSelection(ws, screeningId, seatId, userId) {
             message: 'Ghế đã được chọn. Bạn có 10 phút để hoàn tất thanh toán.'
         }));
     } else if (screening.seats[seatId].status === 'selected' && screening.seats[seatId].selectedBy === userId) {
-        // Allow user to deselect their own selection
+        // Cho phép user chọn lại ghế
         screening.seats[seatId].status = 'available';
         screening.seats[seatId].selectedBy = null;
         screening.seats[seatId].selectedAt = null;
         
-        // Clear timeout
+        // Dọn timeout
         if (seatTimeouts[`${screeningId}-${seatId}`]) {
             clearTimeout(seatTimeouts[`${screeningId}-${seatId}`]);
             delete seatTimeouts[`${screeningId}-${seatId}`];
@@ -353,11 +347,59 @@ function handleSeatDeselection(ws, screeningId, seatId, userId) {
     }));
 }
 
-// Add temporary booking storage
 const temporaryBookings = new Map();
 
-// Export temporaryBookings for other controllers to use
+// Xuất tempBooking
 exports.temporaryBookings = temporaryBookings;
+
+const bookingLocks = new Set();
+const pendingBookingIds = new Set();
+
+function generateUniqueBookingId() {
+    return new Promise((resolve, reject) => {
+        const attemptGeneration = (retryCount = 0) => {
+            if (retryCount > 10) {
+                reject(new Error('Failed to generate unique booking ID after 10 attempts'));
+                return;
+            }
+            
+            // Tạo ID theo thời gian thực
+            const timestamp = Date.now();
+            const random = Math.floor(Math.random() * 1000).toString().padStart(3, '0');
+            const candidateId = `DV${timestamp}${random}`;
+            
+            // Kiểm tra ID có đang được thanh toán
+            if (pendingBookingIds.has(candidateId)) {
+                // Wait a bit and try again
+                setTimeout(() => attemptGeneration(retryCount + 1), 10);
+                return;
+            }
+            
+            // Lưu ID
+            pendingBookingIds.add(candidateId);
+            
+            // Kiểm tra CSDL để tránh conflicts
+            db.query('SELECT ID_DV FROM DatVe WHERE ID_DV = ?', [candidateId], (err, results) => {
+                if (err) {
+                    pendingBookingIds.delete(candidateId);
+                    reject(err);
+                    return;
+                }
+                
+                if (results && results.length > 0) {
+                    // ID tồn tại trong db
+                    pendingBookingIds.delete(candidateId);
+                    setTimeout(() => attemptGeneration(retryCount + 1), 10);
+                    return;
+                }
+                
+                resolve(candidateId);
+            });
+        };
+        
+        attemptGeneration();
+    });
+}
 
 function handleSeatBooking(ws, screeningId, seatIds, userId) {
     const screening = screenings[screeningId];
@@ -408,30 +450,21 @@ function handleSeatBooking(ws, screeningId, seatIds, userId) {
             });
         })
         .then(basePrice => {
-            return new Promise((resolve, reject) => {
-                db.query('SELECT MAX(CAST(SUBSTRING(ID_DV, 3) AS UNSIGNED)) as maxId FROM DatVe', (err, results) => {
-                    if (err) {
-                        console.error('Error getting max DatVe ID:', err);
-                        reject('Đã xảy ra lỗi khi đặt vé. Vui lòng thử lại.');
-                        return;
-                    }
-                    
-                    const maxId = results[0].maxId || 0;
-                    const newBookingId = `DV${maxId + 1}`;
-                    const bookingTime = new Date().toISOString().slice(0, 19).replace('T', ' ');
-                    let dbUserId = null;
-                    
-                    if (userId && !userId.startsWith('user-')) {
-                        dbUserId = userId;
-                    }
-                    
-                    resolve({
-                        newBookingId,
-                        bookingTime,
-                        dbUserId,
-                        basePrice
-                    });
-                });
+            // Use the new unique ID generator
+            return generateUniqueBookingId().then(newBookingId => {
+                const bookingTime = new Date().toISOString().slice(0, 19).replace('T', ' ');
+                let dbUserId = null;
+                
+                if (userId && !userId.startsWith('user-')) {
+                    dbUserId = userId;
+                }
+                
+                return {
+                    newBookingId,
+                    bookingTime,
+                    dbUserId,
+                    basePrice
+                };
             });
         })
         .then(bookingInfo => {

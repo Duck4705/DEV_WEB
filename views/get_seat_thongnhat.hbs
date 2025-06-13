@@ -312,9 +312,8 @@
                 'I': [null, 1, null,null ,2,3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, null,null],
                 'J': [null, 1, null,null ,2,3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, null, null, null],
             };
-            
+            let seatMap = {};
             // Create map of seat data by ID
-            const seatMap = {};
             for (const seatId in seats) {
                 const seat = seats[seatId];
                 seat.row = seatId.charAt(0);                  // Extract row letter (A, B, C...)
@@ -363,17 +362,41 @@
                             selectedBy = seatMap[seatId].selectedBy;
                         }
                         
-                        seatElement.className = 'seat ' + status;
-                        if (status === 'selected' && selectedBy === userId) {
-                            seatElement.classList.add('selected');
-                            seatElement.classList.remove('selected-by-others');
-                            seatElement.style.backgroundColor = '#4CAF50'; // Green
-                            selectedSeats.add(seatId);
-                        } else if (status === 'selected') {
-                            seatElement.classList.add('selected-by-others');
-                            seatElement.style.backgroundColor = '#FFC107'; // Yellow
+                        seatElement.className = 'seat';
+
+                        // Apply correct colors based on status
+                        if (status === 'available') {
+                            // WHITE for available seats
+                            seatElement.style.backgroundColor = '#ffffff';
+                            seatElement.style.border = '1px solid #ccc';
+                            seatElement.style.color = '#000';
+                            seatElement.style.cursor = 'pointer';
+                            
+                        } else if (status === 'selected' || status === 'pending_payment') {
+                            if (selectedBy === userId) {
+                                // GREEN for current user's selection
+                                seatElement.classList.add('selected');
+                                seatElement.style.backgroundColor = '#4CAF50'; // Green
+                                seatElement.style.color = 'white';
+                                seatElement.style.border = '2px solid #45a049';
+                                seatElement.style.cursor = 'pointer';
+                                selectedSeats.add(seatId);
+                            } else {
+                                // YELLOW for seats selected by others
+                                seatElement.classList.add('selected-by-others');
+                                seatElement.style.backgroundColor = '#FFC107'; // Yellow  
+                                seatElement.style.color = '#000';
+                                seatElement.style.border = '1px solid #e0a800';
+                                seatElement.style.cursor = 'not-allowed';
+                            }
+                            
                         } else if (status === 'booked') {
+                            // RED for booked seats
+                            seatElement.classList.add('booked');
                             seatElement.style.backgroundColor = '#f44336'; // Red
+                            seatElement.style.color = 'white';
+                            seatElement.style.border = '1px solid #d32f2f';
+                            seatElement.style.cursor = 'not-allowed';
                         }
                         
                         // Add click event
@@ -422,8 +445,11 @@
             
             const box = document.createElement('div');
             box.className = 'legend-box ' + status;
+            
+            // Set correct colors for legend
             if (status === 'available') {
-                box.style.backgroundColor = 'white';
+                box.style.backgroundColor = '#ffffff'; // White
+                box.style.border = '1px solid #ccc';
             } else if (status === 'selected') {
                 box.style.backgroundColor = '#4CAF50'; // Green
             } else if (status === 'selected-by-others') {
