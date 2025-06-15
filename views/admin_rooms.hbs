@@ -91,6 +91,10 @@
         </div>
         <div class="user_right">
             <h1 style="font-size: 40px; font-family: 'Anton', sans-serif; margin: 20px 0px;">QUẢN LÝ PHÒNG CHIẾU</h1>
+            
+            <!-- Thêm dòng hiển thị tổng số phòng -->
+            <p style="margin-bottom: 15px; font-size: 16px; color: #f8fafc;">Tổng số phòng: <strong>{{totalRooms}}</strong></p>
+            
             {{#if error}}
                 <p style="color: red;">{{error}}</p>
             {{/if}}

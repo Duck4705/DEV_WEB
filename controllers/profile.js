@@ -437,12 +437,26 @@ exports.createTransactionTable = (req, res) => {
 
 // Admin: Manage Theaters
 exports.getTheaters = (req, res) => {
-    db.query('SELECT * FROM RapPhim', (err, theaters) => {
+    // Count total theaters
+    db.query('SELECT COUNT(*) as totalTheaters FROM RapPhim', (err, countResult) => {
         if (err) {
-            console.error('Database error:', err);
+            console.error('Database error when counting theaters:', err);
             return res.status(500).send('Internal Server Error');
         }
-        res.render('admin_theaters', { user: req.session.user, theaters });
+        
+        const totalTheaters = countResult[0].totalTheaters;
+        
+        db.query('SELECT * FROM RapPhim', (err, theaters) => {
+            if (err) {
+                console.error('Database error:', err);
+                return res.status(500).send('Internal Server Error');
+            }
+            res.render('admin_theaters', { 
+                user: req.session.user, 
+                theaters,
+                totalTheaters
+            });
+        });
     });
 };
 
@@ -573,12 +587,26 @@ exports.hideTheater = (req, res) => {
 
 // Admin: Manage Movies
 exports.getMovies = (req, res) => {
-    db.query('SELECT * FROM Phim', (err, movies) => {
+    // Count total movies
+    db.query('SELECT COUNT(*) as totalMovies FROM Phim', (err, countResult) => {
         if (err) {
-            console.error('Database error:', err);
+            console.error('Database error when counting movies:', err);
             return res.status(500).send('Internal Server Error');
         }
-        res.render('admin_movies', { user: req.session.user, movies });
+        
+        const totalMovies = countResult[0].totalMovies;
+        
+        db.query('SELECT * FROM Phim', (err, movies) => {
+            if (err) {
+                console.error('Database error:', err);
+                return res.status(500).send('Internal Server Error');
+            }
+            res.render('admin_movies', { 
+                user: req.session.user, 
+                movies,
+                totalMovies
+            });
+        });
     });
 };
 
@@ -761,27 +789,38 @@ exports.hideMovie = (req, res) => {
 
 // Admin: Manage Showtimes
 exports.getShowtimes = (req, res) => {
-    db.query('SELECT sc.*, p.TenPhim, pc.TenPhong, r.TenRap FROM SuatChieu sc JOIN Phim p ON sc.ID_P = p.ID_P JOIN PhongChieu pc ON sc.ID_PC = pc.ID_PC JOIN RapPhim r ON pc.ID_R = r.ID_R', (err, showtimes) => {
+    // Count total showtimes
+    db.query('SELECT COUNT(*) as totalShowtimes FROM SuatChieu', (err, countResult) => {
         if (err) {
-            console.error('Database error:', err);
+            console.error('Database error when counting showtimes:', err);
             return res.status(500).send('Internal Server Error');
         }
         
-        db.query('SELECT * FROM Phim', (err, movies) => {
+        const totalShowtimes = countResult[0].totalShowtimes;
+        
+        db.query('SELECT sc.*, p.TenPhim, pc.TenPhong, r.TenRap FROM SuatChieu sc JOIN Phim p ON sc.ID_P = p.ID_P JOIN PhongChieu pc ON sc.ID_PC = pc.ID_PC JOIN RapPhim r ON pc.ID_R = r.ID_R', (err, showtimes) => {
             if (err) {
                 console.error('Database error:', err);
                 return res.status(500).send('Internal Server Error');
             }
-            db.query('SELECT * FROM PhongChieu', (err, rooms) => {
+            
+            db.query('SELECT * FROM Phim', (err, movies) => {
                 if (err) {
                     console.error('Database error:', err);
                     return res.status(500).send('Internal Server Error');
                 }
-                res.render('admin_showtimes', { 
-                    user: req.session.user, 
-                    showtimes, 
-                    movies, 
-                    rooms
+                db.query('SELECT * FROM PhongChieu', (err, rooms) => {
+                    if (err) {
+                        console.error('Database error:', err);
+                        return res.status(500).send('Internal Server Error');
+                    }
+                    res.render('admin_showtimes', { 
+                        user: req.session.user, 
+                        showtimes, 
+                        movies, 
+                        rooms,
+                        totalShowtimes
+                    });
                 });
             });
         });
@@ -867,17 +906,32 @@ exports.hideShowtime = (req, res) => {
 
 // Admin: Manage Rooms
 exports.getRooms = (req, res) => {
-    db.query('SELECT pc.*, r.TenRap FROM PhongChieu pc JOIN RapPhim r ON pc.ID_R = r.ID_R', (err, rooms) => {
+    // Count total rooms
+    db.query('SELECT COUNT(*) as totalRooms FROM PhongChieu', (err, countResult) => {
         if (err) {
-            console.error('Database error:', err);
+            console.error('Database error when counting rooms:', err);
             return res.status(500).send('Internal Server Error');
         }
-        db.query('SELECT * FROM RapPhim', (err, theaters) => {
+        
+        const totalRooms = countResult[0].totalRooms;
+        
+        db.query('SELECT pc.*, r.TenRap FROM PhongChieu pc JOIN RapPhim r ON pc.ID_R = r.ID_R', (err, rooms) => {
             if (err) {
                 console.error('Database error:', err);
                 return res.status(500).send('Internal Server Error');
             }
-            res.render('admin_rooms', { user: req.session.user, rooms, theaters });
+            db.query('SELECT * FROM RapPhim', (err, theaters) => {
+                if (err) {
+                    console.error('Database error:', err);
+                    return res.status(500).send('Internal Server Error');
+                }
+                res.render('admin_rooms', { 
+                    user: req.session.user, 
+                    rooms, 
+                    theaters,
+                    totalRooms
+                });
+            });
         });
     });
 };
