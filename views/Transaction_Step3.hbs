@@ -237,6 +237,50 @@
             image.crossOrigin = "Anonymous";
             image.src = qrImage.src;
         });
-    </script>+
+    </script>
+    <script>
+    // Hàm format lại tổng số tiếng
+    function formatVietnameseNumber(number) {
+        if (!number) return '0';
+        
+        // chuyển về chuỗi và format lại
+        let numString = number.toString().replace(/[.,]/g, '');
+        
+        // Thêm dấu chấm mỗi 3 chữ số từ phải qua 
+        return numString.replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+    }
+
+    // Hàm function lại giá tiền
+    function formatCurrency(amount) {
+        return formatVietnameseNumber(amount) + ' VNĐ';
+    }
+
+    // Cập nhật khi page load
+    document.addEventListener('DOMContentLoaded', function() {
+        const priceElements = document.querySelectorAll('.total, .value, [data-price]');
+        
+        priceElements.forEach(element => {
+            const text = element.textContent;
+            const numberMatch = text.match(/\d+/);
+            
+            if (numberMatch) {
+                const number = numberMatch[0];
+                const formattedNumber = formatVietnameseNumber(number);
+                element.textContent = text.replace(number, formattedNumber);
+            }
+        });
+        
+        const totalPriceElements = document.querySelectorAll('p:contains("Tổng tiền"), .total');
+        totalPriceElements.forEach(element => {
+            if (element.textContent.includes('VN')) {
+                const match = element.textContent.match(/(\d+)\s*VN/);
+                if (match) {
+                    const formatted = formatVietnameseNumber(match[1]);
+                    element.textContent = element.textContent.replace(match[1], formatted);
+                }
+            }
+        });
+    });
+    </script>
 </body>
 </html>
