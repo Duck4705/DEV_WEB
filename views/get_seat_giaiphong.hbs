@@ -165,16 +165,20 @@
         const protocol = window.location.protocol === 'https:' ? 'wss:' : 'ws:';
 	const host = window.location.host;
 	const ws = new WebSocket(`${protocol}//${host}`);
-        
-        ws.onopen = () => {
+          ws.onopen = () => {
             console.log('WebSocket connection established');
+            console.log('Current screening ID:', currentScreening);
+            console.log('User ID:', userId);
+            
             // Request seat data for the current screening
             if (currentScreening) {
-                ws.send(JSON.stringify({
+                const message = {
                     type: 'selectScreening',
                     screeningId: currentScreening,
                     userId: userId
-                }));
+                };
+                console.log('Sending message to WebSocket:', message);
+                ws.send(JSON.stringify(message));
                 
                 // Lấy thông tin giá vé từ server
                 fetchTicketPrice();
@@ -182,14 +186,19 @@
                 alert('Không có ID suất chiếu. Vui lòng kiểm tra URL.');
             }
         };
-        
-        ws.onmessage = (event) => {
+          ws.onmessage = (event) => {
             const data = JSON.parse(event.data);
             console.log('Received message:', data);
             
             if (data.type === 'screeningData') {
                 console.log('Received seat data:', data.seats);
-                updateAllSeats(data.seats);
+                console.log('Number of seats received:', Object.keys(data.seats).length);
+                if (!data.seats || Object.keys(data.seats).length === 0) {
+                    console.error('No seats data received from server!');
+                    alert('Không thể tải dữ liệu ghế. Vui lòng làm mới trang.');
+                } else {
+                    updateAllSeats(data.seats);
+                }
             } 
             else if (data.type === 'seatUpdate') {
                 if (data.screeningId === currentScreening) {
@@ -309,9 +318,7 @@
                 'H': [1, 2 ,3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20],
                 'I': [1, 2 ,3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20],
                 'J': [1, 2 ,3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20],
-            };
-            let seatMap = {};
-            // Create map of seat data by ID
+            };            // Create map of seat data by ID
             const seatMap = {};
             for (const seatId in seats) {
                 const seat = seats[seatId];
