@@ -102,11 +102,11 @@
                     <div class="align_row_between" style="width: 100%;">
                         <div class="input_info">
                             <label for="HoTen">Họ và Tên:</label>
-                            <input type="text" id="HoTen" name="HoTen" value="{{user.HoTen}}" pattern="^[^0-9]+$" title="Họ tên không được chứa ký tự số và không được bỏ trống" readonly>
+                            <input type="text" id="HoTen" name="HoTen" value="{{user.HoTen}}" pattern="^[^0-9]+$" title="Họ tên không được chứa ký tự số và không được bỏ trống" required readonly>
                         </div>
                         <div class="input_info">
                             <label for="NgaySinh">Ngày Sinh:</label>
-                            <input type="date" id="NgaySinh" name="NgaySinh" value="{{user.NgaySinh}}" readonly>
+                            <input type="date" id="NgaySinh" name="NgaySinh" value="{{user.NgaySinh}}" required readonly>
                         </div>
                     </div>
                     <div class="align_row_between" style="width: 100%;">                        <div class="input_info">
@@ -115,7 +115,7 @@
                         </div>
                         <div class="input_info">
                             <label for="Email">Email:</label>
-                            <input type="email" id="Email" name="Email" value="{{user.Email}}" readonly>
+                            <input type="email" id="Email" name="Email" value="{{user.Email}}" required readonly>
                         </div>
                     </div>
                     <button type="button" id="editButton" style="background-color: #f3ea28; border: none; margin: 10px; padding: 10px 20px; font-size: 15px; font-family: 'Anton', sans-serif;">CHỈNH SỬA THÔNG TIN</button>
