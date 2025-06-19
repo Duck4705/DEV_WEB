@@ -65,7 +65,17 @@
                 </div>
                 <div class="usertab menu-item" style="align-self: flex-start; padding: 10px;">
                     <a style="color: #f8fafc;" href="/profile/history"><i style="margin-right: 8px; margin-top: 5px; margin-top: 5px;" class="ph ph-clock-counter-clockwise"></i></a>
-                    <a style="color: #f8fafc;" href="/profile/history">Lịch sử giao dịch</a>
+                    <a style="color: #f8fafc;" href="/profile/history">
+                        {{#if user.VaiTro}}
+                            {{#if (eq user.VaiTro "admin_role_1")}}
+                                Quản lý giao dịch
+                            {{else}}
+                                Lịch sử giao dịch
+                            {{/if}}
+                        {{else}}
+                            Lịch sử giao dịch
+                        {{/if}}
+                    </a>
                 </div>
                 <div class="usertab menu-item" style="align-self: flex-start; padding: 10px;">
                     <a style="color: #f8fafc;" href="/profile/admin/theaters"><i style="margin-right: 8px; margin-top: 5px;" class="ph ph-storefront"></i></a>
@@ -79,7 +89,7 @@
                     <a style="color: #f8fafc;" href="/profile/admin/showtimes"><i style="margin-right: 8px; margin-top: 5px;" class="ph ph-calendar"></i></a>
                     <a style="color: #f8fafc;" href="/profile/admin/showtimes">Quản lý suất chiếu</a>
                 </div>
-                <div class="usertab menu-item" style="align-self: flex-start; padding: 10px; border-left: #f3ea28 2px solid;">
+                <div class="usertab menu-item active" style="align-self: flex-start; padding: 10px; border-left: #f3ea28 2px solid;">
                     <a style="color: #f3ea28;" href="/profile/admin/rooms"><i style="margin-right: 8px; margin-top: 5px;" class="ph ph-door"></i></a>
                     <a style="color: #f3ea28;" href="/profile/admin/rooms">Quản lý phòng chiếu</a>
                 </div>

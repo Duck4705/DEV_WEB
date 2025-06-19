@@ -171,9 +171,21 @@
                     <a style="color: #f8fafc;" href="/profile"><i style="margin-right: 8px; margin-top: 5px;" class="ph ph-user"></i></a>
                     <a style="color: #f8fafc;" href="/profile">Trang cá nhân</a>
                 </div>
-                <div class="usertab" style="align-self: flex-start; padding: 10px; border-left: #f3ea28 2px solid;">
-                    <a style="color: #f3ea28;" href="/profile/history"><i style="margin-right: 8px; margin-top: 5px;" class="ph ph-clock-counter-clockwise"></i></a>
-                    <a style="color: #f3ea28;" href="/profile/history">Lịch sử giao dịch</a>
+                <div class="usertab menu-item active" style="align-self: flex-start; padding: 10px; border-left: #f3ea28 2px solid;">
+                    <a style="color: #f3ea28;" href="/profile/history">
+                        <i style="margin-right: 8px; margin-top: 5px; margin-top: 5px;" class="ph ph-clock-counter-clockwise"></i>
+                    </a>
+                    <a style="color: #f3ea28;" href="/profile/history">
+                        {{#if user.VaiTro}}
+                            {{#if (eq user.VaiTro "admin_role_1")}}
+                                Quản lý giao dịch
+                            {{else}}
+                                Lịch sử giao dịch
+                            {{/if}}
+                        {{else}}
+                            Lịch sử giao dịch
+                        {{/if}}
+                    </a>
                 </div>
                 {{#if (eq user.VaiTro 'admin_role_1')}}
                 <div class="usertab" style="align-self: flex-start; padding: 10px;">
@@ -201,7 +213,17 @@
         </div>
         
         <div class="user_right">
-            <h1 style="font-size: 40px; font-family: 'Anton', sans-serif; margin: 20px 0px;">LỊCH SỬ GIAO DỊCH</h1>
+            <h1 style="font-size: 40px; font-family: 'Anton', sans-serif; margin: 20px 0px;">
+                {{#if user.VaiTro}}
+                    {{#if (eq user.VaiTro "admin_role_1")}}
+                        QUẢN LÝ GIAO DỊCH
+                    {{else}}
+                        LỊCH SỬ GIAO DỊCH
+                    {{/if}}
+                {{else}}
+                    LỊCH SỬ GIAO DỊCH
+                {{/if}}
+            </h1>
             
             {{#if tableError}}
                 <div class="error-message">

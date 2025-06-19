@@ -180,17 +180,23 @@ exports.getHistory = (req, res) => {
     }
     user.TongSoTien = user.TongSoTien.toLocaleString('vi-VN');
     
+    // Xác định tiêu đề trang dựa trên vai trò người dùng
+    const isAdmin = user.VaiTro === 'admin_role_1';
+    const pageTitle = isAdmin ? 'QUẢN LÝ GIAO DỊCH' : 'LỊCH SỬ GIAO DỊCH';
+    
     db.query("SHOW TABLES LIKE 'LichSuGiaoDich'", (err, tables) => {
         if (err) {
             console.error('Database error when checking table:', err);
             return res.render('profile_history', { 
                 user, 
-                tableError: 'Lỗi khi kiểm tra bảng dữ liệu: ' + err.message 
+                tableError: 'Lỗi khi kiểm tra bảng dữ liệu: ' + err.message,
+                pageTitle,
+                isAdmin
             });
         }
         
         // If table doesn't exist, create it (for admin only)
-        if (tables.length === 0 && user.VaiTro === 'admin_role_1') {
+        if (tables.length === 0 && isAdmin) {
             const createTableQuery = `
                 CREATE TABLE LichSuGiaoDich (
                     ID_GD varchar(50) PRIMARY KEY,
@@ -206,7 +212,9 @@ exports.getHistory = (req, res) => {
                     console.error('Database error when creating table:', err);
                     return res.render('profile_history', { 
                         user, 
-                        tableError: 'Không thể tạo bảng dữ liệu: ' + err.message 
+                        tableError: 'Không thể tạo bảng dữ liệu: ' + err.message,
+                        pageTitle,
+                        isAdmin
                     });
                 }
                 // No sample data, just render empty transactions
@@ -214,7 +222,9 @@ exports.getHistory = (req, res) => {
                     user, 
                     transactions: [],
                     hasMore: false,
-                    tableCreated: true
+                    tableCreated: true,
+                    pageTitle,
+                    isAdmin
                 });
             });
             return;
@@ -224,7 +234,7 @@ exports.getHistory = (req, res) => {
         let query, params;
         const limit = 10; // Initial limit of records to show
         
-        if (user.VaiTro === 'admin_role_1') {
+        if (isAdmin) {
             // Admin sees all transactions from last 7 days
             query = `
                 SELECT ID_GD, ID_U, NgayGD, TheLoaiGD, PhuongThucGD
@@ -252,7 +262,9 @@ exports.getHistory = (req, res) => {
                 console.error('Database error when fetching transactions:', err);
                 return res.render('profile_history', { 
                     user, 
-                    queryError: 'Lỗi khi truy vấn dữ liệu: ' + err.message 
+                    queryError: 'Lỗi khi truy vấn dữ liệu: ' + err.message,
+                    pageTitle,
+                    isAdmin
                 });
             }
             
@@ -275,18 +287,20 @@ exports.getHistory = (req, res) => {
             }
             
             // For admin with no data, don't add sample data
-            if (user.VaiTro === 'admin_role_1' && (!transactions || transactions.length === 0)) {
+            if (isAdmin && (!transactions || transactions.length === 0)) {
                 return res.render('profile_history', { 
                     user, 
                     transactions: [],
                     hasMore: false,
-                    tableCreated: false
+                    tableCreated: false,
+                    pageTitle,
+                    isAdmin
                 });
             }
             
             // Count total records for pagination
             let countQuery, countParams;
-            if (user.VaiTro === 'admin_role_1') {
+            if (isAdmin) {
                 countQuery = `
                     SELECT COUNT(*) as total FROM LichSuGiaoDich
                     WHERE NgayGD >= DATE_SUB(CURDATE(), INTERVAL 7 DAY)
@@ -307,7 +321,9 @@ exports.getHistory = (req, res) => {
                     transactions,
                     hasMore,
                     totalRecords,
-                    initialLimit: limit
+                    initialLimit: limit,
+                    pageTitle,
+                    isAdmin
                 });
             });
         });

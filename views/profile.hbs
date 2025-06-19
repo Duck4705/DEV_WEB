@@ -61,13 +61,23 @@
             </div>
 
             <div class="user_menu">
-                <div class="usertab" style="align-self: flex-start; padding: 10px; border-left: #f3ea28 2px solid;">
-                    <a style="color: #f3ea28;" href=""><i style="margin-right: 8px; margin-top: 5px;" class="ph ph-user"></i></a>
-                    <a style="color: #f3ea28;" href="">Trang cá nhân</a>
+                <div class="usertab menu-item active" style="align-self: flex-start; padding: 10px; border-left: #f3ea28 2px solid;">
+                    <a style="color: #f3ea28;" href="/profile"><i style="margin-right: 8px; margin-top: 5px;" class="ph ph-user"></i></a>
+                    <a style="color: #f3ea28;" href="/profile">Trang cá nhân</a>
                 </div>
-                <div class="usertab" style="align-self: flex-start; padding: 10px;">
-                    <a style="color: #f8fafc;" href="/profile/history"><i style="margin-right: 8px; margin-top: 5px;" class="ph ph-clock-counter-clockwise"></i></a>
-                    <a style="color: #f8fafc;" href="/profile/history">Lịch sử giao dịch</a>
+                <div class="usertab menu-item" style="align-self: flex-start; padding: 10px;">
+                    <a style="color: #f8fafc;" href="/profile/history"><i style="margin-right: 8px; margin-top: 5px; margin-top: 5px;" class="ph ph-clock-counter-clockwise"></i></a>
+                    <a style="color: #f8fafc;" href="/profile/history">
+                        {{#if user.VaiTro}}
+                            {{#if (eq user.VaiTro "admin_role_1")}}
+                                Quản lý giao dịch
+                            {{else}}
+                                Lịch sử giao dịch
+                            {{/if}}
+                        {{else}}
+                            Lịch sử giao dịch
+                        {{/if}}
+                    </a>
                 </div>
                 {{#if (eq user.VaiTro 'admin_role_1')}}
                 <div class="usertab" style="align-self: flex-start; padding: 10px;">
@@ -195,3 +205,4 @@
 {{!-- Added Handlebars helper 'eq' for role comparison --}}
 {{!-- Added admin menu items under user_menu, visible only if user.VaiTro === 'admin_role_1' --}}
 {{!-- Updated user_role display to show 'QUẢN TRỊ VIÊN' for admin_role_1 --}}
+{{!-- Updated transaction history menu item to show 'Quản lý giao dịch' for admin_role_1 --}}
