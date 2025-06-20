@@ -90,23 +90,6 @@
             <div class="total">{{totalPrice}} VND</div>
         </div>
     </div>
-    <div class="bottom_bar" style="margin-top: 150px;">
-        <div class="align_row_between" style="width: 1200px; margin: 30px 0px; ">
-            <p>© 2023 Uitheater. All rights reserved.</p>
-            <div class="align_row hide-mobile">
-                <a style="color: #f8fafc; padding: 0px 10px;" href="">Toàn diện</a>
-                <a style="color: #f8fafc; padding: 0px 10px;" href="">Sáng tạo</a>
-                <a style="color: #f8fafc; padding: 0px 10px;" href="">Phụng sự</a>
-            </div>
-        </div>
-        <div class="align_row">
-            <i style="font-size: 50px;" class="ph ph-video-camera"></i>
-            <h1 style="font-size: 30px; margin-left: 20px; margin-top: 8px; font-weight: bold;">UIT THEATER</h1>
-        </div>
-        <div class="align_row">
-            <h4 style="font-size: 25px; margin: 10px 0px;">[NT208.P24] - Nhóm 3</h4>
-        </div>
-    </div>
     {{#if error}}
     <div id="toast" class="alert alert-danger" style="position: fixed; top: 20px; right: 20px; z-index: 9999;">
         {{error}}
@@ -205,5 +188,389 @@
         });
     });
     </script>
+    <script>
+class FormValidator {
+    constructor() {
+        this.errors = {};
+        this.isValid = true;
+    }
+
+    // Xác thực tên
+    validateName(name, fieldName = 'Họ và tên') {
+        const nameRegex = /^[a-zA-ZÀÁÂÃÈÉÊÌÍÒÓÔÕÙÚĂĐĨŨƠàáâãèéêìíòóôõùúăđĩũơƯĂẠẢẤẦẨẪẬẮẰẲẴẶẸẺẼỀỀỂưăạảấầẩẫậắằẳẵặẹẻẽềềểỄỆỈỊỌỎỐỒỔỖỘỚỜỞỠỢỤỦỨỪễệỉịọỏốồổỗộớờởỡợụủứừỬỮỰỲỴÝỶỸửữựỳỵýỷỹ\s]+$/;
+        
+        if (!name || name.trim().length === 0) {
+            this.errors[fieldName] = `Họ tên không được để trống`;
+            return false;
+        }
+        
+        if (name.trim().length < 2) {
+            this.errors[fieldName] = `Họ tên phải có ít nhất 2 ký tự`;
+            return false;
+        }
+        
+        if (name.trim().length > 50) {
+            this.errors[fieldName] = `Họ tên không được vượt quá 50 ký tự`;
+            return false;
+        }
+        
+        if (!nameRegex.test(name.trim())) {
+            this.errors[fieldName] = `Họ tên không được chứa số hoặc ký tự đặc biệt`;
+            return false;
+        }
+        
+        // Kiểm tra khoảng trắng
+        if (/\s{2,}/.test(name)) {
+            this.errors[fieldName] = `${fieldName} không được chứa nhiều khoảng trắng liên tiếp`;
+            return false;
+        }
+        
+        delete this.errors[fieldName];
+        return true;
+    }
+
+    // Xác thực số điện thoại
+    validatePhone(phone, fieldName = 'Số điện thoại') {
+        // Loại bỏ các ký tự không phải số, khoảng trắng, dấu gạch ngang, dấu ngoặc đơn và dấu cộng
+        const cleanPhone = phone.replace(/[\s\-\(\)\+]/g, '');
+        
+        if (!cleanPhone || cleanPhone.length === 0) {
+            this.errors[fieldName] = `Số điện thoại không được để trống`;
+            return false;
+        }
+        
+        // Vietnamese phone number regex: starts with 0, exactly 10 digits
+        const phoneRegex = /^0[3-9]\d{8}$/;
+        
+        if (!phoneRegex.test(cleanPhone)) {
+            if (cleanPhone.length !== 10) {
+                this.errors[fieldName] = `Số điện thoại phải có đúng 10 chữ số`;
+            } else if (!cleanPhone.startsWith('0')) {
+                this.errors[fieldName] = `Số điện thoại phải bắt đầu bằng số 0`;
+            } else if (!/^0[3-9]/.test(cleanPhone)) {
+                this.errors[fieldName] = `Số điện thoại không hợp lệ (đầu số không đúng)`;
+            } else {
+                this.errors[fieldName] = `Số điện thoại không hợp lệ`;
+            }
+            return false;
+        }
+        
+        delete this.errors[fieldName];
+        return true;
+    }
+
+    // Xác thực email
+    validateEmail(email, fieldName = 'Email') {
+        if (!email || email.trim().length === 0) {
+            this.errors[fieldName] = `Tên email không được để trống`;
+            return false;
+        }
+        
+        // Xác thực định dạng email
+        const emailRegex = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/;
+        
+        if (!emailRegex.test(email.trim())) {
+            this.errors[fieldName] = `Tên email không đúng định dạng`;
+            return false;
+        }
+        
+        if (email.trim().length > 254) {
+            this.errors[fieldName] = `Tên email quá dài (tối đa 254 ký tự)`;
+            return false;
+        }
+        
+        delete this.errors[fieldName];
+        return true;
+    }
+
+    // Xác thực toàn bộ form
+    validateForm(formData) {
+        this.errors = {};
+        this.isValid = true;
+        
+        // Xác thực tên
+        if (formData.name !== undefined) {
+            this.isValid &= this.validateName(formData.name);
+        }
+        
+        // Xác thực số điện thoại
+        if (formData.phone !== undefined) {
+            this.isValid &= this.validatePhone(formData.phone);
+        }
+        
+        // Xác thực email
+        if (formData.email !== undefined) {
+            this.isValid &= this.validateEmail(formData.email);
+        }
+        
+        return this.isValid;
+    }
+
+    // Nhận lỗi
+    getErrors() {
+        return this.errors;
+    }
+
+    getError(fieldName) {
+        return this.errors[fieldName] || '';
+    }
+
+    hasError(fieldName) {
+        return this.errors.hasOwnProperty(fieldName);
+    }
+}
+
+const validator = new FormValidator();
+
+// Xác thực từng trường khi người dùng nhập (real-time validation)
+function validateField(input, validationType) {
+    const value = input.value;
+    const fieldName = input.getAttribute('data-field-name') || input.name || input.id;
+    
+    input.classList.remove('is-invalid', 'is-valid');
+    
+    const errorElement = document.getElementById(`${input.id}-error`) || 
+                        document.querySelector(`[data-error-for="${input.id}"]`);
+    
+    let isValid = false;
+    
+    // Xác định loại xác thực dựa trên thuộc tính data-validate hoặc tên trường
+    switch (validationType) {
+        case 'name':
+            isValid = validator.validateName(value, fieldName);
+            break;
+        case 'phone':
+            isValid = validator.validatePhone(value, fieldName);
+            break;
+        case 'email':
+            isValid = validator.validateEmail(value, fieldName);
+            break;
+    }
+    
+    // Áp dụng kết quả xác thực
+    if (isValid) {
+        input.classList.add('is-valid');
+        if (errorElement) {
+            errorElement.textContent = '';
+            errorElement.style.display = 'none';
+        }
+    } else {
+        input.classList.add('is-invalid');
+        if (errorElement) {
+            errorElement.textContent = validator.getError(fieldName);
+            errorElement.style.display = 'block';
+        } else {
+            // Tạo phần tử thông báo lỗi nếu chưa có
+            const newErrorElement = document.createElement('div');
+            newErrorElement.id = `${input.id}-error`;
+            newErrorElement.className = 'invalid-feedback';
+            newErrorElement.style.display = 'block';
+            newErrorElement.textContent = validator.getError(fieldName);
+            input.parentNode.appendChild(newErrorElement);
+        }
+    }
+    
+    return isValid;
+}
+
+function formatPhoneNumber(input) {
+    let value = input.value.replace(/\D/g, ''); 
+    
+    if (value.length > 10) {
+        value = value.substring(0, 10); 
+    }
+    
+    // Format dạng 0xxx xxx xxx
+    if (value.length >= 7) {
+        value = value.replace(/(\d{4})(\d{3})(\d{3})/, '$1 $2 $3');
+    } else if (value.length >= 4) {
+        value = value.replace(/(\d{4})(\d{3})/, '$1 $2');
+    }
+    
+    input.value = value;
+    
+    validateField(input, 'phone');
+}
+
+function validateFormSubmission(formElement) {
+    const formData = new FormData(formElement);
+    const data = {};
+    
+    // Thu thập dữ liệu từ form
+    for (let [key, value] of formData.entries()) {
+        data[key] = value;
+    }
+    
+    // Xác thực toàn bộ form
+    const isValid = validator.validateForm({
+        name: data.name || data.fullName || data.customerName,
+        phone: data.phone || data.phoneNumber,
+        email: data.email || data.emailAddress
+    });
+    
+    // Trả về kết quả xác thực
+    Object.keys(validator.getErrors()).forEach(fieldName => {
+        const input = formElement.querySelector(`[name="${fieldName}"], [data-field-name="${fieldName}"]`);
+        if (input) {
+            input.classList.add('is-invalid');
+            
+            const errorElement = document.getElementById(`${input.id}-error`) || 
+                                document.querySelector(`[data-error-for="${input.id}"]`);
+            
+            if (errorElement) {
+                errorElement.textContent = validator.getError(fieldName);
+                errorElement.style.display = 'block';
+            }
+        }
+    });
+    
+    if (!isValid) {
+        const firstError = formElement.querySelector('.is-invalid');
+        if (firstError) {
+            firstError.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            firstError.focus();
+        }
+
+        showErrorToast('Vui lòng kiểm tra lại thông tin đã nhập');
+    }
+    
+    return isValid;
+}
+
+function showErrorToast(message) {
+    const existingToast = document.getElementById('validation-toast');
+    if (existingToast) {
+        existingToast.remove();
+    }
+    
+    const toast = document.createElement('div');
+    toast.id = 'validation-toast';
+    toast.className = 'alert alert-danger';
+    toast.style.cssText = `
+        position: fixed;
+        top: 20px;
+        right: 20px;
+        z-index: 9999;
+        max-width: 300px;
+        animation: slideIn 0.3s ease-out;
+    `;
+    toast.textContent = message;
+    
+    document.body.appendChild(toast);
+    
+    // Tự động ẩn toast sau 5 giây
+    setTimeout(() => {
+        if (toast && toast.parentNode) {
+            toast.remove();
+        }
+    }, 5000);
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+    const nameInputs = document.querySelectorAll('input[name*="name"], input[id*="name"], input[data-validate="name"]');
+    nameInputs.forEach(input => {
+        input.addEventListener('blur', () => validateField(input, 'name'));
+        input.addEventListener('input', debounce(() => validateField(input, 'name'), 500));
+    });
+    
+    const phoneInputs = document.querySelectorAll('input[name*="phone"], input[id*="phone"], input[data-validate="phone"], input[type="tel"]');
+    phoneInputs.forEach(input => {
+        input.addEventListener('input', () => formatPhoneNumber(input));
+        input.addEventListener('blur', () => validateField(input, 'phone'));
+    });
+    
+    const emailInputs = document.querySelectorAll('input[name*="email"], input[id*="email"], input[data-validate="email"], input[type="email"]');
+    emailInputs.forEach(input => {
+        input.addEventListener('blur', () => validateField(input, 'email'));
+        input.addEventListener('input', debounce(() => validateField(input, 'email'), 500));
+    });
+    
+    const forms = document.querySelectorAll('form');
+    forms.forEach(form => {
+        form.addEventListener('submit', function(e) {
+            if (!validateFormSubmission(this)) {
+                e.preventDefault();
+                return false;
+            }
+        });
+    });
+});
+
+function debounce(func, wait) {
+    let timeout;
+    return function executedFunction(...args) {
+        const later = () => {
+            clearTimeout(timeout);
+            func(...args);
+        };
+        clearTimeout(timeout);
+        timeout = setTimeout(later, wait);
+    };
+}
+</script>
+
+<style>
+.is-valid {
+    border-color: #28a745 !important;
+    box-shadow: 0 0 0 0.2rem rgba(40, 167, 69, 0.25) !important;
+}
+
+.is-invalid {
+    border-color: #dc3545 !important;
+    box-shadow: 0 0 0 0.2rem rgba(220, 53, 69, 0.25) !important;
+}
+
+.invalid-feedback {
+    display: block;
+    width: 100%;
+    margin-top: 0.25rem;
+    font-size: 0.875em;
+    color: #dc3545;
+}
+
+.valid-feedback {
+    display: block;
+    width: 100%;
+    margin-top: 0.25rem;
+    font-size: 0.875em;
+    color: #28a745;
+}
+
+@keyframes slideIn {
+    from {
+        transform: translateX(100%);
+        opacity: 0;
+    }
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+.form-group {
+    margin-bottom: 1.5rem;
+}
+
+.form-control {
+    transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+}
+</style>
 </body>
+<footer class="bottom_bar" style="margin-top: 150px;">
+    <div class="align_row_between" style="width: 1200px; margin: 30px 0px; ">
+        <p>© 2023 Uitheater. All rights reserved.</p>
+        <div class="align_row hide-mobile">
+            <a style="color: #f8fafc; padding: 0px 10px;" href="">Toàn diện</a>
+            <a style="color: #f8fafc; padding: 0px 10px;" href="">Sáng tạo</a>
+            <a style="color: #f8fafc; padding: 0px 10px;" href="">Phụng sự</a>
+        </div>
+    </div>
+    <div class="align_row">
+        <i style="font-size: 50px;" class="ph ph-video-camera"></i>
+        <h1 style="font-size: 30px; margin-left: 20px; margin-top: 8px; font-weight: bold;">UIT THEATER</h1>
+    </div>
+    <div class="align_row">
+        <h4 style="font-size: 25px; margin: 10px 0px;">[NT208.P24] - Nhóm 3</h4>
+    </div>
+</footer>
 </html>
